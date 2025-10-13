@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import {connectDB} from './Database/index.js'
+import authRoute from './Routes/authRoute.js'
 
 // creating an instance of express
 const app = express();
@@ -30,6 +31,8 @@ app.use(cors({
 app.get('/', (req, res) => {
     res.json('This is the homepage.')
 })
+
+app.use('/api/auth', authRoute)
 
 // once the db is connected then only the server start running
 connectDB()

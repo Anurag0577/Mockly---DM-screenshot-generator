@@ -58,7 +58,10 @@ const userSchema  = new mongoose.Schema({
     paymentHistory: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Payment'
-    }]
+    }],
+    refreshToken: {
+        type: String
+    }
 },
 {timestamps: true}
 )
