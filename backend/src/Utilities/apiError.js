@@ -1,14 +1,11 @@
 class apiError extends Error {
-    constructor(
-        statusCode,
-        message = "Something went wrong!",
-        error = []
-    ) {
-        super(message);
+    // this constructor will create a new object, whenever we call new keyword
+    constructor( statusCode, message = "Something went wrong!", error = []) {
+        super(message); // we are saying, hey parant take 'message' and do whatever you need to do or you generally do
         this.statusCode = statusCode,
         this.message = message,
         this.error = error,
-        this.data = this.data,
+        this.data = null
         this.success = false // generally set to false
         
         // The call stack in JavaScript is a data structure that follows the Last In, First Out (LIFO) principle. It tracks the execution of functions, pushing a function onto the stack when it’s called and popping it off when it completes.It shows which functions are currently executing by maintaining the order of function calls.
@@ -23,4 +20,4 @@ class apiError extends Error {
     }
 }
 
-export default apiError;
+export {apiError};

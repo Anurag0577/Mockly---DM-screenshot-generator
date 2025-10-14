@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import {connectDB} from './Database/index.js'
 import authRoute from './Routes/authRoute.js'
+import {errorHandler} from './Middlewares/errorHandler.js'
 
 // creating an instance of express
 const app = express();
@@ -34,6 +35,9 @@ app.get('/', (req, res) => {
 
 app.use('/api/auth', authRoute)
 
+
+app.use(errorHandler);
+
 // once the db is connected then only the server start running
 connectDB()
 .then(() => {
@@ -41,3 +45,5 @@ connectDB()
     console.log(`Server start listning on ${PORT} `)
 })
 })
+
+

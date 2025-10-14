@@ -1,13 +1,14 @@
-import apiError from '../Utilities/apiError.js'
-import apiResponse from '../Utilities/apiResponse.js'
-import asyncHandler from '../Utilities/asyncHandler.js'
-import User from '../Models/User.model.js'
+import {apiError} from '../Utilities/apiError.js'
+import {apiResponse} from '../Utilities/apiResponse.js'
+import {asyncHandler} from '../Utilities/asyncHandler.js'
+import {User} from '../Models/User.model.js'
 
 
 const genAccessTokenAndRefreshToken = async (id) => {
     try {
         // find the user
         const foundUser = await User.findById(id)
+        console.log("FoundUser", foundUser)
         if(!foundUser){
             throw new apiError(400, 'User not found!')
         }
@@ -54,15 +55,14 @@ const registerUser = asyncHandler(async(req, res, next) => {
     const updatedUser = await User.findByIdAndUpdate(newUser._id, {refreshToken}, {new: true}).select('+refreshToken');
     console.log('Refresh token saved in db successfully!')
 
-    // store the accessToken in the cookies and send it to frontend
-    res.cookie('accessToken', accessToken, {
+    // store the refreshToken in the cookies and send it to frontend
+    res.cookie('refreshToken', refreshToken, {
         httpOnly: true, // now you can not get access token through javascript in the client side.
         secure: process.env.NODE_ENV === 'production', // Only secure in production
         sameSite: process.env.NODE_ENV === 'production' ? "None" : "Lax", // Adjust based on environment
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         path: '/' // Ensure cookie is available for all routes
     });
-    console.log('Refresh token cookie set:', refreshToken);
 
     // user response
     const userResponse = {
@@ -70,7 +70,8 @@ const registerUser = asyncHandler(async(req, res, next) => {
         userName: newUser.userName,
         email: newUser.email,
         firstName: newUser.firstName,
-        lastName: newUser.lastName
+        lastName: newUser.lastName,
+        accessToken
     }
 
     res.status(200).json( new apiResponse(200, "User registration successfull!", userResponse))
@@ -100,8 +101,8 @@ const loginUser = asyncHandler(async(req, res, next) => {
             const updatedUser = await User.findByIdAndUpdate(userExist._id, {refreshToken}, {new: true}).select('+refreshToken');
             console.log('Refresh token saved in db successfully!')
 
-            // store the accessToken in the cookies and send it to frontend
-            res.cookie('accessToken', accessToken, {
+            // store the refreshToken in the cookies and send it to frontend
+            res.cookie('refreshToken', refreshToken, {
                 httpOnly: true, // now you can not get access token through javascript in the client side.
                 secure: process.env.NODE_ENV === 'production', // Only secure in production
                 sameSite: process.env.NODE_ENV === 'production' ? "None" : "Lax", // Adjust based on environment
@@ -114,14 +115,13 @@ const loginUser = asyncHandler(async(req, res, next) => {
                 email: userExist.email,
                 firstName: userExist.firstName,
                 lastName: userExist.lastName,
+                accessToken
                 };
 
             res.status(200).json(new apiResponse(200, 'User login successfull', userResponse))
     } else {
         res.status(400).json(new apiResponse(400, 'User login failed!'))
     }
-
-    
 })
 
 

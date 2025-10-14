@@ -43,6 +43,7 @@ const userSchema  = new mongoose.Schema({
     },
     credit: {
         type: Number,
+        default : 0,
         required: true
     },
     subscription: {
@@ -74,8 +75,8 @@ userSchema.pre('save', async function(next){
         // this refers to the user document being saved
         if(!this.isModified('password')) return next();
 
-        const salt = bcrypt.genSalt(10); // generate a salt, a unique string use to make hash more secure
-        this.password = bcrypt.hash(this.password, salt) // save new hash password 
+        const salt = await bcrypt.genSalt(10); // generate a salt, a unique string use to make hash more secure
+        this.password = await bcrypt.hash(this.password, salt) // save new hash password 
         next() // go to new next step (middleware)
     } catch (err) {
         console.log("password hasing failed!", err)
@@ -95,11 +96,14 @@ userSchema.methods.isPasswordCorrect = async function(password){
 // generate a refresh token
 userSchema.methods.genRefreshToken = function(){
     return jwt.sign({
-        _id : this._id
+        _id : this._id,
+        username : this.userName,
+        email : this.email
     }, process.env.REFRESH_TOKEN_SECRET, {
         expiresIn: process.env.REFRESH_TOKEN_EXPIRY
     })
 }
+
 
 // generate a accessToken
 userSchema.methods.genAccessToken = function(){
