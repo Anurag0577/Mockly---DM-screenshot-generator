@@ -8,13 +8,12 @@ const genAccessTokenAndRefreshToken = async (id) => {
     try {
         // find the user
         const foundUser = await User.findById(id)
-        console.log("FoundUser", foundUser)
         if(!foundUser){
             throw new apiError(400, 'User not found!')
         }
         const accessToken = foundUser.genAccessToken(); // return the accessToken
         const refreshToken = foundUser.genRefreshToken(); // return the refreshToken
-
+        console.log('Access & refresh token generated successfully!')
         return {accessToken, refreshToken}
     } catch (error) {
         console.log(`Error: ${error}`)
@@ -79,7 +78,7 @@ const registerUser = asyncHandler(async(req, res, next) => {
 
 const loginUser = asyncHandler(async(req, res, next) => {
     const {email, password} = req.body;
-
+    
     // check whether all the important fields are available or not
     if(!email || !password){
         throw new apiError(400, "Please fill the require credentials." )
@@ -92,7 +91,7 @@ const loginUser = asyncHandler(async(req, res, next) => {
     }
 
     // validate the user
-    const isPasswordCorrect = await userExist.isPasswordCorrect(password, this.password)
+    const isPasswordCorrect = await userExist.isPasswordCorrect(password)
     if(isPasswordCorrect){
             // generate accessToken and refreshToken
             const {accessToken, refreshToken} = await genAccessTokenAndRefreshToken(userExist._id)
@@ -124,5 +123,52 @@ const loginUser = asyncHandler(async(req, res, next) => {
     }
 })
 
+const logoutUser = asyncHandler(async(req, res, next) => {
+    try {
+        // Get refresh token from cookies to identify user
+        const refreshToken = req.cookies.refreshToken;
+        
+        if (refreshToken) {
+            try {
+                // Verify refresh token to get user ID
+                const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+                
+                // Remove refresh token from database
+                await User.findByIdAndUpdate(decoded._id, {
+                    $set: {
+                        refreshToken: null
+                    }
+                });
+                
+                console.log('User logged out, refresh token removed from database');
+            } catch (error) {
+                console.log('Invalid refresh token during logout, but continuing with cookie clearing');
+            }
+        }
 
-export {registerUser, loginUser}
+        // ✅ Clear the cookie on logout (always do this)
+        res.clearCookie('refreshToken', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? "None" : "Lax",
+            path: '/'
+        });
+
+        // Send response
+        res.status(200).json(new apiResponse(200, "User logged out successfully", {}));
+    } catch (error) {
+        console.error('Logout error:', error);
+        // Even if there's an error, clear the cookie and send success response
+        res.clearCookie('refreshToken', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? "None" : "Lax",
+            path: '/'
+        });
+        
+        res.status(200).json(new apiResponse(200, "User logged out successfully", {}));
+    }
+});
+
+
+export {registerUser, loginUser, logoutUser}

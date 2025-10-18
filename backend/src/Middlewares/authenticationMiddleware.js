@@ -16,3 +16,5 @@ const authenticationMiddleware = (req, res, next) => {
     }
 
 }
+
+export {authenticationMiddleware}
