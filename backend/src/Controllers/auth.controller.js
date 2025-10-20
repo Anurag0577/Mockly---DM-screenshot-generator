@@ -3,7 +3,7 @@ import {apiResponse} from '../Utilities/apiResponse.js'
 import {asyncHandler} from '../Utilities/asyncHandler.js'
 import {User} from '../Models/User.model.js'
 
-
+// GENERATE ACCESSS AND REFRESH TOKEN
 const genAccessTokenAndRefreshToken = async (id) => {
     try {
         // find the user
@@ -21,6 +21,7 @@ const genAccessTokenAndRefreshToken = async (id) => {
     }
 }
 
+// REGISTER USER
 const registerUser = asyncHandler(async(req, res, next) => {
     const {firstName, lastName, userName, email, password} = req.body;
 
@@ -76,6 +77,8 @@ const registerUser = asyncHandler(async(req, res, next) => {
     res.status(200).json( new apiResponse(200, "User registration successfull!", userResponse))
 })
 
+
+// LOGIN USER
 const loginUser = asyncHandler(async(req, res, next) => {
     const {email, password} = req.body;
     
@@ -123,6 +126,8 @@ const loginUser = asyncHandler(async(req, res, next) => {
     }
 })
 
+
+// LOGOUT USER
 const logoutUser = asyncHandler(async(req, res, next) => {
     try {
         // Get refresh token from cookies to identify user

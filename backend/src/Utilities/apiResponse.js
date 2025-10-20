@@ -1,7 +1,7 @@
 class apiResponse{
-    constructor(
+    constructor( // to create a new responce object
         statusCode,
-        message = "Success",
+        message = "Success", // default message
         data
     ){
         this.statusCode = statusCode,

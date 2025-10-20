@@ -7,6 +7,7 @@ const router = express.Router(); // create an instance of express.Router
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.get('/logout', authenticationMiddleware, logoutUser);
+// -------------------------------- NOTE ------------------------------
 // in future you have to write logout , refresh token, forgot password, reset password routes.
 
 export default router;
