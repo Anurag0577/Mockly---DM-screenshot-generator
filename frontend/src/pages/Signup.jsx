@@ -12,6 +12,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import LetterGlitch from '../components/LetterGlitch.jsx'
 import { useState } from "react"
+import { useQuery } from "@tanstack/react-query"
+import api from "@/api/axios.js"
+
 
 export function Signup() {
   const [firstName, setFirstName] = useState('');
@@ -19,8 +22,27 @@ export function Signup() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const userSignup = async() => {
+    const res = await api.post('/auth/register', {
+      firstName,
+      lastName,
+      email,
+      password
+    })
+    const savedUserDetail = res.data;
+
+    if(savedUserDetail.data && savedUserDetail){
+      console.log('User register successfully!', savedUserDetail)
+    } else {
+      throw new Error('Invalid response formate.')
+    }
+  }
+
   const registerUser = async(firstName, lastName, email, password) => {
-    
+    const query = useQuery({
+      queryKey: ['register'],
+      queryFn: userSignup
+    })
   }
 
   return (
