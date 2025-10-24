@@ -24,7 +24,6 @@ const genAccessTokenAndRefreshToken = async (id) => {
 // REGISTER USER
 const registerUser = asyncHandler(async(req, res, next) => {
     const {firstName, lastName, userName, email, password} = req.body;
-
     // check whether all the important fields are available or not
     if(!firstName || !userName || !email || !password){
         throw new apiError(400, "Please fill the require details." )
@@ -81,7 +80,6 @@ const registerUser = asyncHandler(async(req, res, next) => {
 // LOGIN USER
 const loginUser = asyncHandler(async(req, res, next) => {
     const {email, password} = req.body;
-    
     // check whether all the important fields are available or not
     if(!email || !password){
         throw new apiError(400, "Please fill the require credentials." )

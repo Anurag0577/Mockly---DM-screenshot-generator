@@ -12,8 +12,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import LetterGlitch from '../components/LetterGlitch.jsx'
 import { useState } from "react"
-import { useQuery } from "@tanstack/react-query"
 import api from "@/api/axios.js"
+import { useMutation } from "@tanstack/react-query"
+import { useNavigate } from "react-router"
 
 
 export function Signup() {
@@ -21,29 +22,31 @@ export function Signup() {
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
-  const userSignup = async() => {
-    const res = await api.post('/auth/register', {
-      firstName,
-      lastName,
-      email,
-      password
-    })
-    const savedUserDetail = res.data;
-
-    if(savedUserDetail.data && savedUserDetail){
-      console.log('User register successfully!', savedUserDetail)
-    } else {
-      throw new Error('Invalid response formate.')
+  const [userName, setUserName] = useState('')
+  const navigate = useNavigate();
+  const registerUser = useMutation({
+    mutationKey: ['registerUser'],
+    mutationFn: async ({firstName, lastName, email, password, userName}) => { // newUser should contain firstName, lastName, email, password. the difference between newUser and data is that newUser is the argument passed to the mutation function, while data is the response from the server after the mutation is executed
+      console.log('Registering user with data:', {firstName, lastName, email, password, userName});
+      const response = await api.post('/auth/register', {firstName, lastName, email, password, userName}, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      });
+      return response.data;
+    },
+    onSuccess: (data) => {
+      console.log('User registered successfully:', data);
+      navigate('/home');
+    },
+    onError: (error) => {
+      console.error('Error registering user:', error);
+    },
+    onMutate: () => {
+      console.log('Registering user...');
     }
-  }
-
-  const registerUser = async(firstName, lastName, email, password) => {
-    const query = useQuery({
-      queryKey: ['register'],
-      queryFn: userSignup
-    })
-  }
+  })
 
   return (
     <div className="flex min-h-svh flex-col items-center justify-center">
@@ -61,7 +64,7 @@ export function Signup() {
           Enter your email below to create your account
         </CardDescription>
         <CardAction>
-          <Button variant="link">Login</Button>
+          <Button variant="link" onClick={() => navigate('/login')}>Login</Button>
         </CardAction>
       </CardHeader>
       <CardContent>
@@ -92,6 +95,20 @@ export function Signup() {
                   setLastName(e.target.value);
                 }}
                 value={lastName}
+                required
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="userName">userName</Label>
+              <Input
+                id="userName"
+                type="text"
+                placeholder="John123"
+                onChange={(e) => {
+                  e.preventDefault();
+                  setUserName(e.target.value);
+                }}
+                value={userName}
                 required
               />
             </div>
@@ -133,11 +150,15 @@ export function Signup() {
         </form>
       </CardContent>
       <CardFooter className="flex-col gap-2">
-        <Button type="submit" className="w-full" onClick={() => {
-          registerUser(firstName, lastName, email, password);
-          // Handle signup logic here
-        }}>
-          Create an account
+        <Button
+          type="submit"
+          className="w-full"
+          onClick={() => {
+            registerUser.mutate({ firstName, lastName, email, password, userName });
+          }}
+          disabled={registerUser.isPending} // ⬅ disables the button while request in progress
+        >
+          {registerUser.isPending ? "Creating new user..." : "Create an account"}
         </Button>
         {/* <Button variant="outline" className="w-full">
           Login with Google

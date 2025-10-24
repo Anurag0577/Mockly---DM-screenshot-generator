@@ -1,11 +1,26 @@
 import { Login } from "@/pages/Login.jsx"  
 import { Signup } from "@/pages/Signup.jsx" 
 import { NotFound } from "@/pages/NotFound.jsx"
+import { Homepage } from '@/pages/Homepage.jsx'
 import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router'
-import { Homepage } from './pages/Homepage'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false, // Optional: disable auto-refetch on window focus
+      retry: 1, // Optional: retry failed requests once
+    },
+  },
+})
 
 const router = createBrowserRouter([
+  {
+    path: "/home",
+    element: <Homepage />,
+  },
   {
     path: "/login",
     element: <Login />,
@@ -15,10 +30,6 @@ const router = createBrowserRouter([
     element: <Signup />,
   },
   {
-    path: "/",
-    element: <Homepage />,
-  },
-  {
     path: "*",
     element: <NotFound />,
   }
@@ -26,7 +37,9 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   )
 }
 
