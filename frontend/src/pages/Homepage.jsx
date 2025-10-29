@@ -13,14 +13,14 @@ export function Homepage() {
       
       
       {/* MAIN CONTENT - Takes remaining height */}
-      <div className="flex-1 flex min-h-0">
-        <div>
+      <div className="flex-1 flex flex-col lg:flex-row min-h-0">
+        <div className="flex flex-col flex-1">
           <Header />
         {/* LEFT SECTION - Participants */}
-        <div className="flex">
-        <div className="w-[250px] flex flex-col gap-3 p-3 border-r overflow-y-auto">
+        <div className="flex flex-col lg:flex-row flex-1">
+        <div className="w-full lg:w-[250px] flex flex-row lg:flex-col gap-3 p-3 border-b lg:border-b-0 lg:border-r overflow-x-auto lg:overflow-x-visible lg:overflow-y-auto">
           {/* PARTICIPANT 1 */}
-          <div className="flex-1 min-h-0 flex flex-col justify-center items-center border rounded-lg p-3 gap-2">
+          <div className="flex-1 min-w-[140px] lg:min-w-0 lg:min-h-0 flex flex-col justify-center items-center border rounded-lg p-3 gap-2">
             <p className="text-sm font-medium">Sender</p>
             <ParticipantAvatar />
             <input 
@@ -28,12 +28,12 @@ export function Homepage() {
               className="w-full text-center border rounded-lg px-2 py-1 text-sm"
             />
             <span className="text-xs text-center text-gray-400 line-clamp-2">
-              Enter sender name or phone
+              Enter the name or phone number that should appear as the message sender in the screenshot.
             </span>
           </div>
 
           {/* PARTICIPANT 2 */}
-          <div className="flex-1 min-h-0 flex flex-col justify-center items-center border rounded-lg p-3 gap-2">
+          <div className="flex-1 min-w-[140px] lg:min-w-0 lg:min-h-0 flex flex-col justify-center items-center border rounded-lg p-3 gap-2">
             <p className="text-sm font-medium">Receiver</p>
             <ParticipantAvatar />
             <input 
@@ -41,7 +41,7 @@ export function Homepage() {
               className="w-full text-center border rounded-lg px-2 py-1 text-sm"
             />
             <span className="text-xs text-center text-gray-400 line-clamp-2">
-              Enter receiver name or phone
+              Enter the name or phone that should appear as the recipient.
             </span>
           </div>
 
@@ -57,33 +57,44 @@ export function Homepage() {
           </div>
 
           {/* Quick Guide - Fixed small height */}
-          <div className="h-24 p-3 rounded-lg border overflow-y-auto">
+          <div className="max-h-[40%] p-3 rounded-lg border overflow-y-auto">
             <div className="text-muted-foreground text-sm font-medium mb-1">
               Quick Guide
             </div>
-            <p className="text-muted-foreground text-xs">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-              Similique repellat, enim delectus laborum aperiam natus?
-            </p>
+            <div className="text-muted-foreground text-xs space-y-2">
+              <p className="font-medium">Rules of the input text field:</p>
+              
+              <ul className="space-y-1 pl-4">
+                <li>1. Use @ symbol to represent sender</li>
+                <li>2. Use # symbol to represent receiver</li>
+                <li>3. Add timestamp using format @(time)</li>
+              </ul>
+              
+              <div className="pt-2">
+                <span className="font-medium">Example:</span>
+                <br />
+                <span className="text-blue-500">@ says hello to # @(2:30 PM)</span>
+              </div>
+            </div>
           </div>
         </div>
         </div>
         </div>
 
         {/* RIGHT SECTION - Preview */}
-        <div className="w-[320px] flex flex-col items-center justify-between p-4 border-l gap-4">
+        <div className="bg-gray-50 dark:bg-gray-900 flex flex-col items-center justify-between p-4 border-t lg:border-t-0 lg:border-l gap-4">
           {/* WhatsApp Preview - Flex to fit available space */}
-          <div className="flex-1 w-full max-w-[280px] min-h-0 aspect-[9/16] bg-gray-100 rounded-2xl shadow-md flex items-center justify-center text-gray-400 text-sm">
+          <div className="h-full w-full max-w-[300px] lg:aspect-[9/16] bg-white dark:bg-gray-800 rounded-2xl shadow-md flex items-center justify-center text-sm">
             -- your fake WhatsApp UI here --
           </div>
 
           {/* Action Buttons - Fixed height at bottom */}
-          <div className="w-full max-w-[280px] flex gap-2">
+          <div className="w-full max-w-[300px] flex gap-2">
             <DropdownButton />
             <DropdownButton />
             <Button variant="default" className="flex-1 gap-2">
               <ArrowDownToLine className="w-4 h-4" />
-              {/* <span>Download</span> */}
+              <span>Download</span>
             </Button>
           </div>
         </div>

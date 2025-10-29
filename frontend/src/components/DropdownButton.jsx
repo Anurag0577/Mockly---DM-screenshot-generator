@@ -19,7 +19,7 @@ export default function DropdownButton() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" className=" flex-1 ">
-          icons
+          ⚙️
           <ChevronDownIcon className="-me-1 opacity-60" size={16} aria-hidden="true" />
         </Button>
       </DropdownMenuTrigger>
