@@ -19,6 +19,7 @@ export function Homepage() {
         {/* LEFT SECTION - Participants */}
         <div className="flex flex-col lg:flex-row flex-1">
         <div className="w-full lg:w-[250px] flex flex-row lg:flex-col gap-3 p-3 border-b lg:border-b-0 lg:border-r overflow-x-auto lg:overflow-x-visible lg:overflow-y-auto">
+          <h1 className="text-center">Participants</h1>
           {/* PARTICIPANT 1 */}
           <div className="flex-1 min-w-[140px] lg:min-w-0 lg:min-h-0 flex flex-col justify-center items-center border rounded-lg p-3 gap-2">
             <p className="text-sm font-medium">Sender</p>
@@ -27,7 +28,7 @@ export function Homepage() {
               placeholder="John" 
               className="w-full text-center border rounded-lg px-2 py-1 text-sm"
             />
-            <span className="text-xs text-center text-gray-400 line-clamp-2">
+            <span className="text-xs text-center text-gray-400 ">
               Enter the name or phone number that should appear as the message sender in the screenshot.
             </span>
           </div>
@@ -58,9 +59,9 @@ export function Homepage() {
 
           {/* Quick Guide - Fixed small height */}
           <div className="max-h-[40%] p-3 rounded-lg border overflow-y-auto">
-            <div className="text-muted-foreground text-sm font-medium mb-1">
+            <h1 className="text-muted-foreground font-medium mb-1">
               Quick Guide
-            </div>
+            </h1>
             <div className="text-muted-foreground text-xs space-y-2">
               <p className="font-medium">Rules of the input text field:</p>
               

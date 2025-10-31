@@ -11,13 +11,51 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useState } from "react"
+import api from "@/api/axios.js"
+import { useMutation } from "@tanstack/react-query"
+import { useNavigate } from "react-router"
 
 export default function SignUpDialogueBox() {
   const id = useId()
+  const [open , setOpen] = useState(false)
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [userName, setUserName] = useState('')
+  const navigate = useNavigate();
+  const registerUser = useMutation({
+    mutationKey: ['registerUser'],
+    mutationFn: async ({firstName, lastName, email, password, userName}) => { // newUser should contain firstName, lastName, email, password. the difference between newUser and data is that newUser is the argument passed to the mutation function, while data is the response from the server after the mutation is executed
+      const response = await api.post('/auth/register', {firstName, lastName, email, password, userName}, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      });
+      return response.data;
+    },
+    onSuccess: (data) => {
+      console.log('User registered successfully:', data);
+      if(data?.accessToken){
+        localStorage.setItem('accessToken', data.accessToken);
+      }
+      setOpen(false)
+      navigate('/');
+    },
+    onError: (error) => {
+      console.error('Error registering user:', error);
+    },
+    onMutate: () => {
+      console.log('Registering user...');
+    }
+  })
+
   return (
-    <Dialog>
+    <Dialog open ={open} onOpenChange={setOpen} >
       <DialogTrigger asChild>
-        <Button variant="outline">Sign up</Button>
+        <Button variant="default">Create account</Button>
       </DialogTrigger>
       <DialogContent>
         <div className="flex flex-col items-center gap-2">
@@ -36,7 +74,7 @@ export default function SignUpDialogueBox() {
           </div>
           <DialogHeader>
             <DialogTitle className="sm:text-center">
-              Sign up coss.com
+              Create new account
             </DialogTitle>
             <DialogDescription className="sm:text-center">
               We just need a few details to get you started.
@@ -46,13 +84,37 @@ export default function SignUpDialogueBox() {
 
         <form className="space-y-5">
           <div className="space-y-4">
+            <div className="flex gap-x-3"> 
             <div className="*:not-first:mt-2">
-              <Label htmlFor={`${id}-name`}>Full name</Label>
-              <Input id={`${id}-name`} placeholder="Matt Welsh" type="text" required />
+              <Label htmlFor={`${id}-name`}>Firstname</Label>
+              <Input id={`${id}-name`} placeholder="Matt" type="text" value={firstName} 
+              onChange={(e)=>{
+                setFirstName(e.target.value)
+              }
+      } required />
+            </div>
+            <div className="*:not-first:mt-2">
+              <Label htmlFor={`${id}-name`}>Lastname</Label>
+              <Input id={`${id}-name`} placeholder="Welsh" type="text" value={lastName} 
+              onChange={(e)=>{
+                setLastName(e.target.value)
+              } } />
+            </div>
+            </div>
+            <div className="*:not-first:mt-2">
+              <Label htmlFor={`${id}-name`}>Username</Label>
+              <Input id={`${id}-name`} placeholder="matt123" type="text" value={userName} 
+              onChange={(e)=>{
+                setUserName(e.target.value)
+              } } required />
             </div>
             <div className="*:not-first:mt-2">
               <Label htmlFor={`${id}-email`}>Email</Label>
-              <Input id={`${id}-email`} placeholder="hi@yourcompany.com" type="email" required />
+              <Input id={`${id}-email`} placeholder="hi@yourcompany.com" type="email" value={email} 
+              onChange={(e)=>{
+                setEmail(e.target.value)
+              } }  
+              required />
             </div>
             <div className="*:not-first:mt-2">
               <Label htmlFor={`${id}-password`}>Password</Label>
@@ -60,11 +122,20 @@ export default function SignUpDialogueBox() {
                 id={`${id}-password`}
                 placeholder="Enter your password"
                 type="password"
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value)
+                }}
                 required />
             </div>
           </div>
-          <Button type="button" className="w-full">
-            Sign up
+          <Button 
+            type="button" 
+            className="w-full"
+            onClick={() => registerUser.mutate({ firstName, lastName, email, password, userName })}
+            disabled={registerUser.isPending}
+            >
+            {(registerUser.isPending) ? ('Creating...') :('Create account')}
           </Button>
         </form>
 

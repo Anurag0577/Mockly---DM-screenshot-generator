@@ -6,7 +6,7 @@ export default function MassegeField() {
   const id = useId()
   return (
     <div className="flex flex-col h-full">
-      <Label htmlFor={id} className="mb-4">Type Your Messages Here...</Label>
+      <h1 htmlFor={id} className="mb-4">Type Your Messages Here...</h1>
       <Textarea
         id={id}
         placeholder="Leave a comment"

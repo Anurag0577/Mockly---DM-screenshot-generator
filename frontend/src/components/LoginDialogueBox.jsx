@@ -12,13 +12,41 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useState } from "react"
+import { useMutation } from "@tanstack/react-query"
+import api from "@/api/axios.js"
+import { useNavigate } from "react-router"
 
 export default function LoginDialogueBox() {
   const id = useId()
+  const [open, setOpen] = useState(false)
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState(null);
+  const navigate = useNavigate()
+  const loginUser = useMutation({
+    mutationKey: ['loginUser'],
+    mutationFn: async ({ email, password }) => {
+      return await api.post('/auth/login', { email, password }, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+      })
+    },
+    onSuccess: (data) => {
+      console.log('User login successful', data)
+      if (data?.data?.accessToken) {
+        localStorage.setItem('accessToken', data.data.accessToken)
+      }
+      setOpen(false)
+      navigate('/')
+    },
+    onError: (error) => {
+      console.error('Error occurs while login', error)
+    }
+  })
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen} >
       <DialogTrigger asChild>
-        <Button variant="default">Sign in</Button>
+        <Button variant="outline">Log in</Button>
       </DialogTrigger>
       <DialogContent>
         <div className="flex flex-col items-center gap-2">
@@ -47,7 +75,7 @@ export default function LoginDialogueBox() {
           <div className="space-y-4">
             <div className="*:not-first:mt-2">
               <Label htmlFor={`${id}-email`}>Email</Label>
-              <Input id={`${id}-email`} placeholder="hi@yourcompany.com" type="email" required />
+              <Input id={`${id}-email`} placeholder="hi@yourcompany.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>
             <div className="*:not-first:mt-2">
               <Label htmlFor={`${id}-password`}>Password</Label>
@@ -55,6 +83,8 @@ export default function LoginDialogueBox() {
                 id={`${id}-password`}
                 placeholder="Enter your password"
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required />
             </div>
           </div>
@@ -69,8 +99,13 @@ export default function LoginDialogueBox() {
               Forgot password?
             </a>
           </div>
-          <Button type="button" className="w-full">
-            Sign in
+          <Button 
+            type="button" 
+            className="w-full"
+            onClick={()=> loginUser.mutate({email, password})}
+            disabled= {loginUser.isPending}
+            >
+            {loginUser.isPending ? "Logging in..." : "Login"}
           </Button>
         </form>
 
