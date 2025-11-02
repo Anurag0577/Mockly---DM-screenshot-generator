@@ -25,15 +25,22 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import useAuthStore from "@/stores/authStore"
 
 export default function ProfileDropdown() {
+ const {user, isAuthenticated} = useAuthStore();
+ console.log("this is user in profile dropdown", user);
+  const handleLogout = () => {
+    const {logout} = useAuthStore.getState();
+    logout();
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
           <Avatar>
             <AvatarImage src="/origin/avatar.jpg" alt="Profile image" />
-            <AvatarFallback>KK</AvatarFallback>
+            <AvatarFallback>{user?.username.charAt(0).toUpperCase()}</AvatarFallback>
           </Avatar>
           <ChevronDownIcon size={16} className="opacity-60" aria-hidden="true" />
         </Button>
@@ -41,10 +48,10 @@ export default function ProfileDropdown() {
       <DropdownMenuContent className="max-w-64">
         <DropdownMenuLabel className="flex min-w-0 flex-col">
           <span className="truncate text-sm font-medium text-foreground">
-            Keith Kennedy
+            {user?.username }
           </span>
           <span className="truncate text-xs font-normal text-muted-foreground">
-            k.kennedy@coss.com
+            {user?.email }
           </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -57,7 +64,7 @@ export default function ProfileDropdown() {
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <LogOutIcon size={16} className="opacity-60" aria-hidden="true" />
-          <span>Logout</span>
+          <span onClick={handleLogout}>Logout</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

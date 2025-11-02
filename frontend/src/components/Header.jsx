@@ -1,4 +1,4 @@
-import { useId } from "react"
+import { useEffect, useId } from "react"
 import { MicIcon, SearchIcon } from "lucide-react"
 import { SparklesIcon } from "lucide-react"
 import {jwtDecode} from "jwt-decode"
@@ -12,31 +12,18 @@ import CreditButton from "./CreditButton"
 import ProfileDropdown from "./ProfileDropdown"
 import SignUpDialogueBox from "./SignupDialogueBox"
 import LoginDialogueBox from "./LoginDialogueBox"
+import useAuthStore from "@/stores/authStore"
 
 export default function Header() {
   const id = useId()
-  let booleanFlag;
-  const accessToken = localStorage.getItem("accessToken");
 
-  // Only attempt to decode if we have a string token
-  let user = null;
-  if (typeof accessToken === "string" && accessToken.length > 0) {
-    try {
-      user = jwtDecode(accessToken);
-    } catch (err) {
-      // Guard against malformed tokens — don't crash the whole app
-      // Useful for debugging but not fatal at runtime
-      // eslint-disable-next-line no-console
-      console.warn("Failed to decode access token:", err);
-      user = null;
-    }
-  }
+  const {isAuthenticated, initializeAuth} = useAuthStore();
 
-  if(user && accessToken){
-    booleanFlag = true;
-  } else {
-    booleanFlag = false;
-  }
+  useEffect(() => {
+    initializeAuth();
+  }, [initializeAuth])
+  
+
 
   return (
     <header className=" px-4 md:px-4 border-b">
@@ -48,7 +35,7 @@ export default function Header() {
           </a>
         </div>
         {/* Right side */}
-        {(!booleanFlag)?(
+        {(!isAuthenticated)?(
             <div className="flex flex-1 items-center justify-end gap-2">
                 <CreditButton/>
             {/* <Button asChild variant="ghost" size="sm" className="text-sm">

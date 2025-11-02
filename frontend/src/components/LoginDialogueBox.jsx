@@ -1,4 +1,4 @@
-import { useId } from "react"
+import { use, useId } from "react"
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -16,13 +16,15 @@ import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 import api from "@/api/axios.js"
 import { useNavigate } from "react-router"
+import useAuthStore from "@/stores/authStore"
 
 export default function LoginDialogueBox() {
   const id = useId()
   const [open, setOpen] = useState(false)
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState(null);
+  const [password, setPassword] = useState('');
   const navigate = useNavigate()
+  const {login} = useAuthStore();
   const loginUser = useMutation({
     mutationKey: ['loginUser'],
     mutationFn: async ({ email, password }) => {
@@ -33,8 +35,8 @@ export default function LoginDialogueBox() {
     },
     onSuccess: (data) => {
       console.log('User login successful', data)
-      if (data?.data?.accessToken) {
-        localStorage.setItem('accessToken', data.data.accessToken)
+      if (data?.data?.data?.accessToken) {
+        login(data.data?.data.accessToken);
       }
       setOpen(false)
       navigate('/')
