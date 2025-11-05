@@ -5,7 +5,7 @@ import ParticipantAvatar from "@/components/ParticipantAvatar";
 import { Button } from "@/components/ui/button";
 import DropdownButton from "@/components/DropdownButton";
 import { ArrowDownToLine } from "lucide-react";
-
+import WhatsApp from "@/plateform/WhatsApp";
 export function Homepage() {
   return (
     <div className="h-screen flex flex-col overflow-hidden">
@@ -83,14 +83,13 @@ export function Homepage() {
         </div>
 
         {/* RIGHT SECTION - Preview */}
-        <div className="bg-gray-50 dark:bg-gray-900 flex flex-col items-center justify-between p-4 border-t lg:border-t-0 lg:border-l gap-4">
+        <div className="bg-gray-100 dark:bg-gray-900 p-4 border-t lg:border-t-0 lg:border-l gap-4">
           {/* WhatsApp Preview - Flex to fit available space */}
-          <div className="h-full w-full max-w-[300px] lg:aspect-[9/16] bg-white dark:bg-gray-800 rounded-2xl shadow-md flex items-center justify-center text-sm">
-            -- your fake WhatsApp UI here --
-          </div>
+
+            <WhatsApp />
 
           {/* Action Buttons - Fixed height at bottom */}
-          <div className="w-full max-w-[300px] flex gap-2">
+          <div className="flex gap-2">
             <DropdownButton />
             <DropdownButton />
             <Button variant="default" className="flex-1 gap-2">
