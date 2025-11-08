@@ -8,6 +8,7 @@ import {
   ZoomOutIcon,
 } from "lucide-react"
 
+import usePreviewData from "@/stores/previewData";
 import { useFileUpload } from "@/hooks/use-file-upload"
 import { Button } from "@/components/ui/button"
 import {
@@ -25,6 +26,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Slider } from "@/components/ui/slider"
+
+
 
 // Helper function to create a cropped image blob
 const createImage = url => new Promise((resolve, reject) => {
@@ -81,7 +84,8 @@ async function getCroppedImg(
   }
 }
 
-export default function ParticipantAvatar() {
+export default function ParticipantAvatar({ type = 'sender' }) {
+  const updateReceiverAvatar = usePreviewData((state) => state.updateReceiverAvatar);
   const [
     { files, isDragging },
     {
@@ -99,6 +103,10 @@ export default function ParticipantAvatar() {
 
   const previewUrl = files[0]?.preview || null
   const fileId = files[0]?.id
+
+
+
+
 
   const [finalImageUrl, setFinalImageUrl] = useState(null)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
@@ -151,6 +159,16 @@ export default function ParticipantAvatar() {
 
       // 4. Set the final avatar state to the NEW URL
       setFinalImageUrl(newFinalUrl)
+      // Update the preview data store with the new avatar URL
+      if(type === 'sender'){
+        // Call the appropriate update function for sender
+        // Assuming you have an updateSenderAvatar function in your store
+        // updateSenderAvatar(newFinalUrl);
+        updateSenderAvatar(newFinalUrl);
+      } else {
+        updateReceiverAvatar(newFinalUrl);
+      }
+      
 
       // 5. Close the dialog (don't remove the file yet)
       setIsDialogOpen(false)
@@ -166,7 +184,17 @@ export default function ParticipantAvatar() {
       URL.revokeObjectURL(finalImageUrl)
     }
     setFinalImageUrl(null)
+    if(type === 'sender'){
+        // Call the appropriate update function for sender
+        // Assuming you have an updateSenderAvatar function in your store
+        // updateSenderAvatar(newFinalUrl);
+        updateSenderAvatar(null);
+      } else {
+        updateReceiverAvatar(null);
+      }
   }
+
+  
 
   useEffect(() => {
     const currentFinalUrl = finalImageUrl

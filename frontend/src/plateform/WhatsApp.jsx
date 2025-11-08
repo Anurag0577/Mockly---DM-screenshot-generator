@@ -1,158 +1,51 @@
 import bg from "@/assets/whatsapp_bg.jpg"
 import ProfileDropdown from "@/components/ProfileDropdown";
 import { ArrowLeft, Video, Phone, EllipsisVertical, Sticker, Link, BadgeIndianRupee, Camera, Mic } from "lucide-react"
+import usePreviewData from "@/stores/previewData";  // ✅ Named import with curly braces
 
 export default function WhatsApp(){
-    const sender = 'Anurag';
-    const reciever = 'Mohan'
-    const messages = [
-  {
-    "sender": "sender",
-    "message": "How are you?",
-    "time": "02:30 pm"
-  },
-  {
-    "sender": "sender",
-    "message": "I am fine. What about you?\nWhere is you father?",
-    "time": "2:34 pm"
-  },
-  {
-    "sender": "sender",
-    "message": "I am also good. Where is your father?",
-    "time": "03:02 pm"
-  },
-  {
-    "sender": "sender",
-    "message": "He is out of the station rightnow .",
-    "time": "03:05 pm"
-  },
-  {
-    "sender": "sender",
-    "message": "How are you?",
-    "time": "02:30 pm"
-  },
-  {
-    "sender": "receiver",
-    "message": "I am fine. What about you?\nWhere is you father?",
-    "time": "2:34 pm"
-  },
-  {
-    "sender": "sender",
-    "message": "I am also good. Where is your father?",
-    "time": "03:02 pm"
-  },
-  {
-    "sender": "receiver",
-    "message": "He is out of the station rightnow .",
-    "time": "03:05 pm"
-  },
-  {
-    "sender": "sender",
-    "message": "How are you?",
-    "time": "02:30 pm"
-  },
-  {
-    "sender": "receiver",
-    "message": "I am fine. What about you?\nWhere is you father?",
-    "time": "2:34 pm"
-  },
-  {
-    "sender": "sender",
-    "message": "I am also good. Where is your father?",
-    "time": "03:02 pm"
-  },
-  {
-    "sender": "receiver",
-    "message": "He is out of the station rightnow .",
-    "time": "03:05 pm"
-  },{
-    "sender": "sender",
-    "message": "How are you?",
-    "time": "02:30 pm"
-  },
-  {
-    "sender": "receiver",
-    "message": "I am fine. What about you?\nWhere is you father?",
-    "time": "2:34 pm"
-  },
-  {
-    "sender": "sender",
-    "message": "I am also good. Where is your father?",
-    "time": "03:02 pm"
-  },
-  {
-    "sender": "receiver",
-    "message": "He is out of the station rightnow .",
-    "time": "03:05 pm"
-  },
-  {
-    "sender": "sender",
-    "message": "How are you?",
-    "time": "02:30 pm"
-  },
-  {
-    "sender": "receiver",
-    "message": "I am fine. What about you?\nWhere is you father?",
-    "time": "2:34 pm"
-  },
-  {
-    "sender": "receiver",
-    "message": "I am also good. Where is your father?",
-    "time": "03:02 pm"
-  },
-  {
-    "sender": "receiver",
-    "message": "He is out of the station rightnow .",
-    "time": "03:05 pm"
-  },
-  {
-    "sender": "receiver",
-    "message": "How are you?",
-    "time": "02:30 pm"
-  },
-  {
-    "sender": "receiver",
-    "message": "I am fine. What about you?\nWhere is you father?",
-    "time": "2:34 pm"
-  },
-  {
-    "sender": "receiver",
-    "message": "I am also good. Where is your father?",
-    "time": "03:02 pm"
-  },
-  {
-    "sender": "receiver",
-    "message": "He is out of the station rightnow .",
-    "time": "03:05 pm"
-  }
-]
-
+    const sender = usePreviewData((state) => state.sender);
+    const receiver = usePreviewData((state) => state.receiver);
+    const receiverAvatar = usePreviewData((state) => state.receiverAvatar);
+    const messages = usePreviewData((state) => state.messageArray);
 
     return(
         <>
-            <div className=" w-full flex flex-col mb-2 rounded-xl aspect-square shadow-2xl ">
-                <div className="flex justify-between items-center bg-white border-b-[0.01px] border-gray-300 py-1 gap-x-2 px-2">
+            <div className=" w-full flex flex-col mb-2 rounded-xl aspect-square shadow-2xl flex-1">
+                <div className="flex justify-between items-center bg-white border-b-[0.01px] border-gray-300 py-1 gap-x-2 px-2 h-fit">
                     <ArrowLeft size={17} />
                     <div className="flex-1 flex my-1 items-center">
-                        <div className="w-7 aspect-square border rounded-full mr-2 p-1 text-center text-[12px]">M</div>
-                        <span>Mohan</span>
+                        <div className="w-7 aspect-square rounded-full mr-2 text-center text-[12px]">
+                            {/* {receiver ? receiver.charAt(0).toUpperCase() : 'R'} */}
+                            {receiverAvatar ? (
+                            <img
+                                src={receiverAvatar}
+                                alt="Receiver Avatar"
+                                className="w-full h-full object-cover rounded-full"
+                            />
+                        ) : (
+                            <div aria-hidden="true" className="w-full h-full flex items-center justify-center bg-gray-200 rounded-full">
+                              <span className="text-gray-500">{receiver ? receiver.charAt(0).toUpperCase() : 'R'}</span>
+                            </div>
+                        )}
+                        </div>
+                        <span>{receiver}</span>
                     </div>
                     <div className="flex gap-x-3">
                         <Video size={20}/>
                         <Phone size={17} />
                         <EllipsisVertical size={18} />
                     </div>
-                    
                 </div>
-                {/* import the image so Vite resolves it and use a min-h so it shows even when parent has no explicit height */}
+
                 <div
-                    className="flex flex-col justify-between"
+                    className="flex flex-col justify-between flex-1"
                     style={{
                         backgroundImage: `url(${bg})`,
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                     }}
-                    >
+                >
                     {/* ✅ Scrollable messages area */}
                     <ul className="w-full flex-1 overflow-y-auto flex flex-col max-h-[546px] pt-2">
                         {messages.map((msg, index) =>
@@ -204,7 +97,7 @@ export default function WhatsApp(){
 
                     {/* ✅ Input bar */}
                     <div className="w-full max-h-fit flex gap-x-1 mt-1.5">
-                        <div className="ml-1">
+                        <div className="">
                             <div className="flex items-center gap-2 px-3 py-1 mb-1.5 rounded-3xl bg-white w-full">
                             <Sticker className="shrink-0" size={18} />
                             <input
@@ -223,12 +116,8 @@ export default function WhatsApp(){
                           <Mic size={20} color="white" />
                         </div> 
                     </div>
-                    </div>
-
-
-                
+                </div>
             </div>
-            
         </>
     )
 }
