@@ -8,6 +8,8 @@ import { ArrowDownToLine } from "lucide-react";
 import WhatsApp from "@/plateform/WhatsApp";
 import usePreviewData from "@/stores/previewData";
 import { Input } from "@/components/ui/input";
+import PlatformDropdownBtn from "@/components/PlatformDropdownBtn";
+import ToolDropDownBtn from "@/components/ToolDropDownBtn";
 
 export function Homepage() {
   const sender = usePreviewData((state) => state.sender);
@@ -83,11 +85,6 @@ export function Homepage() {
                 <li>3. Add timestamp using format @(time)</li>
               </ul>
               
-              <div className="pt-2">
-                <span className="font-medium">Example:</span>
-                <br />
-                <span className="text-blue-500">@ says hello to # @(2:30 PM)</span>
-              </div>
             </div>
           </div>
         </div>
@@ -95,15 +92,15 @@ export function Homepage() {
         </div>
 
         {/* RIGHT SECTION - Preview */}
-        <div className="bg-gray-100 dark:bg-gray-900 p-4 border-t lg:border-t-0 lg:border-l gap-4 flex flex-col w-[30%]">
+        <div className="bg-gray-100 dark:bg-[#262626] p-4 border-t lg:border-t-0 lg:border-l gap-4 flex flex-col w-[30%]">
           {/* WhatsApp Preview - Flex to fit available space */}
 
             <WhatsApp />
 
           {/* Action Buttons - Fixed height at bottom */}
           <div className="flex gap-2">
-            <DropdownButton />
-            <DropdownButton />
+            <ToolDropDownBtn />
+            <PlatformDropdownBtn/>
             <Button variant="default" className="flex-1 gap-2">
               <ArrowDownToLine className="w-4 h-4" />
               <span>Download</span>
