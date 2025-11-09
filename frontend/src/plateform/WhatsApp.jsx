@@ -53,9 +53,13 @@ export default function WhatsApp(){
     }}
   >
     <ul className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth scrollbar-gutter-stable px-1">
-      {messages.map((msg, index) =>
-        msg.sender === 'sender' ? (
-          <li key={index} className="mb-3 flex justify-end items-center">
+      {messages.map((msg, index) => {
+        // Check if previous message has the same sender
+        const isSameSender = index > 0 && messages[index - 1].sender === msg.sender;
+        const gapClass = isSameSender ? 'mt-1' : 'mt-3';
+        
+        return msg.sender === 'sender' ? (
+          <li key={index} className={`${gapClass} flex justify-end items-center`}>
             <div className="relative inline-block py-1 px-2 mr-2.5 bg-[#d9fdd3] dark:bg-[#144d37] max-w-[60%] rounded-tl-[10px] rounded-bl-[10px] rounded-br-[10px]">
               <div
                 className="absolute w-3 h-5 bg-[#d9fdd3] dark:bg-[#144d37]"
@@ -75,7 +79,7 @@ export default function WhatsApp(){
             </div>
           </li>
         ) : (
-          <li key={index} className="mb-3 flex justify-start items-center">
+          <li key={index} className={`${gapClass} flex justify-start items-center`}>
             <div className="relative inline-block px-2 py-1 ml-2.5 bg-white dark:bg-[#20272b] max-w-[60%] rounded-tr-[10px] rounded-br-[10px] rounded-bl-[10px]">
               <div
                 className="absolute w-3 h-5 bg-white dark:bg-[#20272b]"
@@ -94,8 +98,8 @@ export default function WhatsApp(){
               </span>
             </div>
           </li>
-        )
-      )}
+        );
+      })}
     </ul>
 
     {/* Input bar */}

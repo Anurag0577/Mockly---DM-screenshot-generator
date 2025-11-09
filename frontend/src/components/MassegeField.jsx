@@ -7,7 +7,9 @@ export default function MessageField() {
   const id = useId()
   const [inputText, setInputText] = useState(
 `$ Bro did you push the latest code? @(10:15AM)
-# Nope 😅 Git said “merge conflicts” and I said “not today.” @(10:17AM)
+# Nope 😅 
+# Git said “merge conflicts” 
+# and I said “not today.” @(10:17AM)
 $ 😂 Classic. So what did you do then?
 # I closed VS Code and opened YouTube. Problem solved. @(10:18AM)
 $ That’s the spirit! By the way, did you see that meme — “I don’t always test my code, but when I do, I do it in production”? 😂
