@@ -1,5 +1,9 @@
 import { useId } from "react"
 import whatsappLogo from "@/assets/WhatsAppPNG.webp"
+import instagramLogo from "@/assets/Instagram.png"
+import telegramLogo from "@/assets/Telegram.webp"
+import xLogo from "@/assets/X.jpg"
+import snapLogo from "@/assets/SnapLogo.png"
 import { Label } from "@/components/ui/label"
 import {
   Select,
@@ -29,12 +33,43 @@ export default function PlatformDropdownBtn() {
               <img
                 className="size-5 rounded"
                 src={whatsappLogo}
-
                 width={20}
                 height={20} />
               <span className="truncate">WhatsApp</span>
             </SelectItem>
+            <SelectItem value="2">
+              <img
+                className="size-5 rounded"
+                src={instagramLogo}
+                width={10}
+                height={10} />
+              <span className="truncate">Instagram</span>
+            </SelectItem>
+            <SelectItem value="3">
+              <img
+                className="size-5 rounded"
+                src={telegramLogo}
+                width={20}
+                height={20} />
+              <span className="truncate">Telegram</span>
+            </SelectItem>
+            <SelectItem value="4">
+              <img
+                className="size-5 rounded"
+                src={snapLogo}
 
+                width={20}
+                height={20} />
+              <span className="truncate">SnapChat</span>
+            </SelectItem>
+            <SelectItem value="6">
+              <img
+                className="size-5 rounded"
+                src={xLogo}
+                width={20}
+                height={20} />
+              <span className="truncate">X.com</span>
+            </SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>
