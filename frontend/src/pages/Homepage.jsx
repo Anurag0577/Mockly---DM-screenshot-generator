@@ -5,7 +5,8 @@ import ParticipantAvatar from "@/components/ParticipantAvatar";
 import { Button } from "@/components/ui/button";
 import DropdownButton from "@/components/DropdownButton";
 import { ArrowDownToLine } from "lucide-react";
-import WhatsApp from "@/plateform/WhatsApp";
+// import WhatsApp from "@/plateform/WhatsApp";
+import RenderPlatformUI from "@/components/RenderPlatformUI";
 import usePreviewData from "@/stores/previewData";
 import { Input } from "@/components/ui/input";
 import PlatformDropdownBtn from "@/components/PlatformDropdownBtn";
@@ -16,6 +17,12 @@ export function Homepage() {
   const receiver = usePreviewData((state) => state.receiver); 
   const updateSender = usePreviewData((state) => state.updateSender);
   const updateReceiver = usePreviewData((state) => state.updateReceiver);
+  const message = usePreviewData((state) => state.message);
+
+
+  const sendDataToServer = async() => {
+    
+  }
   return (
     <div className="h-screen flex flex-col overflow-hidden">
       {/* HEADER - Fixed height */}
@@ -95,13 +102,13 @@ export function Homepage() {
         <div className="bg-gray-100 dark:bg-[#262626] p-4 border-t lg:border-t-0 lg:border-l gap-4 flex flex-col w-[30%]">
           {/* WhatsApp Preview - Flex to fit available space */}
 
-            <WhatsApp />
+            <RenderPlatformUI />
 
           {/* Action Buttons - Fixed height at bottom */}
           <div className="flex gap-2">
             <ToolDropDownBtn />
             <PlatformDropdownBtn/>
-            <Button variant="default" className="flex-1 gap-2">
+            <Button variant="default" className="flex-1 gap-2" onClick={() => sendDataToServer()}>
               <ArrowDownToLine className="w-4 h-4" />
               <span>Download</span>
             </Button>
