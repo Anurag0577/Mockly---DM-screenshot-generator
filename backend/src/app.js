@@ -3,7 +3,7 @@ import cors from 'cors'
 import {connectDB} from './Database/index.js'
 import authRoute from './Routes/authRoute.js'
 import {errorHandler} from './Middlewares/errorHandler.js'
-import messageRoute from './Routes/messageRoute.js'
+import previewRouter from './Routes/previewRoute.js'
 
 // creating an instance of express
 const app = express();
@@ -35,8 +35,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/auth', authRoute)
-app.use('/api/message', messageRoute)
-
+app.use('/api/preview', previewRouter)
 
 app.use(errorHandler);
 

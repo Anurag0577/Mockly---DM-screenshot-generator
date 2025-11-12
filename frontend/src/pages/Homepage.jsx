@@ -12,18 +12,21 @@ import { Input } from "@/components/ui/input";
 import PlatformDropdownBtn from "@/components/PlatformDropdownBtn";
 import ToolDropDownBtn from "@/components/ToolDropDownBtn";
 import { useMutation } from "@tanstack/react-query";
+import api from "@/api/axios";
 
 export function Homepage() {
   const sender = usePreviewData((state) => state.sender);
   const receiver = usePreviewData((state) => state.receiver); 
   const updateSender = usePreviewData((state) => state.updateSender);
   const updateReceiver = usePreviewData((state) => state.updateReceiver);
-  const message = usePreviewData((state) => state.message);
+  const messages = usePreviewData((state) => state.messageArray);
+  const receiverAvatar = usePreviewData((state) => state.receiverAvatar);
+  const senderAvatar = usePreviewData((state) => state.senderAvatar);
 
-  const sendData = async() => {
-    api.post(
-      '/messageData', 
-      {sender, receiver, message}, {
+  const sendData = async(data) => {
+    await api.post(
+      '/preview/messages', 
+      data, {
         headers: {
           'Content-Type': 'application/json'
         },
@@ -34,7 +37,7 @@ export function Homepage() {
 
     const mutation = useMutation({
       mutationFn : sendData,
-      onSuccess: (data) => console.log('data send successfully!'),
+      onSuccess: (data) => console.log('data send successfully!', data),
       onError: (error) => console.log('Something went wrong!', error)
     })
 
@@ -124,7 +127,7 @@ export function Homepage() {
           <div className="flex gap-2">
             <ToolDropDownBtn />
             <PlatformDropdownBtn/>
-            <Button variant="default" className="flex-1 gap-2" onClick={() => sendData.mutate({sender, receiver, message})}>
+            <Button variant="default" className="flex-1 gap-2" onClick={() => mutation.mutate({sender, receiver, messages, receiverAvatar, senderAvatar})}>
               <ArrowDownToLine className="w-4 h-4" />
               <span>Download</span>
             </Button>
