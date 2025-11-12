@@ -11,6 +11,7 @@ import usePreviewData from "@/stores/previewData";
 import { Input } from "@/components/ui/input";
 import PlatformDropdownBtn from "@/components/PlatformDropdownBtn";
 import ToolDropDownBtn from "@/components/ToolDropDownBtn";
+import { useMutation } from "@tanstack/react-query";
 
 export function Homepage() {
   const sender = usePreviewData((state) => state.sender);
@@ -19,10 +20,25 @@ export function Homepage() {
   const updateReceiver = usePreviewData((state) => state.updateReceiver);
   const message = usePreviewData((state) => state.message);
 
-
-  const sendDataToServer = async() => {
-    
+  const sendData = async() => {
+    api.post(
+      '/messageData', 
+      {sender, receiver, message}, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      }
+    )
   }
+
+    const mutation = useMutation({
+      mutationFn : sendData,
+      onSuccess: (data) => console.log('data send successfully!'),
+      onError: (error) => console.log('Something went wrong!', error)
+    })
+
+    
   return (
     <div className="h-screen flex flex-col overflow-hidden">
       {/* HEADER - Fixed height */}
@@ -108,7 +124,7 @@ export function Homepage() {
           <div className="flex gap-2">
             <ToolDropDownBtn />
             <PlatformDropdownBtn/>
-            <Button variant="default" className="flex-1 gap-2" onClick={() => sendDataToServer()}>
+            <Button variant="default" className="flex-1 gap-2" onClick={() => sendData.mutate({sender, receiver, message})}>
               <ArrowDownToLine className="w-4 h-4" />
               <span>Download</span>
             </Button>

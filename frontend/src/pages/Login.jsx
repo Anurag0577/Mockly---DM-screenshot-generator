@@ -95,7 +95,7 @@ export function Login() {
           type="submit"
           className="w-full"
           onClick={() => {
-            registerUser.mutate({ firstName, lastName, email, password, userName });
+            loginUser.mutate({ firstName, lastName, email, password, userName });
           }}
           disabled={loginUser.isPending} // ⬅ disables the button while request in progress
         >
