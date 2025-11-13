@@ -33,7 +33,7 @@ export default function Header() {
           <a href="#" className=" text-2xl hover:text-primary/90 font-bold ">
             DM Screenshot Generator 
           </a>
-          <span className="text-[10px] text-gray-400 ml-3 ">developed by Anurag Singh</span>
+          <span className="text-[12px] text-gray-400 ml-3 tracking-normal">by Anurag</span>
         </div>
         {/* Right side */}
         {(!isAuthenticated)?(

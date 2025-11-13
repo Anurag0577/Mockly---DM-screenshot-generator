@@ -5,6 +5,7 @@ import telegramLogo from "@/assets/Telegram.webp"
 import xLogo from "@/assets/X.jpg"
 import snapLogo from "@/assets/SnapLogo.png"
 import { Label } from "@/components/ui/label"
+import usePreviewData from "@/stores/previewData"
 import {
   Select,
   SelectContent,
@@ -17,9 +18,26 @@ import {
 
 export default function PlatformDropdownBtn() {
   const id = useId()
+  const platform = usePreviewData((state) => state.platform)
+  const updatePlatform = usePreviewData((state) => state.updatePlatform)
+  
+  // Create a mapping between select values and platform names
+  const handlePlatformChange = (value) => {
+    const platformMap = {
+      '1': 'Whatsapp',
+      '2': 'Instagram',
+      '3': 'Telegram',
+      '4': 'Snapchat',
+      '6': 'X.com'
+    }
+    updatePlatform(platformMap[value])
+  }
+  
+  console.log(platform)
+  
   return (
     <div className="*:not-first:mt-2">
-      <Select defaultValue="1">
+      <Select defaultValue="1" onValueChange={handlePlatformChange}>
         <SelectTrigger
           id={id}
           className="ps-2 [&>span]:flex [&>span]:items-center [&>span]:gap-2 [&>span_img]:shrink-0">
@@ -57,7 +75,6 @@ export default function PlatformDropdownBtn() {
               <img
                 className="size-5 rounded"
                 src={snapLogo}
-
                 width={20}
                 height={20} />
               <span className="truncate">SnapChat</span>

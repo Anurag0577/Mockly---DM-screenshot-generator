@@ -1,11 +1,12 @@
 import { create } from "zustand"
 
 const usePreviewData = create((set) => ({
-    sender: '',
+    sender: 'Sam',
     receiver: 'John',
     senderAvatar: null,
     receiverAvatar: null,
     messageArray : [],
+    platform : 'Whatsapp',
 
 
     updatePreviewData : (data) => {
@@ -31,6 +32,10 @@ const usePreviewData = create((set) => ({
     updateReceiverAvatar: (receiverAvatar) => {
         console.log('this is url receiver', receiverAvatar)
         set({receiverAvatar: receiverAvatar})
+    },
+    updatePlatform: (platform) => {
+        console.log('this is platform', platform)
+        set({platform: platform})
     }
 }))
 

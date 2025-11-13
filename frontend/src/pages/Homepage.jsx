@@ -22,7 +22,8 @@ export function Homepage() {
   const messages = usePreviewData((state) => state.messageArray);
   const receiverAvatar = usePreviewData((state) => state.receiverAvatar);
   const senderAvatar = usePreviewData((state) => state.senderAvatar);
-
+  const platform = usePreviewData((state) => state.platform)
+  
   const sendData = async(data) => {
     await api.post(
       '/preview/messages', 
@@ -64,7 +65,7 @@ export function Homepage() {
               value={sender}
               onChange={(e) => updateSender(e.target.value)}
             /> */}
-            <Input placeholder="Sender" type="text" value={sender} onChange={(e) => updateSender(e.target.value)} required />
+            <Input placeholder="Sender" type="text" value={sender} onChange={(e) => updateSender(e.target.value)} required className='text-center' />
             <span className="text-xs text-center text-gray-400 ">
               Enter the name or phone number that should appear as the message sender in the screenshot.
             </span>
@@ -80,7 +81,7 @@ export function Homepage() {
               value={receiver}
               onChange={(e) => updateReceiver(e.target.value)}
             /> */}
-              <Input placeholder="Receiver" type="text" value={receiver} onChange={(e) => updateReceiver(e.target.value)} required />
+              <Input placeholder="Receiver" type="text" value={receiver} onChange={(e) => updateReceiver(e.target.value)} required  className='text-center'/>
             <span className="text-xs text-center text-gray-400 line-clamp-2">
               Enter the name or phone that should appear as the recipient.
             </span>
@@ -127,7 +128,7 @@ export function Homepage() {
           <div className="flex gap-2">
             <ToolDropDownBtn />
             <PlatformDropdownBtn/>
-            <Button variant="default" className="flex-1 gap-2" onClick={() => mutation.mutate({sender, receiver, messages, receiverAvatar, senderAvatar})}>
+            <Button variant="default" className="flex-1 gap-2" onClick={() => mutation.mutate({sender, receiver, messages, receiverAvatar, senderAvatar, platform})}>
               <ArrowDownToLine className="w-4 h-4" />
               <span>Download</span>
             </Button>

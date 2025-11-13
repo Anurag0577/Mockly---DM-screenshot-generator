@@ -86,6 +86,7 @@ async function getCroppedImg(
 
 export default function ParticipantAvatar({ type = 'sender' }) {
   const updateReceiverAvatar = usePreviewData((state) => state.updateReceiverAvatar);
+  const updateSenderAvatar = usePreviewData((state) => state.updateSenderAvatar)
   const [
     { files, isDragging },
     {
