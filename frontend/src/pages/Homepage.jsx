@@ -25,22 +25,50 @@ export function Homepage() {
   const platform = usePreviewData((state) => state.platform)
   
   const sendData = async(data) => {
-    await api.post(
+    const response = await api.post(
       '/preview/messages', 
       data, {
         headers: {
           'Content-Type': 'application/json'
         },
+        // CRITICAL: responseType must be 'blob'
+        responseType: 'blob', 
         withCredentials: true
       }
     )
+    return response.data; // This is the binary Blob
   }
 
-    const mutation = useMutation({
-      mutationFn : sendData,
-      onSuccess: (data) => console.log('data send successfully!', data),
-      onError: (error) => console.log('Something went wrong!', error)
-    })
+  const mutation = useMutation({
+    mutationFn : sendData,
+    onSuccess: (blobData) => {
+      console.log('Image data received. Triggering download...');
+
+      // 1. Create a temporary URL for the Blob object
+      // window.URL.createObjectURL makes the binary data temporarily accessible
+      const url = window.URL.createObjectURL(blobData);
+      
+      // 2. Create a hidden <a> element
+      const link = document.createElement('a');
+      
+      // 3. Configure the download attributes
+      link.href = url;
+      // The 'download' attribute forces the browser to treat the URL as a file download
+      link.setAttribute('download', 'whatsapp_preview.png'); 
+      
+      // 4. Append and click the link to trigger the download dialog
+      document.body.appendChild(link);
+      link.click(); 
+
+      // 5. Clean up the temporary elements to prevent memory leaks
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url); // Release the Blob URL from memory
+    },
+    onError: (error) => {
+      console.log('Something went wrong!', error);
+      // You should add logic here to parse the error message if the backend sends a JSON error in a Blob wrapper
+    }
+  })
 
     
   return (
