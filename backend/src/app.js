@@ -8,8 +8,8 @@ import previewRouter from './Routes/previewRoute.js'
 // creating an instance of express
 const app = express();
 const PORT = 3000;
-
-app.use(express.json()) // this line is important bcoz it helps to parse the incoming request body as json objects
+app.use(express.json({ limit: '50mb' }));
+// app.use(express.json()) // this line is important bcoz it helps to parse the incoming request body as json objects
 app.use(express.urlencoded({ extended: true })) // this line is important bcoz it helps to parse the incoming request body as urlencoded objects
 
 // enabling cors for cross origin resource sharing

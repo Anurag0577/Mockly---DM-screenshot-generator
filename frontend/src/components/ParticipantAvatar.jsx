@@ -38,6 +38,7 @@ const createImage = url => new Promise((resolve, reject) => {
   image.src = url
 })
 
+// === MODIFIED HELPER: NOW RETURNS BASE64 DATA URL ===
 async function getCroppedImg(
   imageSrc,
   pixelCrop,
@@ -72,11 +73,11 @@ async function getCroppedImg(
       outputHeight
     )
 
-    // Convert canvas to blob
+    // Convert canvas to Base64 Data URL
     return new Promise((resolve) => {
-      canvas.toBlob((blob) => {
-        resolve(blob)
-      }, "image/jpeg") // Specify format and quality if needed
+      // CRITICAL CHANGE: Use toDataURL instead of toBlob
+      const dataUrl = canvas.toDataURL("image/jpeg", 0.9); // 0.9 is quality
+      resolve(dataUrl)
     });
   } catch (error) {
     console.error("Error in getCroppedImg:", error)
@@ -143,35 +144,37 @@ export default function ParticipantAvatar({ type = 'sender' }) {
     }
 
     try {
-      // 1. Get the cropped image blob using the helper
-      const croppedBlob = await getCroppedImg(previewUrl, croppedAreaPixels)
+      // 1. Get the cropped image data URL (Base64 string)
+      // croppedDataUrl is now the string "data:image/jpeg;base64,..."
+      const croppedDataUrl = await getCroppedImg(previewUrl, croppedAreaPixels)
 
-      if (!croppedBlob) {
-        throw new Error("Failed to generate cropped image blob.")
+      if (!croppedDataUrl) {
+        throw new Error("Failed to generate cropped image data URL.")
       }
 
-      // 2. Create a NEW object URL from the cropped blob
-      const newFinalUrl = URL.createObjectURL(croppedBlob)
-
-      // 3. Revoke the OLD finalImageUrl if it exists
-      if (finalImageUrl) {
+      // 2. Revoke the OLD finalImageUrl if it exists (only if it's a blob URL, which it shouldn't be now)
+      if (finalImageUrl && finalImageUrl.startsWith("blob:")) {
         URL.revokeObjectURL(finalImageUrl)
       }
 
-      // 4. Set the final avatar state to the NEW URL
-      setFinalImageUrl(newFinalUrl)
-      // Update the preview data store with the new avatar URL
+      // 3. Set the final avatar state to the Base64 Data URL (valid for browser display)
+      setFinalImageUrl(croppedDataUrl)
+      
+      // 4. Update the preview data store with the RAW Base64 string
+      // This is the string your backend will receive!
       if(type === 'sender'){
-        // Call the appropriate update function for sender
-        // Assuming you have an updateSenderAvatar function in your store
-        // updateSenderAvatar(newFinalUrl);
-        updateSenderAvatar(newFinalUrl);
+        updateSenderAvatar(croppedDataUrl);
       } else {
-        updateReceiverAvatar(newFinalUrl);
+        updateReceiverAvatar(croppedDataUrl);
       }
       
 
-      // 5. Close the dialog (don't remove the file yet)
+      // 5. Clean up temporary file state
+      if (fileId) {
+          removeFile(fileId);
+      }
+      
+      // 6. Close the dialog
       setIsDialogOpen(false)
     } catch (error) {
       console.error("Error during apply:", error)
@@ -181,14 +184,12 @@ export default function ParticipantAvatar({ type = 'sender' }) {
   }
 
   const handleRemoveFinalImage = () => {
-    if (finalImageUrl) {
+    if (finalImageUrl && finalImageUrl.startsWith("blob:")) {
       URL.revokeObjectURL(finalImageUrl)
     }
     setFinalImageUrl(null)
     if(type === 'sender'){
-        // Call the appropriate update function for sender
-        // Assuming you have an updateSenderAvatar function in your store
-        // updateSenderAvatar(newFinalUrl);
+        // Update the preview data store to null
         updateSenderAvatar(null);
       } else {
         updateReceiverAvatar(null);
@@ -199,7 +200,7 @@ export default function ParticipantAvatar({ type = 'sender' }) {
 
   useEffect(() => {
     const currentFinalUrl = finalImageUrl
-    // Cleanup function
+    // Cleanup function (checks if it's a blob URL to revoke)
     return () => {
       if (currentFinalUrl && currentFinalUrl.startsWith("blob:")) {
         URL.revokeObjectURL(currentFinalUrl)
