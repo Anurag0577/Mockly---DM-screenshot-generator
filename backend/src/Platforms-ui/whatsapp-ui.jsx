@@ -1,5 +1,11 @@
 import { ArrowLeft, Video, Phone, EllipsisVertical, Sticker, Link, BadgeIndianRupee, Camera, Mic } from "lucide-react"
+import { MdOutlineVideocam, MdOutlineCall, MdAttachFile, MdOutlineCameraAlt } from "react-icons/md";
+import { IoArrowBackSharp } from "react-icons/io5";
 
+import { RiMoneyRupeeCircleLine } from "react-icons/ri";
+import { FaEllipsisVertical } from "react-icons/fa6";
+import { IoMdMic } from "react-icons/io";
+import { PiSticker } from "react-icons/pi";
 export default function WhatsApp({sender, receiver, receiverAvatar, messages, bgImg}) {
 
     return(
@@ -7,7 +13,7 @@ export default function WhatsApp({sender, receiver, receiverAvatar, messages, bg
             <div className="flex-1 min-h-0 flex flex-col mb-2 shadow-2xl border rounded-none">
               {/* Header */}
               <div className="flex justify-between items-center bg-white dark:bg-black border-b border-gray-300 py-1 gap-x-2 px-2 dark:text-white dark:border-gray-700">
-                <ArrowLeft size={17} />
+                <IoArrowBackSharp size={17} />
                 <div className="flex-1 flex my-1 items-center">
                   <div className="w-7 aspect-square rounded-full mr-2 text-center text-[12px]">
                     {receiverAvatar ? (
@@ -30,9 +36,9 @@ export default function WhatsApp({sender, receiver, receiverAvatar, messages, bg
                   <span>{receiver}</span>
                 </div>
                 <div className="flex gap-x-3">
-                  <Video size={20} />
-                  <Phone size={17} />
-                  <EllipsisVertical size={18} />
+                  <MdOutlineVideocam size={20} />
+                  <MdOutlineCall size={17} />
+                  <FaEllipsisVertical size={18} />
                 </div>
               </div>
 
@@ -98,20 +104,20 @@ export default function WhatsApp({sender, receiver, receiverAvatar, messages, bg
                 {/* Input bar */}
                 <div className="w-full flex gap-x-1 mt-1.5 h-fit bg-transparent">
                   <div className="flex items-center gap-2 px-3 py-1 mb-1.5 rounded-3xl bg-white dark:bg-[#20272b] w-full">
-                    <Sticker className="shrink-0 dark:text-gray-600" size={18} />
+                    <PiSticker className="shrink-0 dark:text-gray-600" size={18} />
                     <input
                       type="text"
                       placeholder="Type a message"
                       className="flex-1 px-1 py-1 text-[12px] bg-transparent outline-none min-w-0 dark:text-white"
                     />
                     <div className="flex items-center gap-2 shrink-0">
-                      <Link size={16} className="dark:text-gray-600" />
-                      <BadgeIndianRupee size={17} className="dark:text-gray-600" />
-                      <Camera size={18} className="dark:text-gray-600" />
+                      <MdAttachFile size={16} className="dark:text-gray-600" />
+                      <RiMoneyRupeeCircleLine size={17} className="dark:text-gray-600" />
+                      <MdOutlineCameraAlt size={18} className="dark:text-gray-600" />
                     </div>
                   </div>
                   <div className="flex justify-center items-center aspect-square rounded-full bg-green-600 h-8.5 w-8.5 mr-1">
-                    <Mic size={20} className=" text-white dark:text-black" />
+                    <IoMdMic size={18} className=" text-white dark:text-black" />
                   </div>
                 </div>
               </div>

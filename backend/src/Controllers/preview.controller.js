@@ -45,15 +45,16 @@ function imageToBase64(imagePath) {
  * @param {string} platform - Platform name (whatsapp, instagram, telegram, etc.)
  * @returns {string} Base64 data URL of the background image
  */
-function getBackgroundImage(platform) {
+function getBackgroundImage(platform, isDarkMode) {
     const platformLower = (platform || 'whatsapp').toLowerCase();
     const backgroundMap = {
-        whatsapp: 'whatsapp_bg.jpg',
+        whatsapp_light: 'whatsapp_bg.jpg',
+        whatsapp_dark: 'whatsappDark.png',
         instagram: 'whatsapp_bg.jpg', // Add your instagram bg when available
         telegram: 'whatsapp_bg.jpg', // Add your telegram bg when available
     };
     
-    const imageFileName = backgroundMap[platformLower] || backgroundMap.whatsapp;
+    const imageFileName = backgroundMap[`${platformLower}_${isDarkMode ? 'dark' : 'light'}`] || backgroundMap.whatsapp_light;
     const imagePath = path.join(ASSETS_PATH, imageFileName);
     
     console.log(`Looking for background image at: ${imagePath}`);
@@ -88,14 +89,14 @@ function getBackgroundImage(platform) {
  */
 
 const previewData = asyncHandler( async(req, res) => {
-    const {sender, receiver, messages, receiverAvatar, senderAvatar, platform} = req.body;
+    const {sender, receiver, messages, receiverAvatar, senderAvatar, platform, isDarkMode} = req.body;
 
     if( !sender || !receiver || !messages){
         return res.status(401).send('Either sender, receiver or messages not found!')
     }
 
     // Get background image as base64 from backend assets
-    const bgImg = getBackgroundImage(platform);
+    const bgImg = getBackgroundImage(platform, isDarkMode);
     
     // Log if background image is missing
     if (!bgImg) {
@@ -107,7 +108,9 @@ const previewData = asyncHandler( async(req, res) => {
     // 4. SSR: Render the React component with data into a plain HTML string
     const componentHTML = ReactDOMServer.renderToString(
         // Pass the message data as a prop
-        <Whatsapp sender={sender} receiver={receiver} messages={messages} receiverAvatar={receiverAvatar} senderAvatar={senderAvatar} bgImg={bgImg} /> 
+        <div className={isDarkMode ? 'dark' : ''}>
+            <Whatsapp sender={sender} receiver={receiver} messages={messages} receiverAvatar={receiverAvatar} senderAvatar={senderAvatar} bgImg={bgImg} /> 
+        </div>
     );
 
     // 5. Construct the final HTML document with EMBEDDED CSS

@@ -23,6 +23,7 @@ export function Homepage() {
   const receiverAvatar = usePreviewData((state) => state.receiverAvatar);
   const senderAvatar = usePreviewData((state) => state.senderAvatar);
   const platform = usePreviewData((state) => state.platform)
+  const isDarkMode = usePreviewData((state) => state.isDarkMode);
   
 
   const sendData = async(data) => {
@@ -47,7 +48,8 @@ export function Homepage() {
       messages, 
       receiverAvatar, 
       senderAvatar, 
-      platform
+      platform,
+      isDarkMode
     });
   };
 

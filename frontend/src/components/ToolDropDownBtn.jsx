@@ -9,13 +9,17 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import usePreviewData from "@/stores/previewData"
 
 export default function ToolDropDownBtn() {
   const [nextjs, setNextjs] = useState(false)
   const [sveltekit, setSveltekit] = useState(true)
-  const [astro, setAstro] = useState(false)
-  const [remix, setRemix] = useState(false)
+  // const [astro, setAstro] = useState(false)
+  // const [remix, setRemix] = useState(false)
 
+  const isDarkMode = usePreviewData((state) => state.isDarkMode);
+  const updateIsDarkMode = usePreviewData((state) => state.updateIsDarkMode);
+  console.log('isDarkMode in dropdown', isDarkMode);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -31,7 +35,7 @@ export default function ToolDropDownBtn() {
         <DropdownMenuCheckboxItem checked={sveltekit} onCheckedChange={setSveltekit}>
           Show Footer
         </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem checked={astro} onCheckedChange={setAstro}>
+        <DropdownMenuCheckboxItem checked={isDarkMode} onCheckedChange={updateIsDarkMode}>
           Dark Mode
         </DropdownMenuCheckboxItem>
       </DropdownMenuContent>

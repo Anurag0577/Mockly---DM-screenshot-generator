@@ -3,6 +3,7 @@ import { create } from "zustand"
 const usePreviewData = create((set) => ({
     sender: 'Sam',
     receiver: 'John',
+    isDarkMode: false,
     senderAvatar: null,
     receiverAvatar: null,
     messageArray : [],
@@ -36,6 +37,10 @@ const usePreviewData = create((set) => ({
     updatePlatform: (platform) => {
         console.log('this is platform', platform)
         set({platform: platform})
+    },
+    updateIsDarkMode: (isDarkMode) => {
+        console.log('this is dark mode', isDarkMode)
+        set({isDarkMode: isDarkMode})
     }
 }))
 
