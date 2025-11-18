@@ -1,6 +1,6 @@
 import { ArrowLeft, Video, Phone, EllipsisVertical, Sticker, Link, BadgeIndianRupee, Camera, Mic } from "lucide-react"
 
-export default function WhatsApp({sender, receiver, receiverAvatar, messages}) {
+export default function WhatsApp({sender, receiver, receiverAvatar, messages, bgImg}) {
 
     return(
         <>
@@ -38,8 +38,9 @@ export default function WhatsApp({sender, receiver, receiverAvatar, messages}) {
 
               {/* Chat area */}
               <div
-                className="flex flex-col flex-1 min-h-0  bg-[url('./assets/whatsapp_bg.jpg')] dark:bg-[url('./assets/whatsappDark.png')]"
+                className="flex flex-col flex-1 min-h-0"
                 style={{
+                  backgroundImage: bgImg ? `url(${bgImg})` : 'none',
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                 }}

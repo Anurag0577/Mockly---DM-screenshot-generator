@@ -152,7 +152,7 @@ export default function ParticipantAvatar({ type = 'sender' }) {
         throw new Error("Failed to generate cropped image data URL.")
       }
 
-      // 2. Revoke the OLD finalImageUrl if it exists (only if it's a blob URL, which it shouldn't be now)
+      // 2.  Revokethe OLD finalImageUrl if it exists (only if it's a blob URL, which it shouldn't be now)
       if (finalImageUrl && finalImageUrl.startsWith("blob:")) {
         URL.revokeObjectURL(finalImageUrl)
       }
