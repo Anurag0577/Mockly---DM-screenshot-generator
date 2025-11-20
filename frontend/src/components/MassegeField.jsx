@@ -6,36 +6,13 @@ import usePreviewData from "@/stores/previewData"
 export default function MessageField() {
   const id = useId()
   const [inputText, setInputText] = useState(
-`$ Bro did you push the latest code? @(10:15AM)
-# Nope 😅 
-# Git said “merge conflicts” 
-# and I said “not today.” @(10:17AM)
-$ 😂 Classic. So what did you do then?
-# I closed VS Code and opened YouTube. Problem solved. @(10:18AM)
-$ That’s the spirit! By the way, did you see that meme — “I don’t always test my code, but when I do, I do it in production”? 😂
-# Yeah bro 💀 that’s literally our project last week.
-$ Don’t remind me… my heart still skips a beat when I hear the word “deployment.” @(10:25AM)
-# Same. I think our server still has PTSD. 😭
-$ Also, I just realized my bug fix created two new bugs. Is that recursion? 😂
-# Nah bro, that’s just your feature multiplying. 🐛🐛 @(10:28AM)
-$ Okay fine, next time I’m pushing code with a prayer. 🙏 @(10:30AM)
-# Don’t forget to commit your sins too. 😈 @(10:31AM)
-$ Bro… why does my React component re-render 10 times? 😩 @(10:33AM)
-# Because React loves drama. It just can’t let go. 🎭 @(10:34AM)
-$ I swear, useEffect is haunting me. @(10:35AM)
-# You probably forgot the dependency array again. Typical dev move. 😏 @(10:36AM)
-$ Maybe I should switch to Vue.
-# Vue? 😂 bro you can’t even view your own console errors.
-$ Fair enough. Maybe I’ll learn Angular. @(10:38AM)
-# Angular? Bro, your mental health is already on edge. Don’t do that. 😭 @(10:39AM)
-$ True, last time I opened an Angular project I aged 5 years instantly.
-# Same here. The folder structure gave me existential crisis. 😩
-$ Anyway, you free this evening?
-# Why? Another debugging session? 🪲 @(10:45AM)
-$ Nah bro, let’s go for chai. Maybe caffeine will fix my async issues. ☕ @(10:46AM)
-# Sure, but make sure you don’t call await before the tea is ready. 😂 @(10:47AM)
-$ Deal! I’ll await chai properly this time. Promise. 🙌 @(10:48AM)
-# Good. Otherwise, exception: “Uncaught hunger error.” 🍵 @(10:49AM)
+`
+$ Bro, new feature ka deployment ho gaya kya? Server pe kuchh dikh nahin raha. @(11:00AM)
+# Kar toh diya tha, par npm ne poochh liya, "Kahan ja rahe ho? Itna jaldi kyun?" 😭 @(11:01AM)
+$ 😂 'Zara thehar ja' moment! Phir kya hua? @(11:02AM)
+# Usne kaha "Pehle dependencies install kar ke dikha" aur maine phir laptop band kar diya. 'Aaj main mood mein nahin hoon.' @(11:03AM)
+$ Samajh gaya bhai. 'Galti se mistake ho gaya'. Kal dekhte hain. 💀 @(11:04AM)
+# Done. 'Shanti'. Chai peene chalte hain, phir deploy karenge. ☕ @(11:05AM)
 `
   )
 
