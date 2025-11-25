@@ -13,6 +13,7 @@ import PlatformDropdownBtn from "@/components/PlatformDropdownBtn";
 import ToolDropDownBtn from "@/components/ToolDropDownBtn";
 import { useMutation } from "@tanstack/react-query";
 import api from "@/api/axios";
+import { useEffect } from "react";
 
 export function Homepage() {
   const sender = usePreviewData((state) => state.sender);
@@ -25,6 +26,16 @@ export function Homepage() {
   const platform = usePreviewData((state) => state.platform)
   const isDarkMode = usePreviewData((state) => state.isDarkMode);
   
+    useEffect(() => {
+      const root = document.documentElement;
+      if (isDarkMode) {
+        root.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+      } else {
+        root.classList.remove("dark");
+        localStorage.setItem("theme", "light");
+      }
+    }, [isDarkMode]);
 
   const sendData = async(data) => {
     const response = await api.post(
