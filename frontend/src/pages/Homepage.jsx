@@ -13,7 +13,8 @@ import PlatformDropdownBtn from "@/components/PlatformDropdownBtn";
 import ToolDropDownBtn from "@/components/ToolDropDownBtn";
 import { useMutation } from "@tanstack/react-query";
 import api from "@/api/axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
 
 export function Homepage() {
   const sender = usePreviewData((state) => state.sender);
@@ -25,7 +26,10 @@ export function Homepage() {
   const senderAvatar = usePreviewData((state) => state.senderAvatar);
   const platform = usePreviewData((state) => state.platform)
   const isDarkMode = usePreviewData((state) => state.isDarkMode);
-  
+
+  // state for download button
+  const [isImageGenerating, setIsImageGenerating] = useState(false);
+
     useEffect(() => {
       const root = document.documentElement;
       if (isDarkMode) {
@@ -53,6 +57,7 @@ export function Homepage() {
 
   // Handle download - background images are now handled on the backend
   const handleDownload = () => {
+    setIsImageGenerating(true)
     mutation.mutate({
       sender, 
       receiver, 
@@ -81,6 +86,7 @@ export function Homepage() {
         // Clean up
         document.body.removeChild(link);
         window.URL.revokeObjectURL(url);
+        setIsImageGenerating(false)
         console.log('Image downloaded successfully!');
       },
       onError: (error) => {
@@ -175,14 +181,26 @@ export function Homepage() {
           <div className="flex gap-2">
             <ToolDropDownBtn />
             <PlatformDropdownBtn/>
-            <Button 
-              variant="default" 
-              className="flex-1 gap-2" 
-              onClick={handleDownload}
-            >
-              <ArrowDownToLine className="w-4 h-4" />
-              <span>Download</span>
-            </Button>
+            {(isImageGenerating) ? 
+              (<Button 
+                variant="default" 
+                className="flex-1 gap-2" 
+                onClick={handleDownload}
+              >
+                {/* <ArrowDownToLine className="w-4 h-4" /> */}
+                <span>Please Wait...</span>
+              </Button>)
+              :
+              (<Button 
+                variant="default" 
+                className="flex-1 gap-2" 
+                onClick={handleDownload}
+              >
+                <ArrowDownToLine className="w-4 h-4" />
+                <span>Download</span>
+              </Button>)
+            }
+            
           </div>
         </div>
       </div>

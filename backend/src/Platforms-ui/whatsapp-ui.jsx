@@ -59,13 +59,14 @@ export default function WhatsApp({sender, receiver, receiverAvatar, messages, bg
                     
                     return msg.sender === 'sender' ? (
                       <li key={index} className={`${gapClass} flex justify-end items-center`}>
-                        <div className="relative inline-block py-1 px-2 mr-2.5 bg-[#d9fdd3] dark:bg-[#144d37] max-w-[60%] rounded-tl-[10px] rounded-bl-[10px] rounded-br-[10px]">
+                        <div className={`relative inline-block py-1 px-2 mr-2.5 bg-[#d9fdd3] dark:bg-[#144d37] max-w-[60%] rounded-tl-[10px] rounded-bl-[10px] rounded-br-[10px] ${isSameSender ? 'rounded-tr-[10px]' : 'rounded-tr-none' }`}>
                           <div
                             className="absolute w-3 h-5 bg-[#d9fdd3] dark:bg-[#144d37]"
                             style={{
-                              right: '-8px',
+                              display: !isSameSender ? 'block' : 'none',
+                              right: !isSameSender ? '-8px' : 'none',
                               top: '0',
-                              clipPath: 'polygon(0% 0%, 100% 0%, 0% 100%)',
+                              clipPath: !isSameSender ? 'polygon(0% 0%, 100% 0%, 0% 100%)' : '0',
                               borderRadius: '4px',
                             }}
                           />
@@ -79,13 +80,14 @@ export default function WhatsApp({sender, receiver, receiverAvatar, messages, bg
                       </li>
                     ) : (
                       <li key={index} className={`${gapClass} flex justify-start items-center`}>
-                        <div className="relative inline-block px-2 py-1 ml-2.5 bg-white dark:bg-[#20272b] max-w-[60%] rounded-tr-[10px] rounded-br-[10px] rounded-bl-[10px]">
+                        <div className={`relative inline-block px-2 py-1 ml-2.5 bg-white dark:bg-[#20272b] max-w-[60%] rounded-tr-[10px] rounded-br-[10px] rounded-bl-[10px] ${isSameSender ? 'rounded-tl-[10px]' : 'rounded-tl-none'}` }>
                           <div
                             className="absolute w-3 h-5 bg-white dark:bg-[#20272b]"
                             style={{
-                              left: '-8px',
+                              display: !isSameSender ? 'block' : 'none',
+                              left: !isSameSender ? '-8px' : 'none' ,
                               top: '0',
-                              clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%)',
+                              clipPath: !isSameSender ? 'polygon(0% 0%, 100% 0%, 100% 100%)' : 0,
                               borderRadius: '4px',
                             }}
                           />
