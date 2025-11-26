@@ -27,7 +27,7 @@ export function Signup() {
   const registerUser = useMutation({
     mutationKey: ['registerUser'],
     mutationFn: async ({firstName, lastName, email, password, userName}) => { // newUser should contain firstName, lastName, email, password. the difference between newUser and data is that newUser is the argument passed to the mutation function, while data is the response from the server after the mutation is executed
-      console.log('Registering user with data:', {firstName, lastName, email, password, userName});
+
       const response = await api.post('/auth/register', {firstName, lastName, email, password, userName}, {
         headers: {
           'Content-Type': 'application/json'

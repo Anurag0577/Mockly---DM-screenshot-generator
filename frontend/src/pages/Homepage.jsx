@@ -14,7 +14,7 @@ import ToolDropDownBtn from "@/components/ToolDropDownBtn";
 import { useMutation } from "@tanstack/react-query";
 import api from "@/api/axios";
 import { useEffect, useState } from "react";
-
+import { RotatingLines } from "react-loader-spinner";
 
 export function Homepage() {
   const sender = usePreviewData((state) => state.sender);
@@ -87,9 +87,11 @@ export function Homepage() {
         document.body.removeChild(link);
         window.URL.revokeObjectURL(url);
         setIsImageGenerating(false)
-        console.log('Image downloaded successfully!');
+        console.log('Image generated successfully!');
       },
       onError: (error) => {
+
+        setIsImageGenerating(false)
         console.error('Something went wrong!', error);
         alert('Failed to download image. Please check the console for details.');
       }
@@ -188,6 +190,34 @@ export function Homepage() {
                 onClick={handleDownload}
               >
                 {/* <ArrowDownToLine className="w-4 h-4" /> */}
+
+                {(isDarkMode) ? (
+                  <RotatingLines
+                    visible={true}
+                    height="110"
+                    width="110"
+                    color="black"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    ariaLabel="rotating-lines-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                  />
+                ) :  (
+                  <RotatingLines
+                  visible={true}
+                  height="110"
+                  width="110"
+                  color="white"
+                  strokeWidth="5"
+                  animationDuration="0.75"
+                  ariaLabel="rotating-lines-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                  />
+                )}
+
+                
                 <span>Please Wait...</span>
               </Button>)
               :
@@ -200,7 +230,6 @@ export function Homepage() {
                 <span>Download</span>
               </Button>)
             }
-            
           </div>
         </div>
       </div>

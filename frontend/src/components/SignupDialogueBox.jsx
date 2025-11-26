@@ -39,7 +39,6 @@ export default function SignUpDialogueBox() {
     onSuccess: (data) => {
       console.log('User registered successfully:', data);
       if(data?.accessToken){
-        console.log("this is inside onsucceed " ,data.accessToken)
         localStorage.setItem('accessToken', data.accessToken);
       }
       setOpen(false)

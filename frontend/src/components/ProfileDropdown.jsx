@@ -29,7 +29,6 @@ import useAuthStore from "@/stores/authStore"
 
 export default function ProfileDropdown() {
  const {user, isAuthenticated} = useAuthStore();
- console.log("this is user in profile dropdown", user);
   const handleLogout = () => {
     const {logout} = useAuthStore.getState();
     logout();

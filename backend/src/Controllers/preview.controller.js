@@ -57,9 +57,9 @@ function getBackgroundImage(platform, isDarkMode) {
     const imageFileName = backgroundMap[`${platformLower}_${isDarkMode ? 'dark' : 'light'}`] || backgroundMap.whatsapp_light;
     const imagePath = path.join(ASSETS_PATH, imageFileName);
     
-    console.log(`Looking for background image at: ${imagePath}`);
-    console.log(`Assets path: ${ASSETS_PATH}`);
-    console.log(`File exists: ${fs.existsSync(imagePath)}`);
+    // console.log(`Looking for background image at: ${imagePath}`);
+    // console.log(`Assets path: ${ASSETS_PATH}`);
+    // console.log(`File exists: ${fs.existsSync(imagePath)}`);
     
     // Check if file exists, if not use default
     if (!fs.existsSync(imagePath)) {
@@ -73,9 +73,7 @@ function getBackgroundImage(platform, isDarkMode) {
     }
     
     const base64 = imageToBase64(imagePath);
-    if (base64) {
-        console.log(`Background image converted successfully. Base64 length: ${base64.length}`);
-    } else {
+    if (!base64) {
         console.error('Failed to convert background image to base64');
     }
     
@@ -101,8 +99,6 @@ const previewData = asyncHandler( async(req, res) => {
     // Log if background image is missing
     if (!bgImg) {
         console.warn('Warning: Background image is null. Screenshot may not have background.');
-    } else {
-        console.log('Background image loaded successfully');
     }
 
     // 4. SSR: Render the React component with data into a plain HTML string

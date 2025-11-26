@@ -19,7 +19,6 @@ export default function ToolDropDownBtn() {
 
   const isDarkMode = usePreviewData((state) => state.isDarkMode);
   const updateIsDarkMode = usePreviewData((state) => state.updateIsDarkMode);
-  console.log('isDarkMode in dropdown', isDarkMode);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

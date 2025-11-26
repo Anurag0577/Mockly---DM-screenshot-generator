@@ -87,7 +87,7 @@ $ Samajh gaya bhai. 'Galti se mistake ho gaya'. Kal dekhte hain. 💀 @(11:04AM)
     }
 
     // Update store with parsed messages
-    console.log('Parsed messages:', messageArray)
+    // console.log('Parsed messages:', messageArray)
     updatePreviewData(messageArray)
   }
 

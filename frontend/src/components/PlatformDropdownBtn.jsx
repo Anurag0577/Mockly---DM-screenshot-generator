@@ -33,7 +33,7 @@ export default function PlatformDropdownBtn() {
     updatePlatform(platformMap[value])
   }
   
-  console.log(platform)
+  // console.log(platform)
   
   return (
     <div className="*:not-first:mt-2">

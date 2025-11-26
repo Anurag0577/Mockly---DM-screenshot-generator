@@ -24,7 +24,6 @@ const useAuthStore = create((set) => ({
 
     // when login/signup succeeds
     login : (token) => {
-        console.log('this is token in store', token);
         localStorage.setItem('accessToken', token);
         set({user: jwtDecode(token), isAuthenticated: true});
     },
