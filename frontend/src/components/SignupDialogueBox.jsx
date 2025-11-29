@@ -15,6 +15,7 @@ import { useState } from "react"
 import api from "@/api/axios.js"
 import { useMutation } from "@tanstack/react-query"
 import { useNavigate } from "react-router"
+import useAuthStore from "@/stores/authStore"
 
 export default function SignUpDialogueBox() {
   const id = useId()
@@ -24,6 +25,7 @@ export default function SignUpDialogueBox() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [userName, setUserName] = useState('')
+  const {login} = useAuthStore();
   const navigate = useNavigate();
   const registerUser = useMutation({
     mutationKey: ['registerUser'],
@@ -37,12 +39,13 @@ export default function SignUpDialogueBox() {
       return response.data;
     },
     onSuccess: (data) => {
-      console.log('User registered successfully:', data);
-      if(data?.accessToken){
-        localStorage.setItem('accessToken', data.accessToken);
+      console.log('User register successfully!', data)
+      if (data?.data?.accessToken) {
+        console.log("this is inside ocSuccess", data?.data?.accessToken)
+        login(data?.data?.accessToken);
       }
       setOpen(false)
-      navigate('/');
+      navigate('/')
     },
     onError: (error) => {
       console.error('Error registering user:', error);

@@ -13,7 +13,7 @@ const useAuthStore = create((set) => ({
                 const decodedToken = jwtDecode(token);
                 set({user: decodedToken, isAuthenticated: true});
             } catch (error) {
-                console.log("Invalid token: ", token)
+                console.log("Invalid token: ", error)
                 localStorage.removeItem('accessToken');
                 set({user: null, isAuthenticated: false})
             }

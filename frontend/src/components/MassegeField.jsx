@@ -7,12 +7,13 @@ export default function MessageField() {
   const id = useId()
   const [inputText, setInputText] = useState(
 `
-$ Bro, new feature ka deployment ho gaya kya? Server pe kuchh dikh nahin raha. @(11:00AM)
-# Kar toh diya tha, par npm ne poochh liya, "Kahan ja rahe ho? Itna jaldi kyun?" 😭 @(11:01AM)
-$ 😂 'Zara thehar ja' moment! Phir kya hua? @(11:02AM)
-# Usne kaha "Pehle dependencies install kar ke dikha" aur maine phir laptop band kar diya. 'Aaj main mood mein nahin hoon.' @(11:03AM)
-$ Samajh gaya bhai. 'Galti se mistake ho gaya'. Kal dekhte hain. 💀 @(11:04AM)
-# Done. 'Shanti'. Chai peene chalte hain, phir deploy karenge. ☕ @(11:05AM)
+$ Oye Nawab,  @(6:00PM) 
+$ sunn. Instagram pe story dekhi teri, bade cafe mein baitha hai? ☕ @(6:00PM) 
+# Haan bhai, bas thoda 'High Class' feel le raha tha. 😎 @(6:01PM) 
+$ Sahi hai. Toh wo jo 500 rupaye udhar liye the, wo GPay kar de? Bill wahi se bhar dena. @(6:02PM) 
+# Are bhai... @(6:05PM) < Hello? Bhai network gaya achanak se. Kya bola tune? @(6:06PM) 
+$ Natak mat kar. Text message hai ye, awaz nahi kat rahi. 'Khopdi tod saale ka'. 💀 @(6:07PM) 
+# Arre bhai, wo cafe wale ne kidney rakh li meri bill mein. Ab main auto ke paise maangne wala tha tujhse. 🥺 @(6:08PM) 
 `
   )
 
