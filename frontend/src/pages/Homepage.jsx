@@ -93,7 +93,6 @@ export function Homepage() {
 
         setIsImageGenerating(false)
         console.error('Something went wrong!', error);
-        alert('Failed to download image. Please check the console for details.');
       }
     });
 

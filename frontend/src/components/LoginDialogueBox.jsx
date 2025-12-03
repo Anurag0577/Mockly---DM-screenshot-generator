@@ -20,7 +20,8 @@ import useAuthStore from "@/stores/authStore"
 
 export default function LoginDialogueBox() {
   const id = useId()
-  const [open, setOpen] = useState(false)
+  // const [open, setOpen] = useState(false) // this is default code
+  const {openLoginDialog: open, setOpenLoginDialog: setOpen} = useAuthStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate()

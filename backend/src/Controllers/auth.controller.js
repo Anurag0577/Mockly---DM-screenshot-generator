@@ -2,6 +2,10 @@ import {apiError} from '../Utilities/apiError.js'
 import {apiResponse} from '../Utilities/apiResponse.js'
 import {asyncHandler} from '../Utilities/asyncHandler.js'
 import {User} from '../Models/User.model.js'
+import jwt from 'jsonwebtoken';
+import { config } from 'dotenv';
+config(); // Load environment variables from .env file
+
 
 // GENERATE ACCESSS AND REFRESH TOKEN
 const genAccessTokenAndRefreshToken = async (id) => {
@@ -106,7 +110,7 @@ const loginUser = asyncHandler(async(req, res, next) => {
                 httpOnly: true, // now you can not get access token through javascript in the client side.
                 secure: process.env.NODE_ENV === 'production', // Only secure in production
                 sameSite: process.env.NODE_ENV === 'production' ? "None" : "Lax", // Adjust based on environment
-                maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+                maxAge: 1 * 24 * 60 * 60 * 1000, // 1 days
                 path: '/' // Ensure cookie is available for all routes
             });
             const userResponse = {
@@ -127,51 +131,107 @@ const loginUser = asyncHandler(async(req, res, next) => {
 
 // LOGOUT USER
 const logoutUser = asyncHandler(async(req, res, next) => {
-    try {
-        // Get refresh token from cookies to identify user
-        const refreshToken = req.cookies.refreshToken;
-        
-        if (refreshToken) {
-            try {
-                // Verify refresh token to get user ID
-                const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-                
-                // Remove refresh token from database
-                await User.findByIdAndUpdate(decoded._id, {
-                    $set: {
-                        refreshToken: null
-                    }
-                });
-                
-                console.log('User logged out, refresh token removed from database');
-            } catch (error) {
-                console.log('Invalid refresh token during logout, but continuing with cookie clearing');
-            }
+    // Get refresh token from cookies to identify user
+    const refreshToken = req.cookies.refreshToken;
+    
+    // Try to remove refresh token from database if token exists and is valid
+    if (refreshToken) {
+        try {
+            // Verify refresh token to get user ID
+            const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+            
+            // Remove refresh token from database
+            await User.findByIdAndUpdate(decoded._id, {
+                $unset: {
+                    refreshToken: ""
+                }
+            });
+            
+            console.log('User logged out, refresh token removed from database');
+        } catch (error) {
+            // If token is invalid/expired, just log it but continue with logout
+            // This allows logout even if token is expired
+            console.log('Refresh token invalid during logout (may be expired), continuing with logout');
         }
-
-        // ✅ Clear the cookie on logout (always do this)
-        res.clearCookie('refreshToken', {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? "None" : "Lax",
-            path: '/'
-        });
-
-        // Send response
-        res.status(200).json(new apiResponse(200, "User logged out successfully", {}));
-    } catch (error) {
-        console.error('Logout error:', error);
-        // Even if there's an error, clear the cookie and send success response
-        res.clearCookie('refreshToken', {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? "None" : "Lax",
-            path: '/'
-        });
-        
-        res.status(200).json(new apiResponse(200, "User logged out successfully", {}));
     }
+
+    // Always clear the cookie on logout (even if token was invalid)
+    res.clearCookie('refreshToken', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? "None" : "Lax",
+        path: '/',
+        domain: process.env.NODE_ENV === 'production' ? undefined : undefined // Add domain if needed
+    });
+
+    // Send success response
+    res.status(200).json(new apiResponse(200, "User logged out successfully", {}));
 });
 
 
-export {registerUser, loginUser, logoutUser}
+// REGENERATE ACCESSTOKEN 
+const regenerateAccessToken = asyncHandler((req, res) => {
+    console.log('Regenerate access token request received');
+    console.log('All cookies:', req.cookies);
+    console.log('Refresh token cookie:', req.cookies?.refreshToken);
+    
+    // get the refreshToken from the cookies.
+    const refreshToken = req.cookies.refreshToken;
+    
+    if(!refreshToken){
+        console.error('Refresh token not found in cookies');
+        return res.status(401).json(new apiResponse(401, "Refresh token not found!", null))
+    }
+    
+    try {
+        // Check if environment variables are set
+        if (!process.env.REFRESH_TOKEN_SECRET) {
+            console.error('REFRESH_TOKEN_SECRET is not set in environment variables!');
+            return res.status(500).json(new apiResponse(500, "Server configuration error", null));
+        }
+        
+        if (!process.env.ACCESS_TOKEN_SECRET) {
+            console.error('ACCESS_TOKEN_SECRET is not set in environment variables!');
+            return res.status(500).json(new apiResponse(500, "Server configuration error", null));
+        }
+        
+        console.log('Verifying token with secret:', process.env.REFRESH_TOKEN_SECRET ? 'Secret exists' : 'Secret missing');
+        
+        // ✅ FIX: Wrap jwt.verify in try-catch to handle errors
+        // verify the refreshToken
+        const decode = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET)
+        console.log('Decoded refresh token:', decode)
+
+        // generate new access token
+        const newAccessToken = jwt.sign({
+            _id: decode._id,
+            username: decode.username,
+            email: decode.email
+        }, process.env.ACCESS_TOKEN_SECRET, {expiresIn: process.env.ACCESS_TOKEN_EXPIRY}) 
+        
+        console.log('New access token generated successfully!')
+        
+        // ✅ FIX: Use apiResponse format to match frontend expectations
+        return res.status(200).json(new apiResponse(200, "Access token regenerated successfully", { accessToken: newAccessToken }));
+    } catch (error) {
+        // Handle invalid or expired refresh token
+        console.error('Token verification error:', error.message);
+        console.error('Error name:', error.name);
+        console.error('Full error:', error);
+        
+        // Provide more specific error messages
+        let errorMessage = "Invalid or expired refresh token!";
+        if (error.name === 'TokenExpiredError') {
+            errorMessage = "Refresh token has expired. Please login again.";
+        } else if (error.name === 'JsonWebTokenError') {
+            errorMessage = "Invalid refresh token. Please login again.";
+        } else if (error.name === 'NotBeforeError') {
+            errorMessage = "Refresh token not active yet.";
+        }
+        
+        return res.status(403).json(new apiResponse(403, errorMessage, null))
+    }
+})
+
+
+export {registerUser, loginUser, logoutUser, regenerateAccessToken}
