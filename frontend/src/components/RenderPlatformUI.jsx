@@ -1,3 +1,4 @@
+import Instagram from "@/plateform/Instagram";
 import WhatsApp from "@/plateform/WhatsApp";
 import usePreviewData from "@/stores/previewData";
 
@@ -8,11 +9,18 @@ export default function RenderPlatformUI() {
   const messages = usePreviewData((s) => s.messageArray);
 
   return (
-    <WhatsApp
+    // <WhatsApp
+    //   sender={sender}
+    //   receiver={receiver}
+    //   receiverAvatar={receiverAvatar}
+    //   messages={messages}
+    // />
+        <Instagram
       sender={sender}
       receiver={receiver}
       receiverAvatar={receiverAvatar}
       messages={messages}
     />
   );
+  
 }
