@@ -30,6 +30,7 @@ const usePreviewData = create((set) => ({
         set({receiverAvatar: receiverAvatar})
     },
     updatePlatform: (platform) => {
+        console.log("Updating platform to: ", platform)
         set({platform: platform})
     },
     updateIsDarkMode: (isDarkMode) => {
