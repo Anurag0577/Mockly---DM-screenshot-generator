@@ -99,14 +99,10 @@ export function Homepage() {
     
   return (
     <div className="h-screen flex flex-col overflow-hidden">
-      {/* HEADER - Fixed height */}
-      
-      
-      {/* MAIN CONTENT - Takes remaining height */}
+
       <div className="flex-1 flex flex-col lg:flex-row min-h-0">
         <div className="flex flex-col flex-1">
           <Header />
-        {/* LEFT SECTION - Participants */}
         <div className="flex flex-col lg:flex-row flex-1">
         <div className="w-full lg:w-[250px] flex flex-row lg:flex-col gap-3 p-3 border-b lg:border-b-0 lg:border-r overflow-x-auto lg:overflow-x-visible lg:overflow-y-auto">
           <h1 className="text-center">Participants</h1>
