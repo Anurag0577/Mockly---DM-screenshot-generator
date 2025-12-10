@@ -233,5 +233,16 @@ const regenerateAccessToken = asyncHandler((req, res) => {
     }
 })
 
+const userDetails = asyncHandler( async (req, res) => {
+    const userId = req.user._id;
+    // if userId is available
+    if(!userId) return res.status(400).json(new apiError(400, 'User id is not available!'))
 
-export {registerUser, loginUser, logoutUser, regenerateAccessToken}
+    const foundUser = await User.findById(userId);
+    if(!foundUser) return res.status(401).json(new apiResponse(401, 'User not found!'))
+
+    return res.status(200).json(new apiResponse(200, "User detials fetched successfully!", foundUser))
+})
+
+
+export {registerUser, loginUser, logoutUser, regenerateAccessToken, userDetails}

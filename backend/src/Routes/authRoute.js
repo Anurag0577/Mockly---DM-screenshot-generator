@@ -1,5 +1,5 @@
 import express from 'express'
-import { registerUser, loginUser, logoutUser } from '../Controllers/auth.controller.js';
+import { registerUser, loginUser, logoutUser, userDetails } from '../Controllers/auth.controller.js';
 import {authenticationMiddleware} from '../Middlewares/authenticationMiddleware.js';
 import { regenerateAccessToken } from '../Controllers/auth.controller.js';
 
@@ -9,6 +9,7 @@ router.post('/register', registerUser);
 router.post('/newAccessToken', regenerateAccessToken);
 router.post('/login', loginUser);
 router.get('/logout', logoutUser);
+router.get('/userInfo', authenticationMiddleware ,userDetails)
 // -------------------------------- NOTE ------------------------------
 // in future you have to write logout , refresh token, forgot password, reset password routes.
 
