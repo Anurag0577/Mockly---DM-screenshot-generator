@@ -16,6 +16,7 @@ import api from "@/api/axios";
 import { useEffect, useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
 
+
 export function Homepage() {
   const sender = usePreviewData((state) => state.sender);
   const receiver = usePreviewData((state) => state.receiver); 

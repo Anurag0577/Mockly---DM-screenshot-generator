@@ -5,6 +5,7 @@ import { Homepage } from '@/pages/Homepage.jsx'
 import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import BuyCredits from "./components/BuyCredits"
 
 // Create a client
 const queryClient = new QueryClient({
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "*",
     element: <NotFound />,
+  },
+  {
+    path: "/buy-credits",
+    element: <BuyCredits />
   }
 ]);
 

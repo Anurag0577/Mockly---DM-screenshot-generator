@@ -12,17 +12,19 @@ import SignUpDialogueBox from "./SignupDialogueBox";
 import LoginDialogueBox from "./LoginDialogueBox";
 import useAuthStore from "@/stores/authStore";
 import api from "@/api/axios";
+import { useNavigate } from "react-router";
 
 export default function Header() {
+  const navigate = useNavigate();
   const id = useId();
   const { isAuthenticated, initializeAuth } = useAuthStore();
 
-  // Run once on mount to check token / auth state
+
   useEffect(() => {
     initializeAuth();
   }, [initializeAuth]);
 
-  // Only fetch user info if the user is authenticated
+
   const {
     data: userInfo,
     isLoading,
@@ -37,9 +39,9 @@ export default function Header() {
       console.log("User info response:", response.data);
       return response.data.data;
     },
-    enabled: isAuthenticated, // This is the key line!
+    enabled: isAuthenticated, 
     retry: 1,
-    staleTime: 1000 * 60 * 5, // 5 minutes - data stays fresh
+    staleTime: 1000 * 60 * 5, 
   });
 
   if(isLoading){
@@ -67,7 +69,8 @@ export default function Header() {
         {(!isAuthenticated)?(
             <div className="flex flex-1 items-center justify-end gap-2">
                 <CreditButton userInfo={userInfo}/>
-            {/* <Button asChild variant="ghost" size="sm" className="text-sm                <CreditButton user={userInfo} />Login</a>
+            {/* <Button asChild variant="ghost" size="sm" className="text-sm                
+                <CreditButton userInfo={userInfo} />Login</a>
             </Button> */}
             <LoginDialogueBox/>
             <SignUpDialogueBox/>
@@ -83,7 +86,7 @@ export default function Header() {
             <div className="flex flex-1 items-center justify-end gap-2">
                 <CreditButton userInfo={userInfo} />
                 <Button asChild size="sm" className="text-sm">
-                    <a href="#">
+                    <a href="#" onClick={() => navigate('/buy-credits')}>
                         <SparklesIcon className="-me-1 opacity-60" size={16} aria-hidden="true" />
                         Buy Credits
                     </a>
