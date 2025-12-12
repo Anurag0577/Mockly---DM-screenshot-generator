@@ -7,4 +7,22 @@ I will send user data/Id from frontend , that can be accessed here. Here is the 
 5. If not stop the api and give message to frontend.
 6. If credits is more than 0 than next.
 */
+import {User} from '../Models/User.model.js';
+export default async function creditMiddleware(req, res, next){
+    const userId = req.user._id; 
+
+    // fetching user details from the db
+    const userDetails = await User.findById(userId);
+    // check if user exists
+    if(!userDetails){
+        return res.status(404).json({message: 'User not found'});
+    }
+
+    // checking if user have enough credits 
+    if(userDetails.credit > 0){
+        next(); // user have enough credit, proceed to next middleware or route handler
+    }else{
+        return res.status(403).json({message: 'Insufficient credits. Please purchase more credits to continue.'});
+    }
+}
 

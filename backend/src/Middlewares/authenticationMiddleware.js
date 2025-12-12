@@ -13,7 +13,8 @@ const authenticationMiddleware = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET); // use to decode the token
-        console.log(decoded)
+        console.log("API RECHED AUTHENTICATION MIDDLEWARE")
+        console.log('This is decoded user',decoded)
         req.user = decoded; // Attach the decoded user information to the request object
         next(); // Proceed to the next middleware or route handler
     } catch (error) {

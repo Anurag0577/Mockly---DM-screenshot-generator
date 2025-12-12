@@ -6,7 +6,7 @@ export default function BuyCredits(){
     return <>
         <Header/>
         <div className="subscription-card-container h-full w-full flex flex-col justify-center items-center">
-            <h1 className="text-5xl text-bolder mb-5 mt-15 tracking-tight dark:text-white">Pricing</h1>
+            <h1 className="text-3xl text-bolder mb-5 mt-7 tracking-tight dark:text-white">Pricing</h1>
             <p className=" w-[70%] text-center dark:text-white">Ready to trick your friends? Every credit unlocks a new opportunity for viral chaos. Grab your pack and start crafting the perfect prank!</p>
             <div className="card-container flex justify-center items-center mt-20 gap-x-10 w-full p-5">
                 <div className="cardOne flex flex-col justify-start items-center h-fit w-[30%] bg-white border rounded-[20px] p-4 dark:bg-transparent dark:border-white">
