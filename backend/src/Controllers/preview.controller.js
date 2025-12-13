@@ -7,6 +7,7 @@ import ReactDOMServer from 'react-dom/server';
 import Whatsapp from '../Platforms-ui/whatsapp-ui.jsx';
 import puppeteer from 'puppeteer';
 import Instagram from "../Platforms-ui/Instagram-ui.jsx";
+import { User } from "../Models/User.model.js";
 
 // ESM path resolution
 const __filename = fileURLToPath(import.meta.url);
@@ -155,8 +156,12 @@ const previewData = asyncHandler( async(req, res) => {
             type: 'png' 
         });
 
-        res.set('Content-Type', 'image/png');
+        // Decrease credit by one on every image generation.
         
+        const userId = req.user._id; // 1. get user id from the req.user
+        const updatedUser = await User.findByIdAndUpdate(userId, { $inc: { credit: -1 } }, { new: true }); // 2. decrease credit by 1 
+
+        res.set('Content-Type', 'image/png');
         res.send(imageBuffer);
 
     } catch (error) {
