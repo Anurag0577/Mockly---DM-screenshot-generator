@@ -19,6 +19,12 @@ export default async function creditMiddleware(req, res, next){
     }
 
     // checking if user have enough credits 
+    // Admins bypass credit checks
+    if (typeof userDetails.role === 'string' && userDetails.role.toLowerCase() === 'admin') {
+        console.log('creditMiddleware: admin detected, skipping credit check');
+        return next();
+    }
+
     if(userDetails.credit > 0){
         next(); // user have enough credit, proceed to next middleware or route handler
     }else{
