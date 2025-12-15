@@ -3,6 +3,7 @@ import { useState } from "react"
 import { ChevronDownIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { IoSettingsSharp } from "react-icons/io5";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -23,7 +24,8 @@ export default function ToolDropDownBtn() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
-          Settings
+          {/* Settings */}
+          <IoSettingsSharp  size={20} />
           <ChevronDownIcon className="-me-1 opacity-60" size={16} aria-hidden="true" />
         </Button>
       </DropdownMenuTrigger>

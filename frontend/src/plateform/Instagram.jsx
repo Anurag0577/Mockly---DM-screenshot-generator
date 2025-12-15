@@ -20,8 +20,8 @@ export default function Instagram({ sender, receiver, receiverAvatar, messages }
                     <div className="flex-1 ml-7 flex content-center gap-3">
                         <img className="h-8 w-8 rounded-full" src={receiverAvatar} />
                         <div className="flex flex-col justify-center">
-                            <div className="bold text-[14px] leading-tight">{receiver}</div>
-                            <div className="lighter text-[10px] -mt-2">Eren0eth</div>
+                            <div className="bold text-sm leading-tight">{receiver}</div>
+                            <div className="lighter text-xs  -mt-2">Eren0eth</div>
                         </div>
                     </div>
 
@@ -70,7 +70,7 @@ export default function Instagram({ sender, receiver, receiverAvatar, messages }
                                                     backgroundImage: 'linear-gradient(to bottom, #b117db, #614afa)'
                                                 }}
                                             >
-                                                <p className="whitespace-pre-wrap text-[12px] text-white">
+                                                <p className="whitespace-pre-wrap text-xs text-white">
                                                     {msg.message}
                                                 </p>
                                             </div>
@@ -94,7 +94,7 @@ export default function Instagram({ sender, receiver, receiverAvatar, messages }
                                                     ${roundTop ? "rounded-tl-[10px]" : "rounded-tl-none"}
                                                     ${roundBottom ? "rounded-bl-[10px]" : "rounded-bl-none"}`}
                                             >
-                                                <p className="whitespace-pre-wrap text-[12px] dark:text-white">
+                                                <p className="whitespace-pre-wrap text-xs dark:text-white">
                                                     {msg.message}
                                                 </p>
                                             </div>
@@ -112,7 +112,7 @@ export default function Instagram({ sender, receiver, receiverAvatar, messages }
                                     <FaCamera color="#fff" size={14} />
                                 </div>
 
-                                <div className="text-[14px]">Messages...</div>
+                                <div className="text-sm">Messages...</div>
 
                                 <div className="flex-1 flex justify-end items-center gap-4">
                                     <FiMic size={16} />

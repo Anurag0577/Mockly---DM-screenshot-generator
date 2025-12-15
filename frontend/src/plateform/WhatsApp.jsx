@@ -16,7 +16,7 @@ export default function WhatsApp({sender, receiver, receiverAvatar, messages}) {
               <div className="flex justify-between items-center bg-white dark:bg-black border-b border-gray-300 py-1 gap-x-2 px-2 dark:text-white dark:border-gray-700">
                 <IoArrowBackSharp size={17} />
                 <div className="flex-1 flex my-1 items-center">
-                  <div className="w-7 aspect-square rounded-full mr-2 text-center text-[12px]">
+                  <div className="w-7 aspect-square rounded-full mr-2 text-center text-xs">
                     {receiverAvatar ? (
                       <img
                         src={receiverAvatar}
@@ -72,10 +72,10 @@ export default function WhatsApp({sender, receiver, receiverAvatar, messages}) {
                               borderRadius: '4px',
                             }}
                           />
-                          <p className="whitespace-pre-wrap text-[12px] dark:text-white after:content-[''] after:inline-block after:w-[50px] after:h-0">
+                          <p className="whitespace-pre-wrap text-xs dark:text-white after:content-[''] after:inline-block after:w-[50px] after:h-0">
                             {msg.message}
                           </p>
-                          <span className="text-xs text-gray-600 dark:text-gray-300 block text-right -mt-2.5 text-[10px]">
+                          <span className="text-xs text-gray-600 dark:text-gray-300 block text-right -mt-2.5 text-[12px]">
                             {msg.time}
                           </span>
                         </div>
@@ -93,10 +93,10 @@ export default function WhatsApp({sender, receiver, receiverAvatar, messages}) {
                               borderRadius: '4px',
                             }}
                           />
-                          <p className="whitespace-pre-wrap text-[12px] dark:text-white after:content-[''] after:inline-block after:w-[50px] after:h-0">
+                          <p className="whitespace-pre-wrap text-xs dark:text-white after:content-[''] after:inline-block after:w-[50px] after:h-0">
                             {msg.message}
                           </p>
-                          <span className="text-xs text-gray-600 dark:text-gray-300 block text-right -mt-2.5 text-[10px]">
+                          <span className="text-xs text-gray-600 dark:text-gray-300 block text-right -mt-2.5 text-[12px]">
                             {msg.time}
                           </span>
                         </div>
@@ -109,11 +109,15 @@ export default function WhatsApp({sender, receiver, receiverAvatar, messages}) {
                 <div className="w-full flex gap-x-1 mt-1.5 h-fit bg-transparent">
                   <div className="flex items-center gap-2 px-3 py-1 mb-1.5 rounded-3xl bg-white dark:bg-[#20272b] w-full">
                     <PiSticker className="shrink-0 text-gray-400 dark:text-gray-400" size={18} />
-                    <input
+                    {/* <input
                       type="text"
                       placeholder="Message"
-                      className="flex-1 px-1 py-1 text-[12px] bg-transparent outline-none min-w-0 placeholder-gray-500 dark:text-white "
-                    />
+                      className="flex-1 px-1 py-1 text-xs bg-transparent outline-none min-w-0 placeholder-gray-500 dark:text-white "
+                    /> */}
+
+                    <div className="flex-1">
+                      <p className="text-gray-600 text-sm">Messages</p>
+                    </div>
                     <div className="flex items-center gap-6 shrink-0">
                       <MdAttachFile size={16} className="dark:text-gray-400" />
                       <RiMoneyRupeeCircleLine size={17} className="dark:text-gray-400" />
