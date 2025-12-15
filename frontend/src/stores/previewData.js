@@ -1,9 +1,17 @@
 import { create } from "zustand"
 
+// Helper function to get the initial dark mode state from localStorage
+const getInitialIsDarkMode = () => {
+    const theme = localStorage.getItem('theme');
+    if (!theme) return false;
+    return theme === 'dark';
+};
+
 const usePreviewData = create((set) => ({
     sender: 'Sam',
     receiver: 'John',
-    isDarkMode: false,
+    // Initialized as a boolean state based on localStorage
+    isDarkMode: getInitialIsDarkMode(), 
     senderAvatar: null,
     receiverAvatar: null,
     messageArray : [],
@@ -33,6 +41,7 @@ const usePreviewData = create((set) => ({
         console.log("Updating platform to: ", platform)
         set({platform: platform})
     },
+    // This action now correctly updates the boolean state
     updateIsDarkMode: (isDarkMode) => {
         set({isDarkMode: isDarkMode})
     }
