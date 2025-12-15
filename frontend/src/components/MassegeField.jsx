@@ -99,9 +99,9 @@ $ Natak mat kar. Text message hai ye, awaz nahi kat rahi. 'Khopdi tod saale ka'.
         Type Your Messages Here...
       </Label>
       <Textarea
-        id={id}
+        id={id} 
         placeholder={`< Your message here @(time)\n> Receiver's message`}
-        className="flex-1 resize-none overflow-auto p-2"
+        className="flex-1 md:resize-none overflow-auto p-2"
         value={inputText}
         onChange={e => setInputText(e.target.value)}
       />

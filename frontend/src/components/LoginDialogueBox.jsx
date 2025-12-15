@@ -49,7 +49,7 @@ export default function LoginDialogueBox() {
   return (
     <Dialog open={open} onOpenChange={setOpen} >
       <DialogTrigger asChild>
-        <Button variant="outline">Log in</Button>
+        <Button variant="outline" className="flex-1 md:flex-none">Log in</Button>
       </DialogTrigger>
       <DialogContent>
         <div className="flex flex-col items-center gap-2">

@@ -14,7 +14,7 @@ export default function HowToUsePopup() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="default" >Full Guide</Button>
+        <Button variant="default" className="w-full my-2 md:my-0" >Full Guide</Button>
       </DialogTrigger>
       <DialogContent
         className="flex flex-col gap-0 p-0 sm:max-h-[min(640px,80vh)] sm:max-w-lg [&>button:last-child]:top-3.5">
