@@ -15,6 +15,7 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
+import { useNavigate } from "react-router"
 
 import {
   DropdownMenu,
@@ -29,6 +30,7 @@ import useAuthStore from "@/stores/authStore"
 
 export default function ProfileDropdown() {
  const {user, isAuthenticated} = useAuthStore();
+ const navigate = useNavigate();
   const handleLogout = () => {
     const {logout} = useAuthStore.getState();
     logout();
@@ -55,7 +57,7 @@ export default function ProfileDropdown() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={(e) => { e.preventDefault(); navigate('/buy-credits'); }}>
             <BadgeDollarSign size={16} className="opacity-60" aria-hidden="true" />
             <span>Buy more credits</span>
           </DropdownMenuItem>
