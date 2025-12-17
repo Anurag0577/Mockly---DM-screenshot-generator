@@ -79,12 +79,14 @@ export default function BuyCredits(){
                         const data = verificationResponse.data;
 
                         if (data.status === 'ok') {
-                            window.location.href = '/';
-
                             // calling api that increases credits based on the plan purchased
-                            const addCreditsToAccount = await api.post('/user/add-credits', {
+                            const addCreditsToAccount = await api.post('/add-credit', {
                                 plan: purchasedPlan
                             });
+
+                            if(addCreditsToAccount.data.status === '200'){
+                                window.location.href = '/';
+                            }
 
                         } else {
                             alert('Payment verification failed. Please contact support.');
@@ -135,7 +137,7 @@ export default function BuyCredits(){
                         {/* 🚨 CRITICAL FIX: Wrap in arrow function */}
                         <div 
                             className="bg-black text-white w-full text-center py-3 rounded-[50px] cursor-pointer" 
-                            onClick={() => displayRazorpay(STANDARD_PLAN_PRICE_RUPEES)} 
+                            onClick={() => displayRazorpay(STANDARD_PLAN_PRICE_RUPEES , 'standard')} 
                         >
                             Buy 10 Credits
                         </div>
@@ -154,7 +156,7 @@ export default function BuyCredits(){
                         {/* 🚨 CRITICAL FIX: Wrap in arrow function */}
                         <div 
                             className="bg-black text-white w-full text-center py-3 rounded-[50px] cursor-pointer" 
-                            onClick={() => displayRazorpay(GOLD_PLAN_PRICE_RUPEES)} 
+                            onClick={() => displayRazorpay(GOLD_PLAN_PRICE_RUPEES , 'gold')} 
                         >
                             Buy 50 Credits
                         </div>

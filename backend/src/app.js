@@ -6,6 +6,7 @@ import authRoute from './Routes/authRoute.js'
 import {errorHandler} from './Middlewares/errorHandler.js'
 import previewRouter from './Routes/previewRoute.js';
 import paymentRouter from './Routes/paymentRoute.js'
+import creditRouter from './Routes/creditRoute.js';
 
 // creating an instance of express
 const app = express();
@@ -41,6 +42,7 @@ app.get('/', (req, res) => {
 app.use('/api/payment', paymentRouter)
 app.use('/api/auth', authRoute)
 app.use('/api/preview', previewRouter)
+app.use('/api', creditRouter)
 
 app.use(errorHandler);
 
