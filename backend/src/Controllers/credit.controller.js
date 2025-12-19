@@ -20,6 +20,7 @@ const addCreditsToAccount = async(req, res) => {
 
         return res.status(200).json({ 
             updatedCredit, 
+            status: 'ok',
             message: `Added ${CREDIT_PLAN[plan]} more credits!` 
         });
     } catch (err) {

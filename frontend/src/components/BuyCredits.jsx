@@ -2,9 +2,10 @@ import api from "@/api/axios";
 import Header from "./Header";
 import { Button } from "./ui/button"; // Assuming Button is not used, but kept for completeness
 import { useNavigate } from "react-router";
-
+import { useQueryClient } from "@tanstack/react-query";
 export default function BuyCredits(){
 
+    const queryClient = useQueryClient();
     const navigate = useNavigate();
     // Define prices in Rupees (for display and logic simplicity)
     const STANDARD_PLAN_PRICE_RUPEES = 50;
@@ -85,10 +86,23 @@ export default function BuyCredits(){
                             const addCreditsToAccount = await api.post('/add-credit', {
                                 plan: purchasedPlan
                             });
+                            // queryClient.invalidateQueries({queryKey: ['userInfo']})
 
-                            if(addCreditsToAccount.data.status === '200'){
-                                // window.location.href = '/';
-                                navigate('/'); // Redirect to home or any other page
+                            if(addCreditsToAccount.data.status === 'ok'){
+                                try {
+                                    // Invalidate and wait for refetch
+                                    await queryClient.invalidateQueries({queryKey: ['userInfo']});
+                                    // Optional: Show success message
+                                    alert('Credits added successfully!');
+                                    navigate('/'); 
+                                } catch (error) {
+                                    console.error('Error refreshing user data:', error);
+                                    // Still navigate but warn user
+                                    alert('Credits added but please refresh the page to see updated balance');
+                                    navigate('/');
+                                }
+                            } else {
+                                alert('Failed to add credits. Please contact support.');
                             }
 
                         } else {

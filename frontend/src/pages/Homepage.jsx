@@ -15,7 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 import api from "@/api/axios";
 import { useEffect, useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
-
+import { useQueryClient } from "@tanstack/react-query";
 
 export function Homepage() {
   const sender = usePreviewData((state) => state.sender);
@@ -27,6 +27,7 @@ export function Homepage() {
   const senderAvatar = usePreviewData((state) => state.senderAvatar);
   const platform = usePreviewData((state) => state.platform)
   const isDarkMode = usePreviewData((state) => state.isDarkMode);
+  const queryClient = useQueryClient();
 
   // state for download button
   const [isImageGenerating, setIsImageGenerating] = useState(false);
@@ -89,6 +90,7 @@ export function Homepage() {
         window.URL.revokeObjectURL(url);
         setIsImageGenerating(false)
         console.log('Image generated successfully!');
+        queryClient.invalidateQueries({queryKey: ['userInfo']})
       },
       onError: (error) => {
 
