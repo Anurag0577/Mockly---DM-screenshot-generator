@@ -2,35 +2,23 @@ import Header from "@/components/Header";
 import HowToUsePopup from "@/components/HowToUsePopup";
 import MassegeField from "@/components/MassegeField";
 import ParticipantAvatar from "@/components/ParticipantAvatar";
-import { Button } from "@/components/ui/button";
-import DropdownButton from "@/components/DropdownButton";
-import { ArrowDownToLine } from "lucide-react";
-// import WhatsApp from "@/plateform/WhatsApp";
 import RenderPlatformUI from "@/components/RenderPlatformUI";
 import usePreviewData from "@/stores/usePreviewStore";
 import { Input } from "@/components/ui/input";
 import PlatformDropdownBtn from "@/components/PlatformDropdownBtn";
 import ToolDropDownBtn from "@/components/ToolDropDownBtn";
-import { useMutation } from "@tanstack/react-query";
-import api from "@/api/axios";
-import { useEffect, useState } from "react";
-import { RotatingLines } from "react-loader-spinner";
-import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
+import Download from "@/components/Download.jsx";
+
 
 export function Homepage() {
   const sender = usePreviewData((state) => state.sender);
   const receiver = usePreviewData((state) => state.receiver); 
   const updateSender = usePreviewData((state) => state.updateSender);
   const updateReceiver = usePreviewData((state) => state.updateReceiver);
-  const messages = usePreviewData((state) => state.messageArray);
-  const receiverAvatar = usePreviewData((state) => state.receiverAvatar);
-  const senderAvatar = usePreviewData((state) => state.senderAvatar);
-  const platform = usePreviewData((state) => state.platform)
   const isDarkMode = usePreviewData((state) => state.isDarkMode);
-  const queryClient = useQueryClient();
 
-  // state for download button
-  const [isImageGenerating, setIsImageGenerating] = useState(false);
+
 
     useEffect(() => {
       const root = document.documentElement;
@@ -43,62 +31,9 @@ export function Homepage() {
       }
     }, [isDarkMode]);
 
-  const sendData = async(data) => {
-    const response = await api.post(
-      '/preview/messages', 
-      data, {
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        responseType: 'blob', // Important: receive binary data
-        withCredentials: true
-      }
-    )
-    return response;
-  }
+  
 
-  // Handle download - background images are now handled on the backend
-  const handleDownload = () => {
-    setIsImageGenerating(true)
-    mutation.mutate({
-      sender, 
-      receiver, 
-      messages, 
-      receiverAvatar, 
-      senderAvatar, 
-      platform,
-      isDarkMode
-    });
-  };
-
-    const mutation = useMutation({
-      mutationFn : sendData,
-      onSuccess: (response) => {
-        // Create a blob URL from the response
-        const blob = new Blob([response.data], { type: 'image/png' });
-        const url = window.URL.createObjectURL(blob);
-        
-        // Create a temporary link and trigger download
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `whatsapp-screenshot-${Date.now()}.png`;
-        document.body.appendChild(link);
-        link.click();
-        
-        // Clean up
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-        setIsImageGenerating(false)
-        console.log('Image generated successfully!');
-        queryClient.invalidateQueries({queryKey: ['userInfo']})
-      },
-      onError: (error) => {
-
-        setIsImageGenerating(false)
-        console.error('Something went wrong!', error);
-      }
-    });
-
+  
     
   return (
     <div className="md:h-screen flex flex-col overflow-hidden">
@@ -178,53 +113,7 @@ export function Homepage() {
           <div className="flex gap-2">
             <ToolDropDownBtn />
             <PlatformDropdownBtn/>
-            {(isImageGenerating) ? 
-              (<Button 
-                variant="default" 
-                className="flex-1 gap-2" 
-                onClick={handleDownload}
-              >
-                {/* <ArrowDownToLine className="w-4 h-4" /> */}
-
-                {(isDarkMode) ? (
-                  <RotatingLines
-                    visible={true}
-                    height="110"
-                    width="110"
-                    color="black"
-                    strokeWidth="5"
-                    animationDuration="0.75"
-                    ariaLabel="rotating-lines-loading"
-                    wrapperStyle={{}}
-                    wrapperClass=""
-                  />
-                ) :  (
-                  <RotatingLines
-                  visible={true}
-                  height="110"
-                  width="110"
-                  color="white"
-                  strokeWidth="5"
-                  animationDuration="0.75"
-                  ariaLabel="rotating-lines-loading"
-                  wrapperStyle={{}}
-                  wrapperClass=""
-                  />
-                )}
-
-                
-                <span>Please Wait...</span>
-              </Button>)
-              :
-              (<Button 
-                variant="default" 
-                className="flex-1 gap-2" 
-                onClick={handleDownload}
-              >
-                <ArrowDownToLine className="w-4 h-4" />
-                <span>Download</span>
-              </Button>)
-            }
+            <Download/>
           </div>
         </div>
       </div>
