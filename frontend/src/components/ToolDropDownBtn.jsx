@@ -10,7 +10,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import usePreviewData from "@/stores/previewData"
+import usePreviewData from "@/stores/usePreviewStore"
 
 export default function ToolDropDownBtn() {
   const [nextjs, setNextjs] = useState(false)

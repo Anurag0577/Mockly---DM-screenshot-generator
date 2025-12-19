@@ -1,12 +1,14 @@
 import api from "@/api/axios";
 import Header from "./Header";
 import { Button } from "./ui/button"; // Assuming Button is not used, but kept for completeness
+import { useNavigate } from "react-router";
 
 export default function BuyCredits(){
 
+    const navigate = useNavigate();
     // Define prices in Rupees (for display and logic simplicity)
-    const STANDARD_PLAN_PRICE_RUPEES = 1;
-    const GOLD_PLAN_PRICE_RUPEES = 400;
+    const STANDARD_PLAN_PRICE_RUPEES = 50;
+    const GOLD_PLAN_PRICE_RUPEES = 200;
 
     /**
      * Utility function to dynamically load the Razorpay script.
@@ -85,7 +87,8 @@ export default function BuyCredits(){
                             });
 
                             if(addCreditsToAccount.data.status === '200'){
-                                window.location.href = '/';
+                                // window.location.href = '/';
+                                navigate('/'); // Redirect to home or any other page
                             }
 
                         } else {
@@ -149,7 +152,7 @@ export default function BuyCredits(){
                         <h1 className="text-2xl font-bold">Gold</h1>
                         <p className="text-sm mb-6 text-center ">Ideal for social media content, pranking friends & daily use.</p>
                         <div className="flex justify-center items-center gap-6">
-                            <div className="price text-4xl text-bolder font-semibold line-through text-[#496b01] ">₹500</div>
+                            <div className="price text-4xl text-bolder font-semibold line-through text-[#496b01] ">₹250</div>
                             <div className="discounted-price text-4xl font-semibold ">₹{GOLD_PLAN_PRICE_RUPEES}</div>
                         </div>
                         <span className="my-5">50 Credits (only ₹8 per generation)</span>

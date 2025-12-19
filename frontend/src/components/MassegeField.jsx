@@ -1,7 +1,7 @@
 import { useId, useState, useEffect } from "react"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import usePreviewData from "@/stores/previewData"
+import usePreviewData from "@/stores/usePreviewStore"
 
 export default function MessageField() {
   const id = useId()

@@ -1,7 +1,7 @@
 import { useEffect } from "react"; // Removed useState
 import { MoonIcon, SunIcon } from "lucide-react";
 import { Toggle } from "@/components/ui/toggle";
-import usePreviewData from "@/stores/previewData";
+import usePreviewData from "@/stores/usePreviewStore";
 
 export default function ThemeSwitch() {
   // 1. Listen to the store

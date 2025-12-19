@@ -8,7 +8,7 @@ import {
   ZoomOutIcon,
 } from "lucide-react"
 
-import usePreviewData from "@/stores/previewData";
+import usePreviewData from "@/stores/usePreviewStore";
 import { useFileUpload } from "@/hooks/use-file-upload"
 import { Button } from "@/components/ui/button"
 import {

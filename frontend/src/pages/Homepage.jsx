@@ -7,7 +7,7 @@ import DropdownButton from "@/components/DropdownButton";
 import { ArrowDownToLine } from "lucide-react";
 // import WhatsApp from "@/plateform/WhatsApp";
 import RenderPlatformUI from "@/components/RenderPlatformUI";
-import usePreviewData from "@/stores/previewData";
+import usePreviewData from "@/stores/usePreviewStore";
 import { Input } from "@/components/ui/input";
 import PlatformDropdownBtn from "@/components/PlatformDropdownBtn";
 import ToolDropDownBtn from "@/components/ToolDropDownBtn";

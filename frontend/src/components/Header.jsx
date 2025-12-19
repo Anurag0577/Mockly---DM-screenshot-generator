@@ -10,7 +10,7 @@ import CreditButton from "./CreditButton";
 import ProfileDropdown from "./ProfileDropdown";
 import SignUpDialogueBox from "./SignupDialogueBox";
 import LoginDialogueBox from "./LoginDialogueBox";
-import useAuthStore from "@/stores/authStore";
+import useAuthStore from "@/stores/useAuthStore";
 import api from "@/api/axios";
 import { useNavigate } from "react-router";
 

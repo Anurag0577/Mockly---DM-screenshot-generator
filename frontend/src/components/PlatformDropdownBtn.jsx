@@ -5,7 +5,7 @@ import telegramLogo from "@/assets/Telegram.webp"
 import xLogo from "@/assets/X.jpg"
 import snapLogo from "@/assets/SnapLogo.png"
 import { Label } from "@/components/ui/label"
-import usePreviewData from "@/stores/previewData"
+import usePreviewData from "@/stores/usePreviewStore"
 import {
   Select,
   SelectContent,

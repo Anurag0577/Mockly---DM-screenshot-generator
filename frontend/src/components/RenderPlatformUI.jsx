@@ -1,6 +1,6 @@
 import Instagram from "@/plateform/Instagram";
 import WhatsApp from "@/plateform/WhatsApp";
-import usePreviewData from "@/stores/previewData";
+import usePreviewData from "@/stores/usePreviewStore";
 
 export default function RenderPlatformUI() {
   const sender = usePreviewData((s) => s.sender);

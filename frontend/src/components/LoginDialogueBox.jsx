@@ -16,7 +16,7 @@ import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 import api from "@/api/axios.js"
 import { useNavigate } from "react-router"
-import useAuthStore from "@/stores/authStore"
+import useAuthStore from "@/stores/useAuthStore"
 
 export default function LoginDialogueBox() {
   const id = useId()

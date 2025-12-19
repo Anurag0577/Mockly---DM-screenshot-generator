@@ -26,7 +26,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import useAuthStore from "@/stores/authStore"
+import useAuthStore from "@/stores/useAuthStore"
 
 export default function ProfileDropdown() {
  const {user, isAuthenticated} = useAuthStore();
