@@ -14,7 +14,7 @@ export default function Instagram({ sender, receiver, receiverAvatar, messages }
 
                 {/* Header */}
                 <div className="instagram-header flex items-center h-fit p-2">
-                    <IoArrowBackOutline size={20} />
+                    <IoArrowBackOutline size={30} />
 
                     {/* Receiver Info */}
                     <div className="flex-1 ml-7 flex content-center gap-3">
@@ -27,9 +27,9 @@ export default function Instagram({ sender, receiver, receiverAvatar, messages }
 
                     {/* Call Icons */}
                     <div className="flex gap-4 items-center">
-                        <LuPhone size={18} />
-                        <LuVideo size={20} />
-                        <RiFlag2Line size={20} />
+                        <LuPhone size={26} />
+                        <LuVideo size={30} />
+                        <RiFlag2Line size={30} />
                     </div>
                 </div>
 
@@ -109,16 +109,16 @@ export default function Instagram({ sender, receiver, receiverAvatar, messages }
                             <div className="flex items-center justify-between w-full gap-4 p-2 bg-gray-100 dark:bg-[#262726] rounded-full">
 
                                 <div className="p-2 rounded-full bg-pink-600">
-                                    <FaCamera color="#fff" size={14} />
+                                    <FaCamera color="#fff" size={22} />
                                 </div>
 
                                 <div className="text-sm">Messages...</div>
 
                                 <div className="flex-1 flex justify-end items-center gap-4">
-                                    <FiMic size={16} />
-                                    <HiOutlinePhoto size={18} />
-                                    <PiStickerBold size={18} />
-                                    <IoMdAddCircleOutline size={18} />
+                                    <FiMic size={24} />
+                                    <HiOutlinePhoto size={26} />
+                                    <PiStickerBold size={26} />
+                                    <IoMdAddCircleOutline size={26} />
                                 </div>
 
                             </div>

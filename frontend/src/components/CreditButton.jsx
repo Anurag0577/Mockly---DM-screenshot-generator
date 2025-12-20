@@ -17,7 +17,6 @@ export default function CreditButton() {
       const response = await api.get("/auth/userInfo", {
         withCredentials: true,
       });
-      console.log("User info response:", response.data);
       return response.data.data;
     },
     enabled: isAuthenticated, 

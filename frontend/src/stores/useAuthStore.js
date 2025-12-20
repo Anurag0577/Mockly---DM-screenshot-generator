@@ -22,13 +22,6 @@ const useAuthStore = create((set) => ({
             set({user: null, isAuthenticated: false})
         }
     },
-    // credit: async() => {
-    //     const response = await api.get("/auth/userInfo", {
-    //         withCredentials: true,
-    //     });
-    //     console.log("User info response:", response.data);
-    //     return response.data.data;
-    // },
     
     setOpenLoginDialog : (isOpen) => set({openLoginDialog: isOpen}),
     setOpenSignupDialog : (isOpen) => set({openSignupDialog: isOpen}),

@@ -22,32 +22,6 @@ export default function Header() {
   }, [initializeAuth]);
 
 
-  // const {
-  //   data: userInfo,
-  //   isError,
-  //   isSuccess,
-  // } = useQuery({
-  //   queryKey: ["userInfo"],
-  //   queryFn: async () => {
-  //     const response = await api.get("/auth/userInfo", {
-  //       withCredentials: true,
-  //     });
-  //     console.log("User info response:", response.data);
-  //     return response.data.data;
-  //   },
-  //   enabled: isAuthenticated, 
-  //   retry: 1,
-  //   staleTime: 1000 * 60 * 5, 
-  // });
-
-  // if(isError){
-  //   console.error("Error fetching user info");
-  // }   
-
-  // if(isSuccess){
-  //   console.log("Fetched user info:", userInfo);
-  // }
-
   return (
     <header className=" px-4 border-b">
       <div className="flex flex-col items-center justify-start md:flex-row md:h-16 md:justify-between md:gap-4  rounded-lg md:p-4 ">

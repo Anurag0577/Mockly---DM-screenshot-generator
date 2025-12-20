@@ -9,16 +9,13 @@ import PlatformDropdownBtn from "@/components/PlatformDropdownBtn";
 import ToolDropDownBtn from "@/components/ToolDropDownBtn";
 import { useEffect } from "react";
 import Download from "@/components/Download.jsx";
+import { SenderParticipant } from "@/components/SenderParticipant";
+import { ReceiverParticipant } from "@/components/ReceiverParticipant";
 
 
 export function Homepage() {
-  const sender = usePreviewData((state) => state.sender);
-  const receiver = usePreviewData((state) => state.receiver); 
-  const updateSender = usePreviewData((state) => state.updateSender);
-  const updateReceiver = usePreviewData((state) => state.updateReceiver);
+
   const isDarkMode = usePreviewData((state) => state.isDarkMode);
-
-
 
     useEffect(() => {
       const root = document.documentElement;
@@ -31,10 +28,6 @@ export function Homepage() {
       }
     }, [isDarkMode]);
 
-  
-
-  
-    
   return (
     <div className="md:h-screen flex flex-col overflow-hidden">
 
@@ -49,27 +42,10 @@ export function Homepage() {
             {/* LEFT SECTION - Participants (w-full to md:w-[250px]) */}
             <div className="w-full md:w-[250px] md:flex flex-row md:flex-col lg:flex-col gap-3 p-3 border-b md:border-b-0 md:border-r overflow-x-auto lg:overflow-x-visible lg:overflow-y-auto">
               <h1 className="text-center">Participants</h1>
-              {/* PARTICIPANT 1 */}
 
               <div className="flex flex-1 gap-2 md:min-w-[140px] md:flex-col ">
-                <div className="flex-1 flex flex-col gap-y-1 p-1 justify-center items-center border rounded-lg lg:min-w-0 lg:min-h-0">
-                  <p className="text-sm font-medium">Sender</p>
-                  <ParticipantAvatar type= 'sender' />
-                  <Input placeholder="Sender" type="text" value={sender} onChange={(e) => updateSender(e.target.value)} required className='text-center text-sm' />
-                  <span className=" text-[10px] p-1 leading-tight md:text-xs text-center text-gray-400 ">
-                    Enter the name or phone number that should appear as the message sender in the screenshot.
-                  </span>
-                </div>
-
-                {/* PARTICIPANT 2 */}
-                <div className="flex-1 flex flex-col gap-y-2 p-1 justify-center items-center border rounded-lg lg:min-w-0 lg:min-h-0">
-                  <p className="text-sm font-medium">Receiver</p>
-                  <ParticipantAvatar type= 'receiver' />
-                    <Input placeholder="Receiver" type="text" value={receiver} onChange={(e) => updateReceiver(e.target.value)} required  className='text-center'/>
-                  <span className="text-[10px] p-1 leading-tight md:text-xs text-center text-gray-400 ">
-                    Enter the name or phone that should appear as the recipient.
-                  </span>
-                </div>
+                <SenderParticipant/>
+                <ReceiverParticipant/>              
               </div>
 
               <HowToUsePopup />
@@ -92,7 +68,7 @@ export function Homepage() {
                   <p className="font-medium">Rules of the input text field:</p>
                   
                   <ul className="space-y-1 pl-4">
-                    <li>1. Use @ symbol to represent sender</li>
+                    <li>1. Use $ symbol to represent sender</li>
                     <li>2. Use # symbol to represent receiver</li>
                     <li>3. Add timestamp using format @(time)</li>
                   </ul>
