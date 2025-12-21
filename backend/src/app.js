@@ -22,7 +22,8 @@ app.use(cookieParser()); // Parse cookies from request headers
 app.use(cors({
     origin: [
         'http://localhost:3000',
-        'http://localhost:5173'
+        'http://localhost:5173',
+        'https://chatsnap-app.vercel.app'
     ],
     credentials: true,
     methods: ['GET', 'POST', 'DELETE', 'PUT'],
