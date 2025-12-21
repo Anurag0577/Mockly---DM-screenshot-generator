@@ -2,7 +2,7 @@ import axios from "axios";
 import useAuthStore from "@/stores/useAuthStore";
 
 const api = axios.create({ // creating an instance of axios
-  baseURL: "http://localhost:3000/api",
+  baseURL: "https://mockly-backend.onrender.com/api",
   withCredentials: true,
 });
 
@@ -32,7 +32,7 @@ api.interceptors.response.use(
       try {
         // Request new token
         const res = await axios.post(
-          "http://localhost:3000/api/auth/newAccessToken",
+          "https://mockly-backend.onrender.com/api/auth/newAccessToken",
           {},
           { withCredentials: true }
         );
