@@ -2,7 +2,7 @@ import { asyncHandler } from "../Utilities/asyncHandler.js";
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-import React from 'react'; 
+import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import Whatsapp from '../Platforms-ui/whatsapp-ui.jsx';
 import puppeteer from 'puppeteer';
@@ -30,11 +30,11 @@ function imageToBase64(imagePath) {
         const imageBase64 = imageBuffer.toString('base64');
         const ext = path.extname(imagePath).toLowerCase();
         let mimeType = 'image/jpeg';
-        
+
         if (ext === '.png') mimeType = 'image/png';
         else if (ext === '.jpg' || ext === '.jpeg') mimeType = 'image/jpeg';
         else if (ext === '.webp') mimeType = 'image/webp';
-        
+
         return `data:${mimeType};base64,${imageBase64}`;
     } catch (error) {
         console.error('Error converting image to base64:', error);
@@ -50,7 +50,7 @@ function getBackgroundImage(platform, isDarkMode) {
         instagram: 'whatsapp_bg.jpg', // Add your instagram bg when available
         telegram: 'whatsapp_bg.jpg', // Add your telegram bg when available
     };
-    
+
     const imageFileName = backgroundMap[`${platformLower}_${isDarkMode ? 'dark' : 'light'}`] || backgroundMap.whatsapp_light;
     const imagePath = path.join(ASSETS_PATH, imageFileName);
 
@@ -63,20 +63,20 @@ function getBackgroundImage(platform, isDarkMode) {
         }
         return imageToBase64(defaultPath);
     }
-    
+
     const base64 = imageToBase64(imagePath);
     if (!base64) {
         console.error('Failed to convert background image to base64');
     }
-    
+
     return base64;
 }
 
 
-const previewData = asyncHandler( async(req, res) => {
-    const {sender, receiver, messages, receiverAvatar, senderAvatar, platform, isDarkMode} = req.body;
+const previewData = asyncHandler(async (req, res) => {
+    const { sender, receiver, messages, receiverAvatar, senderAvatar, platform, isDarkMode } = req.body;
 
-    if( !sender || !receiver || !messages){
+    if (!sender || !receiver || !messages) {
         return res.status(401).send('Either sender, receiver or messages not found!')
     }
     const bgImg = getBackgroundImage(platform, isDarkMode);
@@ -86,9 +86,9 @@ const previewData = asyncHandler( async(req, res) => {
     }
 
     let platformComponent;
-    switch(platform?.toLowerCase()) {
+    switch (platform?.toLowerCase()) {
         case 'instagram':
-            platformComponent = <Instagram sender={sender} receiver={receiver} messages={messages} receiverAvatar={receiverAvatar} senderAvatar={senderAvatar} bgImg={bgImg}/>;
+            platformComponent = <Instagram sender={sender} receiver={receiver} messages={messages} receiverAvatar={receiverAvatar} senderAvatar={senderAvatar} bgImg={bgImg} />;
             break;
         case 'whatsapp':
             platformComponent = <Whatsapp sender={sender} receiver={receiver} messages={messages} receiverAvatar={receiverAvatar} senderAvatar={senderAvatar} bgImg={bgImg} />;
@@ -123,18 +123,27 @@ const previewData = asyncHandler( async(req, res) => {
     let browser;
     try {
 
-        browser = await puppeteer.launch({ 
-            headless: 'new', 
-            args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        }); 
-        
-        const page = await browser.newPage();
-        
+        browser = await puppeteer.launch({
+            headless: true,
+            args: [
+                "--no-sandbox",
+                "--disable-setuid-sandbox",
+                "--single-process",
+                "--no-zygote",
+            ],
+            executablePath:
+                process.env.NODE_ENV === "production"
+                    ? process.env.PUPPETEER_EXECUTABLE_PATH
+                    : puppeteer.executablePath(),
+        });
 
-        await page.setViewport({ 
-            width: 375, 
-            height: 812, 
-            deviceScaleFactor: 3 
+        const page = await browser.newPage();
+
+
+        await page.setViewport({
+            width: 375,
+            height: 812,
+            deviceScaleFactor: 3
         });
 
 
@@ -147,17 +156,17 @@ const previewData = asyncHandler( async(req, res) => {
 
 
         const elementToCapture = await page.$('#whatsapp-root');
-        
+
         if (!elementToCapture) {
             throw new Error("Target element #whatsapp-root not found.");
         }
 
         const imageBuffer = await elementToCapture.screenshot({
-            type: 'png' 
+            type: 'png'
         });
 
         // Decrease credit by one on every image generation.
-        
+
         const userId = req.user._id; // 1. get user id from the req.user
         const updatedUser = await User.findByIdAndUpdate(userId, { $inc: { credit: -1 } }, { new: true }); // 2. decrease credit by 1 
 
@@ -175,5 +184,5 @@ const previewData = asyncHandler( async(req, res) => {
 
 })
 
-export {previewData};
+export { previewData };
 
