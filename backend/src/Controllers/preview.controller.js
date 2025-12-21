@@ -6,7 +6,7 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import Whatsapp from '../Platforms-ui/whatsapp-ui.jsx';
 import puppeteer from 'puppeteer';
-import Instagram from "../Platforms-ui/Instagram-ui.jsx";
+import Instagram from '../Platforms-ui/Instagram-ui.jsx';
 import { User } from "../Models/User.model.js";
 
 // ESM path resolution
@@ -88,7 +88,7 @@ const previewData = asyncHandler( async(req, res) => {
     let platformComponent;
     switch(platform?.toLowerCase()) {
         case 'instagram':
-            platformComponent = <Instagram sender={sender} receiver={receiver} messages={messages} receiverAvatar={receiverAvatar} />;
+            platformComponent = <Instagram sender={sender} receiver={receiver} messages={messages} receiverAvatar={receiverAvatar} senderAvatar={senderAvatar} bgImg={bgImg}/>;
             break;
         case 'whatsapp':
             platformComponent = <Whatsapp sender={sender} receiver={receiver} messages={messages} receiverAvatar={receiverAvatar} senderAvatar={senderAvatar} bgImg={bgImg} />;

@@ -7,7 +7,7 @@ import { HiOutlinePhoto } from "react-icons/hi2";
 import { PiStickerBold } from "react-icons/pi";
 import { IoMdAddCircleOutline } from "react-icons/io";
 
-export default function Instagram({ sender, receiver, receiverAvatar, messages }) {
+export default function InstagramExtra({ sender, receiver, receiverAvatar, messages }) {
     return (
         <>
             <div className="instagram-container flex-1 min-h-0 flex flex-col mb-2 shadow-2xl border rounded-none">

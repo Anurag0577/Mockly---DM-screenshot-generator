@@ -4,13 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
+    "dev": "npm run deploy:css && vite",
+    "build": "vite build && npm run deploy:css",
+    "deploy:css": "npm run build:css && npm run copy:css",
     "build:css": "npx @tailwindcss/cli -i ./src/index.css -o ./dist/tailwind.output.css --minify",
-    "copy:css": "npx copyfiles -u 1 ./dist/tailwind.output.css ../backend/templates",
-    "deploy:css": "npm run build:css && npm run copy:css"
+    "copy:css": "npx copyfiles -u 1 ./dist/tailwind.output.css ../backend/templates"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
