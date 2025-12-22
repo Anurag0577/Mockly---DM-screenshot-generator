@@ -27,7 +27,7 @@ export default function Header() {
     <header className=" px-4 border-b">
       <div className="flex flex-col items-center justify-start md:flex-row md:h-16 md:justify-between md:gap-4  rounded-lg md:p-4 ">
         {/* Logo */}
-        <div className="flex justify-center items-center md:flex-1">
+        <div className="flex justify-start items-center gap-x-2 md:flex-1 text-black dark:text-primary">
           <BsFillChatSquareQuoteFill size={35}/>
           <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }} className="text-black dark:text-primary text-2xl font-bold">
             ChatSnap
