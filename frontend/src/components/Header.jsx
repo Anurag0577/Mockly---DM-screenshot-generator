@@ -28,7 +28,7 @@ export default function Header() {
         {/* Logo */}
         <div className="md:flex-1">
           <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }} className="text-black dark:text-primary text-2xl font-bold">
-            Mockly
+            ChatSnap
           </a>
         </div>
         {/* Right side */}
