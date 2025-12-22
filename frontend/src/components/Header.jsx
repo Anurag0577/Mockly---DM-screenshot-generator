@@ -9,6 +9,7 @@ import ProfileDropdown from "./ProfileDropdown";
 import SignUpDialogueBox from "./SignupDialogueBox";
 import LoginDialogueBox from "./LoginDialogueBox";
 import useAuthStore from "@/stores/useAuthStore";
+import { BsFillChatSquareQuoteFill } from "react-icons/bs";
 import { useNavigate } from "react-router";
 
 export default function Header() {
@@ -27,6 +28,7 @@ export default function Header() {
       <div className="flex flex-col items-center justify-start md:flex-row md:h-16 md:justify-between md:gap-4  rounded-lg md:p-4 ">
         {/* Logo */}
         <div className="md:flex-1">
+          <BsFillChatSquareQuoteFill size={35}/>
           <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }} className="text-black dark:text-primary text-2xl font-bold">
             ChatSnap
           </a>
