@@ -29,7 +29,7 @@ export function Homepage() {
     }, [isDarkMode]);
 
   return (
-    <div className="md:h-screen flex flex-col overflow-hidden">
+    <div className="min-h-screen flex flex-col overflow-y-auto">
 
       {/* Main Content Wrapper: Changed lg:flex-row to md:flex-row */}
       <div className="flex-1 flex flex-col md:flex-row min-h-0">

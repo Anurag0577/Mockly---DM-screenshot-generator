@@ -62,7 +62,7 @@
 @media (min-width: 728px) {
     :root {
         /* This rule only applies when the screen is 1024px wide or greater */
-        font-size: 150%; 
+        font-size: 110%; 
     }
 }
 
