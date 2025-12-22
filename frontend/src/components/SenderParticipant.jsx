@@ -8,7 +8,7 @@ export function SenderParticipant() {
     const updateSender = usePreviewData((state) => state.updateSender)
 
     return (
-        < div className="flex-1 flex flex-col gap-y-1 p-1 justify-center items-center border rounded-lg lg:min-w-0 lg:min-h-0" >
+        < div className="flex-1 flex flex-col gap-y-1 p-1 justify-center items-center border rounded-lg lg:min-w-0 lg:min-h-0" id="senderParticipant-driver" >
             <p className="text-sm font-medium">Sender</p>
             <ParticipantAvatar type='sender' />
             <Input placeholder="Sender" type="text" value={sender} onChange={(e) => updateSender(e.target.value)} required className='text-center text-sm' />

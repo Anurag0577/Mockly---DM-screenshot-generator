@@ -31,7 +31,7 @@ export default function ThemeSwitch() {
   }
 
   return (
-    <div>
+    <div id="themeToggle-driver" >
       <Toggle
         variant="outline"
         className="group size-9 relative data-[state=on]:bg-transparent data-[state=on]:hover:bg-muted"

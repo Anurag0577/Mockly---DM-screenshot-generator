@@ -75,54 +75,61 @@ export default function Download() {
 
 
     return (
-        isImageGenerating ?
-            (<Button
-                variant="default"
-                className="flex-1 gap-2"
-                onClick={handleDownload}
-            >
-                {/* <ArrowDownToLine className="w-4 h-4" /> */}
-
-                {(isDarkMode) ? (
-                    <RotatingLines
-                        visible={true}
-                        height="110"
-                        width="110"
-                        color="black"
-                        strokeWidth="5"
-                        animationDuration="0.75"
-                        ariaLabel="rotating-lines-loading"
-                        wrapperStyle={{}}
-                        wrapperClass=""
-                    />
-                ) : (
-                    <RotatingLines
-                        visible={true}
-                        height="110"
-                        width="110"
-                        color="white"
-                        strokeWidth="5"
-                        animationDuration="0.75"
-                        ariaLabel="rotating-lines-loading"
-                        wrapperStyle={{}}
-                        wrapperClass=""
-                    />
-                )}
-
-
-                <span>Please Wait...</span>
-            </Button>
-            )
-            :
+        <div className="flex-1 gap-2" id="downloadBtn-driver" >
+            {(isImageGenerating) ?
             (
                 <Button
                     variant="default"
-                    className="flex-1 gap-2"
+                    className='w-full'
                     onClick={handleDownload}
+                    
                 >
-                    <ArrowDownToLine className="w-4 h-4" />
-                    <span>Download</span>
+                    {/* <ArrowDownToLine className="w-4 h-4" /> */}
+
+                    {(isDarkMode) ? (
+                        <RotatingLines
+                            visible={true}
+                            height="110"
+                            width="110"
+                            color="black"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            ariaLabel="rotating-lines-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                        />
+                    ) : (
+                        <RotatingLines
+                            visible={true}
+                            height="110"
+                            width="110"
+                            color="white"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            ariaLabel="rotating-lines-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                        />
+                    )}
+
+
+                    <span>Please Wait...</span>
                 </Button>
+
             )
+            :
+            (
+                    <Button
+                        variant="default"
+                        className='w-full'
+                        onClick={handleDownload}
+                    >
+                        <ArrowDownToLine className="w-4 h-4" />
+                        <span>Download</span>
+                    </Button>
+
+            )}
+        </div>
+        
     )
 }

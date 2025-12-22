@@ -8,7 +8,7 @@ export function ReceiverParticipant() {
     const updateReceiver = usePreviewData((state) => state.updateReceiver);
 
     return (
-        <div className="flex-1 flex flex-col gap-y-2 p-1 justify-center items-center border rounded-lg lg:min-w-0 lg:min-h-0">
+        <div className="flex-1 flex flex-col gap-y-2 p-1 justify-center items-center border rounded-lg lg:min-w-0 lg:min-h-0" id="receiverParticipant-driver">
             <p className="text-sm font-medium">Receiver</p>
             <ParticipantAvatar type='receiver' />
             <Input placeholder="Receiver" type="text" value={receiver} onChange={(e) => updateReceiver(e.target.value)} required className='text-center' />

@@ -11,7 +11,7 @@ export default function WhatsApp({sender, receiver, receiverAvatar, messages}) {
 
     return(
         <>
-            <div className="flex-1 min-h-0 flex flex-col mb-2 shadow-2xl border rounded-none">
+            <div className="flex-1 min-h-0 flex flex-col mb-2 shadow-2xl border rounded-none" id="renderedUI-driver" >
               {/* Header */}
               <div className="flex justify-between items-center bg-white dark:bg-black border-b border-gray-300 py-1 gap-x-2 px-2 dark:text-white dark:border-gray-700">
                 <IoArrowBackSharp size={27} />

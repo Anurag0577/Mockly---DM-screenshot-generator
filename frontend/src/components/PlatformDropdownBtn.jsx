@@ -36,7 +36,7 @@ export default function PlatformDropdownBtn() {
   // console.log(platform)
   
   return (
-    <div className="*:not-first:mt-2">
+    <div className="*:not-first:mt-2" id="platformDropdownBtn-driver" >
       <Select defaultValue="1" onValueChange={handlePlatformChange}>
         <SelectTrigger
           id={id}
