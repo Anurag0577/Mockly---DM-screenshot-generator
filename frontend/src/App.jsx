@@ -23,15 +23,84 @@ const driverObj = driver({
   popoverClass: 'driverjs-theme',
   showProgress: true,
   steps: [
-    { popover: { title: 'Quick Tour Guide', description: 'Here is the guide for how to poperly use generate the screenshot. Let\'s walk you through it.', side: "left", align: 'start' }},
-    { element: '#senderParticipant-driver', popover: { title: 'Add sender details', description: 'The image and name you add here will considered as a sender (your) info.', side: "left", align: 'start' }},
-    { element: '#receiverParticipant-driver', popover: { title: 'Add Receiver details', description: 'The image and name you add here will considered as a receiver (other person) info.', side: "bottom", align: 'start' }},
-    { element: '#massageField-driver', popover: { title: 'Write messages here.', description: 'Write the messages you want to display in the screenshot. There are some rules, Read full Guide for more info.', side: "bottom", align: 'start' }},
-    { element: '#renderedUI-driver', popover: { title: 'Real time preview.', description: 'Here you can see the preview of the screenshot. The messages you write in the input box will replicated here.', side: "left", align: 'start' }},
-    { element: '#themeToggle-driver', popover: { title: 'Change Theme', description: '', side: "top", align: 'start' }},
-    { element: '#platformDropdownBtn-driver', popover: { title: 'Change platform ', description: 'You can choose the platform here for which you want to generate screeenshot.', side: "right", align: 'start' }},
-    { element: '#downloadBtn-driver', popover: { title: 'Download screenshot from here.', description: 'Press this button to download the screenshot in your locals.', side: "right", align: 'start' }},
-    { popover: { title: 'All the best!', description: 'And that is all, go ahead and start downloading the screenshot!.' } }
+    { 
+      popover: { 
+        title: 'Welcome to Screenshot Gen!', 
+        description: 'Need a perfect chat mockup? Let’s show you how to build one in seconds.', 
+        side: "center", 
+        align: 'start' 
+      }
+    },
+    { 
+      element: '#senderParticipant-driver', 
+      popover: { 
+        title: 'Your Profile', 
+        description: 'Set your name and avatar here. This will represent "You" in the chat bubbles.', 
+        side: "left", 
+        align: 'start' 
+      }
+    },
+    { 
+      element: '#receiverParticipant-driver', 
+      popover: { 
+        title: 'Recipient Profile', 
+        description: 'Add the details of the person you are "chatting" with.', 
+        side: "bottom", 
+        align: 'start' 
+      }
+    },
+    { 
+      element: '#massageField-driver', 
+      popover: { 
+        title: 'Draft Your Conversation', 
+        description: 'Type your messages here. Remember you have to follow some rules to write a message. Please check out full details at bottom left.', 
+        side: "bottom", 
+        align: 'start' 
+      }
+    },
+    { 
+      element: '#renderedUI-driver', 
+      popover: { 
+        title: 'Live Preview', 
+        description: 'Watch your chat come to life instantly. What you see here is exactly what your screenshot will look like.', 
+        side: "left", 
+        align: 'start' 
+      }
+    },
+    { 
+      element: '#platformDropdownBtn-driver', 
+      popover: { 
+        title: 'Select Platform', 
+        description: 'Switch between apps like WhatsApp and Instagram to change the UI style.', 
+        side: "right", 
+        align: 'start' 
+      }
+    },
+    { 
+      element: '#themeToggle-driver', 
+      popover: { 
+        title: 'Dark/Light Mode', 
+        description: 'Toggle the theme to match the vibe of your conversation.', 
+        side: "top", 
+        align: 'start' 
+      }
+    },
+    { 
+      element: '#downloadBtn-driver', 
+      popover: { 
+        title: 'Save Your Work', 
+        description: 'Once you’re happy with the preview, hit download to save the high-res image to your device.', 
+        side: "right", 
+        align: 'start' 
+      }
+    },
+    { 
+      popover: { 
+        title: 'Ready to go!', 
+        description: 'You’re all set. Start creating your first mock conversation now!', 
+        side: "center" 
+      } 
+    }
   ]
 });
 
