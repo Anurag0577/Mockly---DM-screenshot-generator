@@ -44,7 +44,9 @@ app.use('/api/payment', paymentRouter)
 app.use('/api/auth', authRoute)
 app.use('/api/preview', previewRouter)
 app.use('/api', creditRouter)
-
+app.get('/ping', (req, res) => {
+  res.send('Pong');
+});
 app.use(errorHandler);
 
 // once the db is connected then only the server start running
