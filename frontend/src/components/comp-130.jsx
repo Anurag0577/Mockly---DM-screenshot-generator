@@ -1,6 +1,7 @@
 import { useEffect } from "react"; // Removed useState
 import { MoonIcon, SunIcon } from "lucide-react";
 import { Toggle } from "@/components/ui/toggle";
+import { toast } from "sonner";
 import usePreviewData from "@/stores/usePreviewStore";
 
 export default function ThemeSwitch() {
@@ -28,6 +29,7 @@ export default function ThemeSwitch() {
     // Just toggle the global boolean. 
     // The component will re-render, update 'theme', and run the useEffect above automatically.
     updateIsDarkMode(!isDarkMode);
+
   }
 
   return (
@@ -38,6 +40,7 @@ export default function ThemeSwitch() {
         pressed={isDarkMode} // Use isDarkMode directly
         onPressedChange={handleToggle}
         aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+        
       >
 
         <MoonIcon

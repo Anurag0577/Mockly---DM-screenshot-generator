@@ -7,6 +7,7 @@ import { ArrowDownToLine } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { RotatingLines } from "react-loader-spinner";
 import api from "@/api/axios";
+import { toast } from "sonner";
 export default function Download() {
 
     // state for download button
@@ -63,12 +64,13 @@ export default function Download() {
             document.body.removeChild(link);
             window.URL.revokeObjectURL(url);
             setIsImageGenerating(false)
+            toast.success('Image Downloaded Successfully!');
             console.log('Image generated successfully!');
             queryClient.invalidateQueries({ queryKey: ['userInfo'] })
         },
         onError: (error) => {
-
             setIsImageGenerating(false)
+            toast.error('Failed to generate image.');
             console.error('Something went wrong!', error);
         }
     });

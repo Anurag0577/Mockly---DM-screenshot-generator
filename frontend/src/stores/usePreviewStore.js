@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import { create } from "zustand"
 
 // Helper function to get the initial dark mode state from localStorage
@@ -40,10 +41,12 @@ const usePreviewData = create((set) => ({
     updatePlatform: (platform) => {
         console.log("Updating platform to: ", platform)
         set({platform: platform})
+        toast(`Platform changed to ${platform}`)
     },
     // This action now correctly updates the boolean state
     updateIsDarkMode: (isDarkMode) => {
         set({isDarkMode: isDarkMode})
+        toast(`Switched to ${!isDarkMode ? "light" : "dark"} mode`);
     }
 }))
 

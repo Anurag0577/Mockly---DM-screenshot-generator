@@ -7,14 +7,14 @@ import { FaEllipsisVertical } from "react-icons/fa6";
 import { IoMdMic } from "react-icons/io";
 import { PiSticker } from "react-icons/pi";
 
-export default function WhatsApp({sender, receiver, receiverAvatar, messages}) {
+export default function WhatsApp({receiver, receiverAvatar, messages}) {
 
     return(
         <>
             <div className="flex-1 min-h-0 flex flex-col mb-2 shadow-2xl border rounded-none" id="renderedUI-driver" >
               {/* Header */}
               <div className="flex justify-between items-center bg-white dark:bg-black border-b border-gray-300 py-1 gap-x-2 px-2 dark:text-white dark:border-gray-700">
-                <IoArrowBackSharp size={27} />
+                <IoArrowBackSharp size={17} />
                 <div className="flex-1 flex my-1 items-center">
                   <div className="w-7 aspect-square rounded-full mr-2 text-center text-xs">
                     {receiverAvatar ? (
@@ -37,9 +37,9 @@ export default function WhatsApp({sender, receiver, receiverAvatar, messages}) {
                   <span>{receiver}</span>
                 </div>
                 <div className="flex gap-x-6">
-                  <MdOutlineVideocam size={30} />
-                  <MdOutlineCall size={27} />
-                  <FaEllipsisVertical size={28} />
+                  <MdOutlineVideocam size={20} />
+                  <MdOutlineCall size={17} />
+                  <FaEllipsisVertical size={18} />
                 </div>
               </div>
 
@@ -108,7 +108,7 @@ export default function WhatsApp({sender, receiver, receiverAvatar, messages}) {
                 {/* Input bar */}
                 <div className="w-full flex gap-x-1 mt-1.5 h-fit bg-transparent">
                   <div className="flex items-center gap-2 px-3 py-1 mb-1.5 rounded-3xl bg-white dark:bg-[#20272b] w-full">
-                    <PiSticker className="shrink-0 text-gray-400 dark:text-gray-400" size={26} />
+                    <PiSticker className="shrink-0 text-gray-400 dark:text-gray-400" size={20} />
                     {/* <input
                       type="text"
                       placeholder="Message"
@@ -119,13 +119,13 @@ export default function WhatsApp({sender, receiver, receiverAvatar, messages}) {
                       <p className="text-gray-600 text-sm">Messages</p>
                     </div>
                     <div className="flex items-center gap-6 shrink-0">
-                      <MdAttachFile size={24} className="dark:text-gray-400" />
-                      <RiMoneyRupeeCircleLine size={25} className="dark:text-gray-400" />
-                      <MdOutlineCameraAlt size={26} className="dark:text-gray-400" />
+                      <MdAttachFile size={18} className="dark:text-gray-400" />
+                      <RiMoneyRupeeCircleLine size={18} className="dark:text-gray-400" />
+                      <MdOutlineCameraAlt size={18} className="dark:text-gray-400" />
                     </div>
                   </div>
-                  <div className="flex justify-center items-center aspect-square rounded-full bg-green-400 h-8.5 w-8.5 mr-1">
-                    <IoMdMic size={24} className=" text-white dark:text-black" />
+                  <div className="flex justify-center items-center aspect-square rounded-full bg-green-400 h-8.5 w-8.5 mr-1" >
+                    <IoMdMic size={16} className=" text-white dark:text-black" />
                   </div>
                 </div>
               </div>

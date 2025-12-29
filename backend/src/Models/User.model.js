@@ -75,7 +75,7 @@ userSchema.pre('save', async function(next){
         // this refers to the user document being saved
         if(!this.isModified('password')) return next();
 
-        const salt = await bcrypt.genSalt(10); // generate a salt, a unique string use to make hash more secure
+        const salt = await bcrypt.genSalt(7); // generate a salt, a unique string use to make hash more secure
         this.password = await bcrypt.hash(this.password, salt) // save new hash password 
         next() // go to new next step (middleware)
     } catch (err) {

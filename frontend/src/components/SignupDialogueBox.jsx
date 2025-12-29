@@ -1,5 +1,5 @@
 import { useId } from "react"
-
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -40,15 +40,18 @@ export default function SignUpDialogueBox() {
     },
     onSuccess: (data) => {
       console.log('User register successfully!', data)
+      toast.success('Account created successfully!');
       if (data?.data?.accessToken) {
         console.log("this is inside ocSuccess", data?.data?.accessToken)
         login(data?.data?.accessToken);
       }
+      
       setOpen(false)
       navigate('/')
     },
     onError: (error) => {
       console.error('Error registering user:', error);
+      toast.error(`Registration failed: ${error?.response?.data?.message || error.message}`);
     },
     onMutate: () => {
       console.log('Registering user...');

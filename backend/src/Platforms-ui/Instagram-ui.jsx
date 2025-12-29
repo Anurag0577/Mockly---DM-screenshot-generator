@@ -6,8 +6,7 @@ import { FiMic } from "react-icons/fi";
 import { HiOutlinePhoto } from "react-icons/hi2";
 import { PiStickerBold } from "react-icons/pi";
 import { IoMdAddCircleOutline } from "react-icons/io";
-
-export default function InstagramExtra({ sender, receiver, receiverAvatar, messages }) {
+export default function InstagramExtra({ receiver, receiverAvatar, messages }) {
     return (
         <>
             <div className="instagram-container flex-1 min-h-0 flex flex-col mb-2 shadow-2xl border rounded-none bg-white dark:bg-black text-black dark:text-white">
@@ -27,7 +26,7 @@ export default function InstagramExtra({ sender, receiver, receiverAvatar, messa
 
                     {/* Call Icons */}
                     <div className="flex gap-4 items-center">
-                        <LuPhone size={18} />
+                        <LuPhone size={16} />
                         <LuVideo size={20} />
                         <RiFlag2Line size={20} />
                     </div>
@@ -116,16 +115,16 @@ export default function InstagramExtra({ sender, receiver, receiverAvatar, messa
                             <div className="flex items-center justify-between w-full gap-4 p-2 bg-gray-100 dark:bg-[#262726] rounded-full">
 
                                 <div className="p-2 rounded-full bg-pink-600">
-                                    <FaCamera color="#fff" size={22} />
+                                    <FaCamera color="#fff" size={14} />
                                 </div>
 
                                 <div className="text-sm">Messages...</div>
 
                                 <div className="flex-1 flex justify-end items-center gap-4">
-                                    <FiMic size={24} />
-                                    <HiOutlinePhoto size={26} />
-                                    <PiStickerBold size={26} />
-                                    <IoMdAddCircleOutline size={26} />
+                                    <FiMic size={18} />
+                                    <HiOutlinePhoto size={20} />
+                                    <PiStickerBold size={20} />
+                                    <IoMdAddCircleOutline size={20} />
                                 </div>
 
                             </div>

@@ -8,6 +8,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import BuyCredits from "./components/BuyCredits"
 import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
+import { Toaster} from 'sonner'
+import usePreviewData from "@/stores/usePreviewStore.js";
+
 
 // Create a client
 const queryClient = new QueryClient({
@@ -18,6 +21,8 @@ const queryClient = new QueryClient({
     },
   },
 })
+
+
 
 const driverObj = driver({
   popoverClass: 'driverjs-theme',
@@ -130,9 +135,22 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-
+  const isDarkMode = usePreviewData((state) => state.isDarkMode);
   return (
     <QueryClientProvider client={queryClient}>
+      <Toaster 
+        position="bottom-left" 
+        richColors 
+        theme={isDarkMode ? "dark" : "light"}
+        toastOptions={{
+          style: {
+            background: isDarkMode ? '#1a1a1a' : '#ffffff',
+            color: isDarkMode ? '#ffffff' : '#000000',
+            border: isDarkMode ? '1px solid #333' : '1px solid #ddd',
+          },
+          classNameStack: isDarkMode ? 'dark-toast-stack' : 'light-toast-stack',
+        }}
+      />
       <RouterProvider router={router} />
     </QueryClientProvider>
   )

@@ -1,5 +1,5 @@
 import {useId } from "react"
-
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -39,11 +39,13 @@ export default function LoginDialogueBox() {
       if (data?.data?.data?.accessToken) {
         login(data.data?.data.accessToken);
       }
+      toast.success('You are logged in!');
       setOpen(false)
       navigate('/')
     },
     onError: (error) => {
       console.error('Error occurs while login', error)
+      toast.error(`${error?.response?.data?.message}`);
     }
   })
   return (

@@ -6,7 +6,7 @@ import { RiMoneyRupeeCircleLine } from "react-icons/ri";
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { IoMdMic } from "react-icons/io";
 import { PiSticker } from "react-icons/pi";
-export default function WhatsApp({sender, receiver, receiverAvatar, messages, bgImg}) {
+export default function WhatsApp({receiver, receiverAvatar, messages, bgImg}) {
 
     return(
         <>
@@ -118,7 +118,7 @@ export default function WhatsApp({sender, receiver, receiverAvatar, messages, bg
                       <MdOutlineCameraAlt size={18} className="dark:text-gray-600" />
                     </div>
                   </div>
-                  <div className="flex justify-center items-center aspect-square rounded-full bg-green-600 h-8.5 w-8.5 mr-1">
+                  <div className="flex justify-center items-center aspect-square rounded-full bg-green-400 h-8.5 w-8.5 mr-1" >
                     <IoMdMic size={18} className=" text-white dark:text-black" />
                   </div>
                 </div>

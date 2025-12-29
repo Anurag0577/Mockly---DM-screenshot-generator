@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { useNavigate } from "react-router"
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,6 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import useAuthStore from "@/stores/useAuthStore"
+import { toast } from "sonner"
 
 export default function ProfileDropdown() {
  const {user, isAuthenticated} = useAuthStore();
@@ -34,6 +34,7 @@ export default function ProfileDropdown() {
   const handleLogout = () => {
     const {logout} = useAuthStore.getState();
     logout();
+    toast.success('You have been logged out.');
   }
   return (
     <DropdownMenu>

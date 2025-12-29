@@ -6,30 +6,30 @@ import { FiMic } from "react-icons/fi";
 import { HiOutlinePhoto } from "react-icons/hi2";
 import { PiStickerBold } from "react-icons/pi";
 import { IoMdAddCircleOutline } from "react-icons/io";
-
-export default function Instagram({ sender, receiver, receiverAvatar, messages }) {
+import InstagramAvatar from '../assets/instagramAvatar.jpeg'
+export default function Instagram({ receiver, receiverAvatar, messages }) {
     return (
         <>
             <div className="instagram-container flex-1 min-h-0 flex flex-col mb-2 shadow-2xl border rounded-none bg-white dark:bg-black" id="renderedUI-driver" >
 
                 {/* Header */}
                 <div className="instagram-header flex items-center h-fit p-2">
-                    <IoArrowBackOutline size={30} />
+                    <IoArrowBackOutline size={20} />
 
                     {/* Receiver Info */}
                     <div className="flex-1 ml-7 flex content-center gap-3">
-                        <img className="h-8 w-8 rounded-full" src={receiverAvatar} />
+                        <img className="h-8 w-8 rounded-full" src={(receiverAvatar === null) ? InstagramAvatar : receiverAvatar} />
                         <div className="flex flex-col justify-center">
                             <div className="bold text-sm leading-tight">{receiver}</div>
-                            <div className="lighter text-xs  -mt-2">Eren0eth</div>
+                            {/* <div className="lighter text-xs  -mt-2">Eren0eth</div> */}
                         </div>
                     </div>
 
                     {/* Call Icons */}
                     <div className="flex gap-4 items-center">
-                        <LuPhone size={26} />
-                        <LuVideo size={30} />
-                        <RiFlag2Line size={30} />
+                        <LuPhone size={16} />
+                        <LuVideo size={20} />
+                        <RiFlag2Line size={20} />
                     </div>
                 </div>
 
@@ -80,7 +80,7 @@ export default function Instagram({ sender, receiver, receiverAvatar, messages }
 
                                             {showAvatar ? (
                                                 <img
-                                                    src={receiverAvatar}
+                                                    src={(receiverAvatar === null) ? InstagramAvatar : receiverAvatar}
                                                     className="h-4 w-4 rounded-full mb-1 ml-1"
                                                 />
                                             ) : (
@@ -109,16 +109,16 @@ export default function Instagram({ sender, receiver, receiverAvatar, messages }
                             <div className="flex items-center justify-between w-full gap-4 p-2 bg-gray-100 dark:bg-[#262726] rounded-full">
 
                                 <div className="p-2 rounded-full bg-pink-600">
-                                    <FaCamera color="#fff" size={22} />
+                                    <FaCamera color="#fff" size={14} />
                                 </div>
 
                                 <div className="text-sm">Messages...</div>
 
                                 <div className="flex-1 flex justify-end items-center gap-4">
-                                    <FiMic size={24} />
-                                    <HiOutlinePhoto size={26} />
-                                    <PiStickerBold size={26} />
-                                    <IoMdAddCircleOutline size={26} />
+                                    <FiMic size={18} />
+                                    <HiOutlinePhoto size={20} />
+                                    <PiStickerBold size={20} />
+                                    <IoMdAddCircleOutline size={20} />
                                 </div>
 
                             </div>
