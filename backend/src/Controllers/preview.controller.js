@@ -19,10 +19,41 @@ const TAILWIND_CSS_STRING = fs.readFileSync(CSS_PATH, 'utf-8');
 // Path to assets directory
 const ASSETS_PATH = path.join(__dirname, '../Platforms-ui/Assets');
 
+// --- GLOBAL BROWSER INSTANCE FOR REUSE ---
+let browserInstance = null;
+
+async function getBrowser() {
+    // If browser exists and is connected, return it
+    if (browserInstance && browserInstance.isConnected()) {
+        return browserInstance;
+    }
+
+    // Otherwise launch a new one
+    console.log("Launching new browser instance...");
+    browserInstance = await puppeteer.launch({
+        headless: true, // or "new" depending on puppeteer version
+        args: [
+            "--no-sandbox",
+            "--disable-setuid-sandbox",
+            "--disable-dev-shm-usage", // CRITICAL for Render/Docker memory limits
+            "--disable-accelerated-2d-canvas",
+            "--no-first-run",
+            "--no-zygote",
+            "--single-process", 
+            "--disable-gpu",
+        ],
+        executablePath:
+            process.env.NODE_ENV === "production"
+                ? process.env.PUPPETEER_EXECUTABLE_PATH
+                : puppeteer.executablePath(),
+    });
+
+    return browserInstance;
+}
+// -----------------------------------------
+
 /**
  * Converts an image file to base64 data URL
- * @param {string} imagePath - Path to the image file
- * @returns {string} Base64 data URL
  */
 function imageToBase64(imagePath) {
     try {
@@ -47,8 +78,8 @@ function getBackgroundImage(platform, isDarkMode) {
     const backgroundMap = {
         whatsapp_light: 'whatsapp_bg.jpg',
         whatsapp_dark: 'whatsappDark.png',
-        instagram: 'whatsapp_bg.jpg', // Add your instagram bg when available
-        telegram: 'whatsapp_bg.jpg', // Add your telegram bg when available
+        instagram: 'whatsapp_bg.jpg', 
+        telegram: 'whatsapp_bg.jpg', 
     };
 
     const imageFileName = backgroundMap[`${platformLower}_${isDarkMode ? 'dark' : 'light'}`] || backgroundMap.whatsapp_light;
@@ -80,10 +111,6 @@ const previewData = asyncHandler(async (req, res) => {
         return res.status(401).send('Either sender, receiver or messages not found!')
     }
     const bgImg = getBackgroundImage(platform, isDarkMode);
-
-    if (!bgImg) {
-        console.warn('Warning: Background image is null. Screenshot may not have background.');
-    }
 
     let platformComponent;
     switch (platform?.toLowerCase()) {
@@ -120,25 +147,14 @@ const previewData = asyncHandler(async (req, res) => {
         </html>
     `;
 
-    let browser;
+    let page = null; // We only track the page here, not the browser
+
     try {
-
-        browser = await puppeteer.launch({
-            headless: true,
-            args: [
-                "--no-sandbox",
-                "--disable-setuid-sandbox",
-                "--single-process",
-                "--no-zygote",
-            ],
-            executablePath:
-                process.env.NODE_ENV === "production"
-                    ? process.env.PUPPETEER_EXECUTABLE_PATH
-                    : puppeteer.executablePath(),
-        });
-
-        const page = await browser.newPage();
-
+        // 1. Get the shared browser instance
+        const browser = await getBrowser();
+        
+        // 2. Open a new tab (page)
+        page = await browser.newPage();
 
         await page.setViewport({
             width: 375,
@@ -146,14 +162,15 @@ const previewData = asyncHandler(async (req, res) => {
             deviceScaleFactor: 3
         });
 
-
+        // 3. Set content with INCREASED timeout and FASTER wait condition
         await page.setContent(finalHtml, {
-            waitUntil: 'networkidle0'
+            waitUntil: 'domcontentloaded', // Much faster than networkidle0
+            timeout: 60000 // 60 seconds to prevent timeout errors
         });
 
-
-        await new Promise(resolve => setTimeout(resolve, 500));
-
+        // Small buffer to ensure fonts/images render if slightly delayed
+        // (Since we removed networkidle0, this is a safe backup)
+        await new Promise(resolve => setTimeout(resolve, 300));
 
         const elementToCapture = await page.$('#whatsapp-root');
 
@@ -165,24 +182,28 @@ const previewData = asyncHandler(async (req, res) => {
             type: 'png'
         });
 
-        // Decrease credit by one on every image generation.
-
-        const userId = req.user._id; // 1. get user id from the req.user
-        const updatedUser = await User.findByIdAndUpdate(userId, { $inc: { credit: -1 } }, { new: true }); // 2. decrease credit by 1 
+        // Decrease credit logic
+        const userId = req.user._id; 
+        await User.findByIdAndUpdate(userId, { $inc: { credit: -1 } }, { new: true });
 
         res.set('Content-Type', 'image/png');
         res.send(imageBuffer);
 
     } catch (error) {
         console.error('Puppeteer Image Generation Error:', error);
+        
+        // If the actual browser crashed, force reset so next request works
+        if(browserInstance && !browserInstance.isConnected()) {
+             browserInstance = null; 
+        }
+
         res.status(500).json({ message: 'Failed to generate image.', details: error.message });
     } finally {
-        if (browser) {
-            await browser.close();
+        // CRITICAL: Close only the page, keep browser open for next user
+        if (page) {
+            await page.close();
         }
     }
-
 })
 
 export { previewData };
-
