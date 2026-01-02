@@ -56,7 +56,7 @@ export default function Download() {
             // Create a temporary link and trigger download
             const link = document.createElement('a');
             link.href = url;
-            link.download = `whatsapp-screenshot-${Date.now()}.png`;
+            link.download = `screenshot-${Date.now()}.png`;
             document.body.appendChild(link);
             link.click();
 

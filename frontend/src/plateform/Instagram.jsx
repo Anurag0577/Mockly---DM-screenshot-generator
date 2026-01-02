@@ -10,7 +10,7 @@ import InstagramAvatar from '../assets/instagramAvatar.jpeg'
 export default function Instagram({ receiver, receiverAvatar, messages }) {
     return (
         <>
-            <div className="instagram-container flex-1 min-h-0 flex flex-col mb-2 shadow-2xl border rounded-none bg-white dark:bg-black" id="renderedUI-driver" >
+            <div className="instagram-container flex-1 min-h-0 flex flex-col mb-2 shadow-2xl border rounded-none bg-white dark:bg-black" id="renderedUI-driver"  >
 
                 {/* Header */}
                 <div className="instagram-header flex items-center h-fit p-2">
@@ -21,7 +21,6 @@ export default function Instagram({ receiver, receiverAvatar, messages }) {
                         <img className="h-8 w-8 rounded-full" src={(receiverAvatar === null) ? InstagramAvatar : receiverAvatar} />
                         <div className="flex flex-col justify-center">
                             <div className="bold text-sm leading-tight">{receiver}</div>
-                            {/* <div className="lighter text-xs  -mt-2">Eren0eth</div> */}
                         </div>
                     </div>
 
@@ -38,7 +37,7 @@ export default function Instagram({ receiver, receiverAvatar, messages }) {
                     <div className="flex flex-col h-full min-h-0 justify-end">
 
                         {/* Scrollable messages section */}
-                        <div className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth scrollbar-gutter-stable px-2 py-3 ">
+                        <div className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth scrollbar-gutter-stable px-2 py-3 min-h-[624px] md:min-h-0">
 
                             <ul>
                                 {messages.map((msg, index) => {
@@ -109,7 +108,7 @@ export default function Instagram({ receiver, receiverAvatar, messages }) {
                             <div className="flex items-center justify-between w-full gap-4 p-2 bg-gray-100 dark:bg-[#262726] rounded-full">
 
                                 <div className="p-2 rounded-full bg-pink-600">
-                                    <FaCamera color="#fff" size={14} />
+                                    <FaCamera color="#fff" size={14} className="text-white" />
                                 </div>
 
                                 <div className="text-sm">Messages...</div>

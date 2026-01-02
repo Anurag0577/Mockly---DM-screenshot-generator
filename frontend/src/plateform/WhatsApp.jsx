@@ -1,4 +1,3 @@
-// import { ArrowLeft, Video, Phone, EllipsisVertical, Sticker, Link, BadgeIndianRupee, Camera, Mic } from "lucide-react"
 import { MdOutlineVideocam, MdOutlineCall, MdAttachFile, MdOutlineCameraAlt } from "react-icons/md";
 import { IoArrowBackSharp } from "react-icons/io5";
 
@@ -53,7 +52,6 @@ export default function WhatsApp({receiver, receiverAvatar, messages}) {
               >
                 <ul className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth scrollbar-gutter-stable px-1">
                   {messages.map((msg, index) => {
-                    // Check if previous message has the same sender
                     const isSameSender = index > 0 && messages[index - 1].sender === msg.sender;
                     const gapClass = isSameSender ? 'mt-1' : 'mt-3';
                     
@@ -109,12 +107,6 @@ export default function WhatsApp({receiver, receiverAvatar, messages}) {
                 <div className="w-full flex gap-x-1 mt-1.5 h-fit bg-transparent">
                   <div className="flex items-center gap-2 px-3 py-1 mb-1.5 rounded-3xl bg-white dark:bg-[#20272b] w-full">
                     <PiSticker className="shrink-0 text-gray-400 dark:text-gray-400" size={20} />
-                    {/* <input
-                      type="text"
-                      placeholder="Message"
-                      className="flex-1 px-1 py-1 text-xs bg-transparent outline-none min-w-0 placeholder-gray-500 dark:text-white "
-                    /> */}
-
                     <div className="flex-1">
                       <p className="text-gray-600 text-sm">Messages</p>
                     </div>

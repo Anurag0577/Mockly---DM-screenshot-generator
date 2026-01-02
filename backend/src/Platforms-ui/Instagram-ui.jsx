@@ -37,7 +37,7 @@ export default function InstagramExtra({ receiver, receiverAvatar, messages }) {
                     <div className="flex flex-col h-full min-h-0 justify-end">
 
                         {/* Scrollable messages section */}
-                        <div className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth scrollbar-gutter-stable px-2 py-3 bg-white dark:bg-black text-black dark:text-white">
+                        <div className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth scrollbar-gutter-stable px-2 py-3" style={{ minHeight: "624px" }}>
 
                             <ul>
                                 {messages.map((msg, index) => {
@@ -115,16 +115,16 @@ export default function InstagramExtra({ receiver, receiverAvatar, messages }) {
                             <div className="flex items-center justify-between w-full gap-4 p-2 bg-gray-100 dark:bg-[#262726] rounded-full">
 
                                 <div className="p-2 rounded-full bg-pink-600">
-                                    <FaCamera color="#fff" size={14} />
+                                    <FaCamera color="#fff" size={14} className="dark:text-gray-400" />
                                 </div>
 
                                 <div className="text-sm">Messages...</div>
 
                                 <div className="flex-1 flex justify-end items-center gap-4">
-                                    <FiMic size={18} />
-                                    <HiOutlinePhoto size={20} />
-                                    <PiStickerBold size={20} />
-                                    <IoMdAddCircleOutline size={20} />
+                                    <FiMic size={18} className="dark:text-gray-400" />
+                                    <HiOutlinePhoto size={20} className="dark:text-gray-400" />
+                                    <PiStickerBold size={20} className="dark:text-gray-400" />
+                                    <IoMdAddCircleOutline size={20} className="dark:text-gray-400" />
                                 </div>
 
                             </div>

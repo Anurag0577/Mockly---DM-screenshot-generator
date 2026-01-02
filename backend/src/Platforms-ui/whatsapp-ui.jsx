@@ -49,6 +49,7 @@ export default function WhatsApp({receiver, receiverAvatar, messages, bgImg}) {
                   backgroundImage: bgImg ? `url(${bgImg})` : 'none',
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
+                  minHeight: "624px"
                 }}
               >
                 <ul className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth scrollbar-gutter-stable px-1">
@@ -106,20 +107,18 @@ export default function WhatsApp({receiver, receiverAvatar, messages, bgImg}) {
                 {/* Input bar */}
                 <div className="w-full flex gap-x-1 mt-1.5 h-fit bg-transparent">
                   <div className="flex items-center gap-2 px-3 py-1 mb-1.5 rounded-3xl bg-white dark:bg-[#20272b] w-full">
-                    <PiSticker className="shrink-0 dark:text-gray-600" size={18} />
-                    <input
-                      type="text"
-                      placeholder="Type a message"
-                      className="flex-1 px-1 py-1 text-[12px] bg-transparent outline-none min-w-0 dark:text-white"
-                    />
-                    <div className="flex items-center gap-2 shrink-0">
-                      <MdAttachFile size={16} className="dark:text-gray-600" />
-                      <RiMoneyRupeeCircleLine size={17} className="dark:text-gray-600" />
-                      <MdOutlineCameraAlt size={18} className="dark:text-gray-600" />
+                    <PiSticker className="shrink-0 text-gray-400 dark:text-gray-400" size={20} />
+                    <div className="flex-1">
+                      <p className="text-gray-600 text-sm">Messages</p>
+                    </div>
+                    <div className="flex items-center gap-6 shrink-0">
+                      <MdAttachFile size={18} className="dark:text-gray-400" />
+                      <RiMoneyRupeeCircleLine size={18} className="dark:text-gray-400" />
+                      <MdOutlineCameraAlt size={18} className="dark:text-gray-400" />
                     </div>
                   </div>
                   <div className="flex justify-center items-center aspect-square rounded-full bg-green-400 h-8.5 w-8.5 mr-1" >
-                    <IoMdMic size={18} className=" text-white dark:text-black" />
+                    <IoMdMic size={16} className=" text-white dark:text-black" />
                   </div>
                 </div>
               </div>
