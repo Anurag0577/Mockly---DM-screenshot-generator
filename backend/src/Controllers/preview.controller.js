@@ -105,7 +105,7 @@ function getBackgroundImage(platform, isDarkMode) {
 
 
 const previewData = asyncHandler(async (req, res) => {
-    const { sender, receiver, messages, receiverAvatar, senderAvatar, platform, isDarkMode } = req.body;
+    const { sender, receiver, messages, receiverAvatar, senderAvatar, platform, isDarkMode, isHeaderFooterRendered } = req.body;
 
     if (!sender || !receiver || !messages) {
         return res.status(401).send('Either sender, receiver or messages not found!')
@@ -115,13 +115,13 @@ const previewData = asyncHandler(async (req, res) => {
     let platformComponent;
     switch (platform?.toLowerCase()) {
         case 'instagram':
-            platformComponent = <Instagram sender={sender} receiver={receiver} messages={messages} receiverAvatar={receiverAvatar} senderAvatar={senderAvatar} bgImg={bgImg} />;
+            platformComponent = <Instagram sender={sender} receiver={receiver} messages={messages} receiverAvatar={receiverAvatar} senderAvatar={senderAvatar} bgImg={bgImg} isHeaderFooterRendered={isHeaderFooterRendered} />;
             break;
         case 'whatsapp':
-            platformComponent = <Whatsapp sender={sender} receiver={receiver} messages={messages} receiverAvatar={receiverAvatar} senderAvatar={senderAvatar} bgImg={bgImg} />;
+            platformComponent = <Whatsapp sender={sender} receiver={receiver} messages={messages} receiverAvatar={receiverAvatar} senderAvatar={senderAvatar} bgImg={bgImg} isHeaderFooterRendered={isHeaderFooterRendered}/>;
             break;
-        default:
-            platformComponent = <Whatsapp sender={sender} receiver={receiver} messages={messages} receiverAvatar={receiverAvatar} senderAvatar={senderAvatar} bgImg={bgImg} />;
+        default:isDarkMode
+            platformComponent = <Whatsapp sender={sender} receiver={receiver} messages={messages} receiverAvatar={receiverAvatar} senderAvatar={senderAvatar} bgImg={bgImg} isHeaderFooterRendered={isHeaderFooterRendered}/>;
     }
 
     const componentHTML = ReactDOMServer.renderToString(

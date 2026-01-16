@@ -28,7 +28,8 @@ export default function Download() {
             receiverAvatar: state.receiverAvatar,
             senderAvatar: state.senderAvatar,
             platform: state.platform,
-            isDarkMode: state.isDarkMode
+            isDarkMode: state.isDarkMode,
+            isHeaderFooterRendered: state.isHeaderFooterRendered,
         });
     };
 

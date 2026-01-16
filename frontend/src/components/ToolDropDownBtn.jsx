@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react"
+// import { useState } from "react"
 import { ChevronDownIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -13,13 +13,15 @@ import {
 import usePreviewData from "@/stores/usePreviewStore"
 
 export default function ToolDropDownBtn() {
-  const [nextjs, setNextjs] = useState(false)
-  const [sveltekit, setSveltekit] = useState(true)
+  // const [nextjs, setNextjs] = useState(false)
+  // const [sveltekit, setSveltekit] = useState(true)
   // const [astro, setAstro] = useState(false)
   // const [remix, setRemix] = useState(false)
 
   const isDarkMode = usePreviewData((state) => state.isDarkMode);
   const updateIsDarkMode = usePreviewData((state) => state.updateIsDarkMode);
+  const isHeaderFooterRendered = usePreviewData((state) => state.isHeaderFooterRendered);
+  const updateIsHeaderFooterRendered = usePreviewData((state) => state.updateIsHeaderFooterRendered);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -30,12 +32,12 @@ export default function ToolDropDownBtn() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuCheckboxItem checked={nextjs} onCheckedChange={setNextjs}>
-          Show Header
+        <DropdownMenuCheckboxItem checked={isHeaderFooterRendered} onCheckedChange={updateIsHeaderFooterRendered}>
+          Show Header & Footer
         </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem checked={sveltekit} onCheckedChange={setSveltekit}>
+        {/* <DropdownMenuCheckboxItem checked={sveltekit} onCheckedChange={setSveltekit}>
           Show Footer
-        </DropdownMenuCheckboxItem>
+        </DropdownMenuCheckboxItem> */}
         <DropdownMenuCheckboxItem checked={isDarkMode} onCheckedChange={updateIsDarkMode}>
           Dark Mode
         </DropdownMenuCheckboxItem>

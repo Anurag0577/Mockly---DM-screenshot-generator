@@ -6,12 +6,13 @@ import { FaEllipsisVertical } from "react-icons/fa6";
 import { IoMdMic } from "react-icons/io";
 import { PiSticker } from "react-icons/pi";
 
-export default function WhatsApp({receiver, receiverAvatar, messages}) {
+export default function WhatsApp({receiver, receiverAvatar, messages, isHeaderFooterRendered}) {
 
     return(
         <>
             <div className="flex-1 min-h-0 flex flex-col mb-2 shadow-2xl border rounded-none" id="renderedUI-driver" >
               {/* Header */}
+              {isHeaderFooterRendered && (
               <div className="flex justify-between items-center bg-white dark:bg-black border-b border-gray-300 py-1 gap-x-2 px-2 dark:text-white dark:border-gray-700">
                 <IoArrowBackSharp size={17} />
                 <div className="flex-1 flex my-1 items-center">
@@ -41,7 +42,7 @@ export default function WhatsApp({receiver, receiverAvatar, messages}) {
                   <FaEllipsisVertical size={18} />
                 </div>
               </div>
-
+              )}
               {/* Chat area */}
               <div
                 className="flex flex-col flex-1 min-h-0 bg-[url('./assets/whatsapp_bg.jpg')] dark:bg-[url('./assets/whatsappDark.png')]"
@@ -104,6 +105,7 @@ export default function WhatsApp({receiver, receiverAvatar, messages}) {
                 </ul>
 
                 {/* Input bar */}
+                {isHeaderFooterRendered && (
                 <div className="w-full flex gap-x-1 mt-1.5 h-fit bg-transparent">
                   <div className="flex items-center gap-2 px-3 py-1 mb-1.5 rounded-3xl bg-white dark:bg-[#20272b] w-full">
                     <PiSticker className="shrink-0 text-gray-400 dark:text-gray-400" size={20} />
@@ -120,6 +122,7 @@ export default function WhatsApp({receiver, receiverAvatar, messages}) {
                     <IoMdMic size={16} className=" text-white dark:text-black" />
                   </div>
                 </div>
+                )}
               </div>
             </div>
         </>

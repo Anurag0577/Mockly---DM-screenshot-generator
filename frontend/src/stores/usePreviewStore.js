@@ -17,6 +17,7 @@ const usePreviewData = create((set) => ({
     receiverAvatar: null,
     messageArray : [],
     platform : 'Whatsapp',
+    isHeaderFooterRendered: true,
 
 
     updatePreviewData : (data) => {
@@ -46,7 +47,12 @@ const usePreviewData = create((set) => ({
     // This action now correctly updates the boolean state
     updateIsDarkMode: (isDarkMode) => {
         set({isDarkMode: isDarkMode})
-        toast(`Switched to ${!isDarkMode ? "light" : "dark"} mode`);
+        toast(`Switched to ${!isDarkMode ? "light" : "dark"} mode.`);
+    },
+
+    updateIsHeaderFooterRendered: (isHeaderFooterRendered) => {
+        set({isHeaderFooterRendered : isHeaderFooterRendered})
+        toast(`Switched to ${!isHeaderFooterRendered ? 'Hide' : 'Show'} mode.`)
     }
 }))
 
