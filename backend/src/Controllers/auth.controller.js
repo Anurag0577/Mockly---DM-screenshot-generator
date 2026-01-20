@@ -1,7 +1,7 @@
 import {apiError} from '../Utilities/apiError.js'
 import {apiResponse} from '../Utilities/apiResponse.js'
 import {asyncHandler} from '../Utilities/asyncHandler.js'
-const { OAuth2Client } = require('google-auth-library');
+import { OAuth2Client } from 'google-auth-library';
 import {User} from '../Models/User.model.js'
 import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
