@@ -1,56 +1,75 @@
 import React from 'react';
-import api from "@/api/axios.js"
-import { jwtDecode } from "jwt-decode";
+import api from "@/api/axios.js";
 import useAuthStore from '@/stores/useAuthStore';
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+
 const GoogleAuth = () => {
   const navigate = useNavigate();
-    const {login} = useAuthStore();
-    const { setOpenLoginDialog: setOpen} = useAuthStore();
- const clientId = "783336438617-m4lf3kl6hmlid32uu38rfdgm82g0dots.apps.googleusercontent.com";
-  return (
-   <GoogleOAuthProvider clientId={clientId}>
-     <GoogleLogin
-       onSuccess={credentialResponse => {
-         console.log(credentialResponse);
-         console.log(jwtDecode(credentialResponse.credential));
-         // THIS IS THE FOLLOWING STEPS WE HAVE TO DO:
-         // 1. Send this credential to the backend for verification and login/signup
-         try{
-          api.post('/auth/google-login', credentialResponse, {
-                headers: {'Content-Type': 'application/json'},
-                withCredentials: true
-              })
+  const { login, setOpenLoginDialog: setOpen } = useAuthStore();
+  
+  // ⚠️ BEST PRACTICE: Move this to your .env file (e.g., import.meta.env.VITE_GOOGLE_CLIENT_ID)
+  const clientId = "783336438617-m4lf3kl6hmlid32uu38rfdgm82g0dots.apps.googleusercontent.com";
 
-              .then((data) => {
-                console.log('Google login response:', data);
-                // Handle successful login here
-                console.log('User login successful', data)
-                if (data?.data?.data?.accessToken) {
-                  login(data.data?.data.accessToken);
-                }
-                toast.success('You are logged in!');
-                setOpen(false)
-                navigate('/')
-              })
-              .catch((error) => {
-                console.error('Error during Google login:', error);
-                // Handle login error here
-              });
-         } catch(err){
-          console.error('Error during Google login:', err);
-         }
-         
-         // 2. Backend will respond with our own JWT token
-         // 3. Store that token in our auth store (similar to normal login)
-       }}
-       onError={() => {
-         console.log('Login Failed');
-       }}
-     />
-   </GoogleOAuthProvider>
-   );
- };
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      console.log('Google Credential Response:', credentialResponse);
+
+      // 1. Prepare payload matching Backend expectations
+      // Backend expects: { credential, client_id }
+      // Google gives: { credential, clientId }
+      const payload = {
+        credential: credentialResponse.credential,
+        client_id: credentialResponse.clientId 
+      };
+
+      // 2. Send to backend
+      const response = await api.post('/auth/googleLogin', payload, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true
+      });
+
+      console.log('Backend Login Response:', response.data);
+
+      // 3. Handle Success
+      const apiData = response.data; // The standard axios data wrapper
+      
+      // Access token location based on your backend response structure:
+      // res.json(new apiResponse(200, "...", userResponse))
+      // So it is likely inside: apiData.data.accessToken
+      const accessToken = apiData?.data?.accessToken;
+
+      if (accessToken) {
+        login(accessToken);
+        toast.success('You are logged in!');
+        setOpen(false); // Close modal
+        navigate('/');
+      } else {
+        throw new Error('No access token received');
+      }
+
+    } catch (error) {
+      console.error('Error during Google login:', error);
+      const errorMessage = error.response?.data?.message || 'Google Login Failed';
+      toast.error(errorMessage);
+    }
+  };
+
+  return (
+    <GoogleOAuthProvider clientId={clientId}>
+      <div className="flex justify-center">
+        <GoogleLogin
+          onSuccess={handleGoogleSuccess}
+          onError={() => {
+            console.log('Login Failed');
+            toast.error("Google Popup Closed or Failed");
+          }}
+          useOneTap // Optional: Adds the prompt in the top right corner
+        />
+      </div>
+    </GoogleOAuthProvider>
+  );
+};
+
 export default GoogleAuth;
