@@ -36,7 +36,7 @@ export default function WhatsApp({receiver, receiverAvatar, messages, bgImg, isH
                   </div>
                   <span>{receiver}</span>
                 </div>
-                <div className="flex gap-x-3">
+                <div className="flex gap-x-3">                                                  
                   <MdOutlineVideocam size={20} />
                   <MdOutlineCall size={17} />
                   <FaEllipsisVertical size={18} />

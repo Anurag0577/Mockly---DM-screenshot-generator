@@ -17,6 +17,7 @@ import { useMutation } from "@tanstack/react-query"
 import api from "@/api/axios.js"
 import { useNavigate } from "react-router"
 import useAuthStore from "@/stores/useAuthStore"
+import GoogleAuth from "./GoogleAuth";
 
 export default function LoginDialogueBox() {
   const id = useId()
@@ -120,6 +121,7 @@ export default function LoginDialogueBox() {
         </div>
 
         <Button variant="outline">Login with Google</Button>
+        <GoogleAuth />
       </DialogContent>
     </Dialog>
   );

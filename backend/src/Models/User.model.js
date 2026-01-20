@@ -62,6 +62,10 @@ const userSchema  = new mongoose.Schema({
     }],
     refreshToken: {
         type: String
+    },
+    authSource: {
+        type: String,
+        default: 'With credentials'
     }
 },
 {timestamps: true}

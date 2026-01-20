@@ -1,6 +1,7 @@
 import {apiError} from '../Utilities/apiError.js'
 import {apiResponse} from '../Utilities/apiResponse.js'
 import {asyncHandler} from '../Utilities/asyncHandler.js'
+const { OAuth2Client } = require('google-auth-library');
 import {User} from '../Models/User.model.js'
 import jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
@@ -128,6 +129,69 @@ const loginUser = asyncHandler(async(req, res, next) => {
     }
 })
 
+const googleAuth = asyncHandler(async(req, res, next) => {
+    const {credential, client_id} = req.body;
+
+      try {
+        // Verify the ID token with Google's API
+        const ticket = await client.verifyIdToken({
+        idToken: credential,
+        audience: client_id,
+        });
+        const payload = ticket.getPayload();
+
+        const { email, given_name, family_name } = payload;
+
+        // Check if the user already exists in the database
+        let user = await User.findOne({ email });
+        if (!user) {
+        // Create a new user if they don't exist
+        user = await User.create({
+            email,
+            firstname: given_name,
+            lastName: family_name,
+            authSource: 'google',
+        });
+        }
+
+        // Generate a JWT token
+        const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET, {
+        expiresIn: '1h', // Adjust expiration time as needed
+        });
+
+        // generate accessToken and refreshToken
+        const {accessToken, refreshToken} = await genAccessTokenAndRefreshToken(user._id)
+
+        // store the refreshToken in the DB
+            const updatedUser = await User.findByIdAndUpdate(user._id, {refreshToken}, {new: true}).select('+refreshToken');
+            console.log('Refresh token saved in db successfully!')
+
+            // store the refreshToken in the cookies and send it to frontend
+            res.cookie('refreshToken', refreshToken, {
+                httpOnly: true, // now you can not get access token through javascript in the client side.
+                secure: process.env.NODE_ENV === 'production', // Only secure in production
+                sameSite: process.env.NODE_ENV === 'production' ? "None" : "Lax", // Adjust based on environment
+                maxAge: 1 * 24 * 60 * 60 * 1000, // 1 days
+                path: '/' // Ensure cookie is available for all routes
+            });
+
+            const userResponse = {
+                _id: user._id,
+                userName: user.userName,
+                email: user.email,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                accessToken
+                };
+
+        // Send the token as a cookie and response
+        res.status(200).json(new apiResponse(200, 'User login successfull', userResponse));
+    } catch (err) {
+        console.error('Error during Google Authentication:', err);
+        res.status(400).json(new apiResponse(400, 'User login failed!'))
+    }
+} )
+
 
 // LOGOUT USER
 const logoutUser = asyncHandler(async(req, res, next) => {
@@ -245,4 +309,4 @@ const userDetails = asyncHandler( async (req, res) => {
 })
 
 
-export {registerUser, loginUser, logoutUser, regenerateAccessToken, userDetails}
+export {registerUser, loginUser, logoutUser, regenerateAccessToken, userDetails, googleAuth}
