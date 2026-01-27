@@ -29,7 +29,7 @@ import useAuthStore from "@/stores/useAuthStore"
 import { toast } from "sonner"
 
 export default function ProfileDropdown() {
- const {user, isAuthenticated} = useAuthStore();
+ const {user} = useAuthStore();
  const navigate = useNavigate();
   const handleLogout = () => {
     const {logout} = useAuthStore.getState();
@@ -42,7 +42,7 @@ export default function ProfileDropdown() {
         <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
           <Avatar>
             <AvatarImage src="/origin/avatar.jpg" alt="Profile image" />
-            <AvatarFallback className='text-white dark:text-black'>{user ? user.username.charAt(0).toUpperCase() : 'Z'}</AvatarFallback>
+            <AvatarFallback className='text-white dark:text-black'>{user?.username?.charAt(0).toUpperCase()}</AvatarFallback>
           </Avatar>
           <ChevronDownIcon size={16} className="opacity-60" aria-hidden="true" />
         </Button>
