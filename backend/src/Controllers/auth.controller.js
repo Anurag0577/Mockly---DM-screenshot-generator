@@ -132,13 +132,20 @@ const googleAuth = asyncHandler(async (req, res) => {
         if (!user) {
             // Generate a random password and username for Google users if your schema requires them
             const randomPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
-            const generatedUsername = email.split('@')[0] + Math.floor(Math.random() * 1000);
+            const baseUsername = email.split('@')[0].replace(/[^a-zA-Z0-9_]/g, '_'); // Sanitize to only allow letters, numbers, underscores
+            let generatedUsername = baseUsername;
+            let counter = 0;
+            // Ensure uniqueness
+            while (await User.findOne({ userName: generatedUsername })) {
+                counter++;
+                generatedUsername = `${baseUsername}_${counter}`;
+            }
 
             user = await User.create({
                 email,
                 userName: generatedUsername, 
-                firstName: given_name, // Fixed: matched to schema 'firstName'
-                lastName: family_name,
+                firstName: given_name || 'User', // Provide default if missing
+                lastName: family_name || '',
                 password: randomPassword, // Assuming password is required in schema
                 authSource: 'google',
             });
@@ -164,7 +171,7 @@ const googleAuth = asyncHandler(async (req, res) => {
 
     } catch (err) {
         console.error('Error during Google Authentication:', err);
-        throw new apiError(400, "Google Authentication failed");
+        throw new apiError(400, `Google Authentication failed: ${err.message}`);
     }
 });
 

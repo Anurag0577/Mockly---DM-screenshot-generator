@@ -10,14 +10,14 @@ const userSchema  = new mongoose.Schema({
         required: [true, "Firstname is required!"],
         minLength: [2, "Firstname must contain more than 2 letter!"],
         maxLength: [20, "Firstname must not contain more than 20 letter"],
-        match: [/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'],
+        match: [/^[a-zA-Z0-9_\s]+$/, 'Firstname can only contain letters, numbers, underscores, and spaces'],
         trim: true
     },
     lastName: {
         type: String,
-        minLength: [2, "Firstname must contain more than 2 letter!"],
-        maxLength: [20, "Firstname must not contain more than 20 letter"],
-        match: [/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'],
+        minLength: [2, "Lastname must contain more than 2 letter!"],
+        maxLength: [20, "Lastname must not contain more than 20 letter"],
+        match: [/^[a-zA-Z0-9_\s]+$/, 'Lastname can only contain letters, numbers, underscores, and spaces'],
         trim: true
     },
     userName: {
