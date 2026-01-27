@@ -30,7 +30,10 @@ const GoogleAuth = () => {
         withCredentials: true
       });
 
-      console.log('Backend Login Response:', response.data);
+      console.log('Backend Login Response:', response?.data?.data);
+      if (response?.data?.data?.accessToken) {
+        login(response.data?.data?.accessToken);
+      }
 
       // 3. Handle Success
       const apiData = response.data; // The standard axios data wrapper
