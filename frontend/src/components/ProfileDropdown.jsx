@@ -42,7 +42,7 @@ export default function ProfileDropdown() {
         <Button variant="ghost" className="h-auto p-0 hover:bg-transparent">
           <Avatar>
             <AvatarImage src="/origin/avatar.jpg" alt="Profile image" />
-            <AvatarFallback className='text-white dark:text-black'>{user?.username.charAt(0).toUpperCase()}</AvatarFallback>
+            <AvatarFallback className='text-white dark:text-black'>{user ? user.username.charAt(0).toUpperCase() : 'Z'}</AvatarFallback>
           </Avatar>
           <ChevronDownIcon size={16} className="opacity-60" aria-hidden="true" />
         </Button>
