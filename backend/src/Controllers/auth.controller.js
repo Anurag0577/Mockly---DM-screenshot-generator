@@ -122,11 +122,13 @@ const googleAuth = asyncHandler(async (req, res) => {
             idToken: credential,
             audience: process.env.GOOGLE_CLIENT_ID || client_id,
         });
+        console.log('ticket')
         const payload = ticket.getPayload();
+        console.log('payload')
         const { email, given_name, family_name, sub } = payload; // sub is google's unique user ID
-
+        console.log('payload obj')
         let user = await User.findOne({ email });
-
+        console.log('Find user through email')
         if (!user) {
             // Generate a random password and username for Google users if your schema requires them
             const randomPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
@@ -140,12 +142,13 @@ const googleAuth = asyncHandler(async (req, res) => {
                 password: randomPassword, // Assuming password is required in schema
                 authSource: 'google',
             });
+            console.log('user created!')
         }
 
         const { accessToken, refreshToken } = await genAccessTokenAndRefreshToken(user._id);
 
         await User.findByIdAndUpdate(user._id, { refreshToken });
-
+        console.log('user find again and refresh token store!')
         const userResponse = {
             _id: user._id,
             userName: user.userName,
