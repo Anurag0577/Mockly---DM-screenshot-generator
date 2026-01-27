@@ -149,7 +149,7 @@ const googleAuth = asyncHandler(async (req, res) => {
                 password: randomPassword, // Assuming password is required in schema
                 authSource: 'google',
             });
-            console.log('user created!')
+        console.log('user created!') // Fixed Google auth for new users
         }
 
         const { accessToken, refreshToken } = await genAccessTokenAndRefreshToken(user._id);
