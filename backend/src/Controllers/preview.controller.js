@@ -8,23 +8,23 @@ import Whatsapp from '../Platforms-ui/whatsapp-ui.jsx';
 import puppeteer from 'puppeteer';
 import Instagram from '../Platforms-ui/Instagram-ui.jsx';
 import twemoji from 'twemoji';
+import https from 'https';
 import { User } from "../Models/User.model.js";
 
-// ESM path resolution
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const CSS_PATH = path.join(__dirname, '../../templates/tailwind.output.css');
 const TAILWIND_CSS_STRING = fs.readFileSync(CSS_PATH, 'utf-8');
 
-// Path to assets directory
+
 const ASSETS_PATH = path.join(__dirname, '../Platforms-ui/Assets');
 
-// --- GLOBAL BROWSER INSTANCE FOR REUSE ---
+
 let browserInstance = null;
 
 async function getBrowser() {
-    // If browser exists and is connected, return it
+
     if (browserInstance && browserInstance.isConnected()) {
         return browserInstance;
     }
@@ -32,11 +32,11 @@ async function getBrowser() {
     // Otherwise launch a new one
     console.log("Launching new browser instance...");
     browserInstance = await puppeteer.launch({
-        headless: true, // or "new" depending on puppeteer version
+        headless: true, 
         args: [
             "--no-sandbox",
             "--disable-setuid-sandbox",
-            "--disable-dev-shm-usage", // CRITICAL for Render/Docker memory limits
+            "--disable-dev-shm-usage", 
             "--disable-accelerated-2d-canvas",
             "--no-first-run",
             "--no-zygote",
@@ -51,11 +51,7 @@ async function getBrowser() {
 
     return browserInstance;
 }
-// -----------------------------------------
 
-/**
- * Converts an image file to base64 data URL
- */
 function imageToBase64(imagePath) {
     try {
         const imageBuffer = fs.readFileSync(imagePath);
@@ -131,16 +127,64 @@ const previewData = asyncHandler(async (req, res) => {
         </div>
     );
 
-    // Replace unicode emoji with Twemoji SVG images so Puppeteer (headless Chrome on Linux)
-    // renders colored emojis consistently (many server environments lack color emoji fonts).
+    
     try {
         componentHTML = twemoji.parse(componentHTML, {
             folder: 'svg',
             ext: '.svg',
             base: 'https://twemoji.maxcdn.com/v/latest/',
         });
+
+
+        const imgSrcRegex = /<img[^>]+src="([^"]+\.svg)"[^>]*>/g;
+        const urls = new Set();
+        let match;
+        while ((match = imgSrcRegex.exec(componentHTML)) !== null) {
+            urls.add(match[1]);
+        }
+
+        async function fetchSvgAsDataUrl(url) {
+            return new Promise((resolve) => {
+                try {
+                    const req = https.get(url, (res) => {
+                        let raw = '';
+                        res.setEncoding('utf8');
+                        res.on('data', (chunk) => raw += chunk);
+                        res.on('end', () => {
+                            try {
+                                const b64 = Buffer.from(raw).toString('base64');
+                                resolve(`data:image/svg+xml;base64,${b64}`);
+                            } catch (e) {
+                                console.warn('Failed to base64-encode SVG from', url, e);
+                                resolve(url);
+                            }
+                        });
+                    });
+                    req.on('error', (err) => {
+                        console.warn('Failed to fetch Twemoji SVG', url, err);
+                        resolve(url);
+                    });
+                } catch (e) {
+                    console.warn('Error during https.get for', url, e);
+                    resolve(url);
+                }
+            });
+        }
+
+        if (urls.size > 0) {
+            const replacements = {};
+            await Promise.all(Array.from(urls).map(async (u) => {
+                const dataUrl = await fetchSvgAsDataUrl(u);
+                replacements[u] = dataUrl;
+            }));
+
+            for (const [orig, dataUrl] of Object.entries(replacements)) {
+                componentHTML = componentHTML.split(orig).join(dataUrl);
+            }
+        }
+
     } catch (e) {
-        console.warn('Twemoji parse failed, continuing with original HTML', e);
+        console.warn('Twemoji parse or inline failed, continuing with original HTML', e);
     }
 
     const finalHtml = `
@@ -153,6 +197,13 @@ const previewData = asyncHandler(async (req, res) => {
                 body, html {
                     font-family: 'Roboto', sans-serif;
                 }
+                /* Ensure Twemoji images match the surrounding text size and baseline */
+                img.emoji, .emoji {
+                    width: 1em !important;
+                    height: 1em !important;
+                    display: inline-block !important;
+                    vertical-align: -0.125em !important;
+                }
                 ${TAILWIND_CSS_STRING}
             </style>
         </head>
@@ -164,13 +215,13 @@ const previewData = asyncHandler(async (req, res) => {
         </html>
     `;
 
-    let page = null; // We only track the page here, not the browser
+    let page = null; 
 
     try {
-        // 1. Get the shared browser instance
+ 
         const browser = await getBrowser();
         
-        // 2. Open a new tab (page)
+
         page = await browser.newPage();
 
         await page.setViewport({
@@ -179,16 +230,16 @@ const previewData = asyncHandler(async (req, res) => {
             deviceScaleFactor: 3
         });
 
-        // 3. Set content with INCREASED timeout and FASTER wait condition
+
         await page.setContent(finalHtml, {
-            waitUntil: 'domcontentloaded', // Much faster than networkidle0
-            timeout: 60000 // 60 seconds to prevent timeout errors
+            waitUntil: 'domcontentloaded', 
+            timeout: 60000 
         });
 
-        // Wait for the Google font to finish loading before screenshotting.
+
         await page.evaluate(() => document.fonts.ready);
 
-        // Small buffer to ensure fonts/images render if slightly delayed
+
         await new Promise(resolve => setTimeout(resolve, 300));
 
         const elementToCapture = await page.$('#whatsapp-root');
@@ -201,7 +252,7 @@ const previewData = asyncHandler(async (req, res) => {
             type: 'png'
         });
 
-        // Decrease credit logic
+
         const userId = req.user._id; 
         await User.findByIdAndUpdate(userId, { $inc: { credit: -1 } }, { new: true });
 
@@ -211,14 +262,14 @@ const previewData = asyncHandler(async (req, res) => {
     } catch (error) {
         console.error('Puppeteer Image Generation Error:', error);
         
-        // If the actual browser crashed, force reset so next request works
+ 
         if(browserInstance && !browserInstance.isConnected()) {
              browserInstance = null; 
         }
 
         res.status(500).json({ message: 'Failed to generate image.', details: error.message });
     } finally {
-        // CRITICAL: Close only the page, keep browser open for next user
+
         if (page) {
             await page.close();
         }
