@@ -63,7 +63,7 @@ export default function PlatformDropdownBtn() {
                 height={10} />
               <span className="truncate">Instagram</span>
             </SelectItem>
-            <SelectItem value="3">
+            {/* <SelectItem value="3">
               <img
                 className="size-5 rounded"
                 src={telegramLogo}
@@ -86,7 +86,7 @@ export default function PlatformDropdownBtn() {
                 width={20}
                 height={20} />
               <span className="truncate">X.com</span>
-            </SelectItem>
+            </SelectItem> */}
           </SelectGroup>
         </SelectContent>
       </Select>
