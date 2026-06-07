@@ -7,6 +7,7 @@ import ReactDOMServer from 'react-dom/server';
 import Whatsapp from '../Platforms-ui/whatsapp-ui.jsx';
 import puppeteer from 'puppeteer';
 import Instagram from '../Platforms-ui/Instagram-ui.jsx';
+import twemoji from 'twemoji';
 import { User } from "../Models/User.model.js";
 
 // ESM path resolution
@@ -124,11 +125,23 @@ const previewData = asyncHandler(async (req, res) => {
             platformComponent = <Whatsapp sender={sender} receiver={receiver} messages={messages} receiverAvatar={receiverAvatar} senderAvatar={senderAvatar} bgImg={bgImg} isHeaderFooterRendered={isHeaderFooterRendered}/>;
     }
 
-    const componentHTML = ReactDOMServer.renderToString(
+    let componentHTML = ReactDOMServer.renderToString(
         <div className={isDarkMode ? 'dark' : ''}>
             {platformComponent}
         </div>
     );
+
+    // Replace unicode emoji with Twemoji SVG images so Puppeteer (headless Chrome on Linux)
+    // renders colored emojis consistently (many server environments lack color emoji fonts).
+    try {
+        componentHTML = twemoji.parse(componentHTML, {
+            folder: 'svg',
+            ext: '.svg',
+            base: 'https://twemoji.maxcdn.com/v/latest/',
+        });
+    } catch (e) {
+        console.warn('Twemoji parse failed, continuing with original HTML', e);
+    }
 
     const finalHtml = `
         <!DOCTYPE html>
