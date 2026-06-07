@@ -2,8 +2,8 @@ import axios from "axios";
 import useAuthStore from "@/stores/useAuthStore";
 
 const api = axios.create({ // creating an instance of axios
-  // baseURL: "https://mockly-backend.onrender.com/api",
-  baseURL: "http://localhost:3000/api",
+  baseURL: "https://mockly-backend.onrender.com/api",
+  // baseURL: "http://localhost:3000/api",
   withCredentials: true,
 });
 
