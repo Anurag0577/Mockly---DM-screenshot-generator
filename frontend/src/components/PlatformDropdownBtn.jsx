@@ -25,10 +25,10 @@ export default function PlatformDropdownBtn() {
   const handlePlatformChange = (value) => {
     const platformMap = {
       '1': 'Whatsapp',
-      '2': 'Instagram',
-      '3': 'Telegram',
-      '4': 'Snapchat',
-      '6': 'X.com'
+      '2': 'Instagram'
+      // '3': 'Telegram',
+      // '4': 'Snapchat',
+      // '6': 'X.com'
     }
     updatePlatform(platformMap[value])
   }
