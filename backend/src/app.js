@@ -21,8 +21,8 @@ app.use(cookieParser()); // Parse cookies from request headers
 // enabling cors for cross origin resource sharing
 app.use(cors({
     origin: [
-        'http://localhost:3000',
-        'http://localhost:5173',
+        // 'http://localhost:3000',
+        // 'http://localhost:5173',
         'https://chatsnap-app.vercel.app'
     ],
     credentials: true,

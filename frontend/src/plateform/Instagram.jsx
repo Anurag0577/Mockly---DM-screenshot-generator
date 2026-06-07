@@ -10,7 +10,7 @@ import InstagramAvatar from '../assets/instagramAvatar.jpeg'
 export default function Instagram({ receiver, receiverAvatar, messages }) {
     return (
         <>
-            <div className="instagram-container flex-1 min-h-0 flex flex-col mb-2 shadow-2xl border rounded-none bg-white dark:bg-black" id="renderedUI-driver"  >
+            <div className=" chatbox-preview instagram-container flex-1 min-h-0 flex flex-col mb-2 shadow-2xl border rounded-none bg-white dark:bg-black" id="renderedUI-driver"  >
 
                 {/* Header */}
                 <div className="instagram-header flex items-center h-fit p-2">

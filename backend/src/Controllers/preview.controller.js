@@ -136,6 +136,10 @@ const previewData = asyncHandler(async (req, res) => {
         <head>
             <meta charset="UTF-8">
             <style>
+                @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+                body, html {
+                    font-family: 'Roboto', sans-serif;
+                }
                 ${TAILWIND_CSS_STRING}
             </style>
         </head>
@@ -168,8 +172,10 @@ const previewData = asyncHandler(async (req, res) => {
             timeout: 60000 // 60 seconds to prevent timeout errors
         });
 
+        // Wait for the Google font to finish loading before screenshotting.
+        await page.evaluate(() => document.fonts.ready);
+
         // Small buffer to ensure fonts/images render if slightly delayed
-        // (Since we removed networkidle0, this is a safe backup)
         await new Promise(resolve => setTimeout(resolve, 300));
 
         const elementToCapture = await page.$('#whatsapp-root');

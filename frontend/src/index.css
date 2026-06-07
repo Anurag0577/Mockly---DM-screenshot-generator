@@ -55,24 +55,24 @@
   --shadow-lg: 0 1px 8px -1.5px hsl(0 0% 0% / 0.00), 0 4px 6px -2.5px hsl(0 0% 0% / 0.00);
   --shadow-xl: 0 1px 8px -1.5px hsl(0 0% 0% / 0.00), 0 8px 10px -2.5px hsl(0 0% 0% / 0.00);
   --shadow-2xl: 0 1px 8px -1.5px hsl(0 0% 0% / 0.00);
-  --tracking-normal: -0.075em;
+  --tracking-normal: -1px;
   --spacing: 0.2rem;
 }
 
 :root {
-    font-size: 14px; /* Default for mobile */
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-    :root { font-size: 12px; } /* Tablets */
+    :root { font-size: 12px; } 
 }
 
 @media (min-width: 1024px) {
-    :root { font-size: 16px; } /* Laptops */
+    :root { font-size: 16px; } 
 }
 
 @media (min-width: 1440px) {
-    :root { font-size: 18px; } /* Large Desktops */
+    :root { font-size: 18px; } 
 }
 
 .dark {

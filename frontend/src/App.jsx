@@ -16,8 +16,8 @@ import usePreviewData from "@/stores/usePreviewStore.js";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false, // Optional: disable auto-refetch on window focus
-      retry: 1, // Optional: retry failed requests once
+      refetchOnWindowFocus: false, 
+      retry: 1,
     },
   },
 })

@@ -16,7 +16,7 @@ export default function WhatsApp({receiver, receiverAvatar, messages, bgImg, isH
               <div className="flex justify-between items-center bg-white dark:bg-black border-b border-gray-300 py-1 gap-x-2 px-2 dark:text-white dark:border-gray-700">
                 <IoArrowBackSharp size={17} />
                 <div className="flex-1 flex my-1 items-center">
-                  <div className="w-7 aspect-square rounded-full mr-2 text-center text-[12px]">
+                  <div className="w-7 aspect-square rounded-full mr-2 text-center text-xs">
                     {receiverAvatar ? (
                       <img
                         src={receiverAvatar}
@@ -36,7 +36,7 @@ export default function WhatsApp({receiver, receiverAvatar, messages, bgImg, isH
                   </div>
                   <span>{receiver}</span>
                 </div>
-                <div className="flex gap-x-3">                                                  
+                <div className="flex gap-x-6">                                                  
                   <MdOutlineVideocam size={20} />
                   <MdOutlineCall size={17} />
                   <FaEllipsisVertical size={18} />
@@ -66,7 +66,7 @@ export default function WhatsApp({receiver, receiverAvatar, messages, bgImg, isH
                             className="absolute w-3 h-5 bg-[#d9fdd3] dark:bg-[#144d37]"
                             style={{
                               display: !isSameSender ? 'block' : 'none',
-                              right: !isSameSender ? '-8px' : 'none',
+                              right: !isSameSender ? '-6px' : 'none',
                               top: '0',
                               clipPath: !isSameSender ? 'polygon(0% 0%, 100% 0%, 0% 100%)' : '0',
                               borderRadius: '4px',
@@ -87,7 +87,7 @@ export default function WhatsApp({receiver, receiverAvatar, messages, bgImg, isH
                             className="absolute w-3 h-5 bg-white dark:bg-[#20272b]"
                             style={{
                               display: !isSameSender ? 'block' : 'none',
-                              left: !isSameSender ? '-8px' : 'none' ,
+                              left: !isSameSender ? '-6px' : 'none' ,
                               top: '0',
                               clipPath: !isSameSender ? 'polygon(0% 0%, 100% 0%, 100% 100%)' : 0,
                               borderRadius: '4px',
@@ -107,8 +107,8 @@ export default function WhatsApp({receiver, receiverAvatar, messages, bgImg, isH
 
                 {/* Input bar */}
                 {isHeaderFooterRendered && (
-                <div className="w-full flex gap-x-1 mt-1.5 h-fit bg-transparent">
-                  <div className="flex items-center gap-2 px-3 py-1 mb-1.5 rounded-3xl bg-white dark:bg-[#20272b] w-full">
+                <div className="w-full flex gap-x-1 mt-1.5 h-[40px] bg-transparent">
+                  <div className="flex items-center gap-2 px-3 py-1 ml-1 mb-1.5 rounded-3xl bg-white dark:bg-[#20272b] w-full h-10">
                     <PiSticker className="shrink-0 text-gray-400 dark:text-gray-400" size={20} />
                     <div className="flex-1">
                       <p className="text-gray-600 text-sm">Messages</p>
@@ -119,7 +119,7 @@ export default function WhatsApp({receiver, receiverAvatar, messages, bgImg, isH
                       <MdOutlineCameraAlt size={18} className="dark:text-gray-400" />
                     </div>
                   </div>
-                  <div className="flex justify-center items-center aspect-square rounded-full bg-green-400 h-8.5 w-8.5 mr-1" >
+                  <div className="flex justify-center items-center aspect-square rounded-full bg-green-400 h-10 w-10 mr-1" >
                     <IoMdMic size={16} className=" text-white dark:text-black" />
                   </div>
                 </div>

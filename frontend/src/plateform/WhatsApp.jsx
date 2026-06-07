@@ -2,6 +2,7 @@ import { MdOutlineVideocam, MdOutlineCall, MdAttachFile, MdOutlineCameraAlt } fr
 import { IoArrowBackSharp } from "react-icons/io5";
 
 import { RiMoneyRupeeCircleLine } from "react-icons/ri";
+
 import { FaEllipsisVertical } from "react-icons/fa6";
 import { IoMdMic } from "react-icons/io";
 import { PiSticker } from "react-icons/pi";
@@ -10,8 +11,7 @@ export default function WhatsApp({receiver, receiverAvatar, messages, isHeaderFo
 
     return(
         <>
-            <div className="flex-1 min-h-0 flex flex-col mb-2 shadow-2xl border rounded-none" id="renderedUI-driver" >
-              {/* Header */}
+            <div className=" chatbox-preview flex-1 min-h-0 flex flex-col mb-2 shadow-2xl border rounded-none" id="renderedUI-driver" >
               {isHeaderFooterRendered && (
               <div className="flex justify-between items-center bg-white dark:bg-black border-b border-gray-300 py-1 gap-x-2 px-2 dark:text-white dark:border-gray-700">
                 <IoArrowBackSharp size={17} />
@@ -43,7 +43,7 @@ export default function WhatsApp({receiver, receiverAvatar, messages, isHeaderFo
                 </div>
               </div>
               )}
-              {/* Chat area */}
+
               <div
                 className="flex flex-col flex-1 min-h-0 bg-[url('./assets/whatsapp_bg.jpg')] dark:bg-[url('./assets/whatsappDark.png')]"
                 style={{
@@ -74,7 +74,7 @@ export default function WhatsApp({receiver, receiverAvatar, messages, isHeaderFo
                           <p className="whitespace-pre-wrap text-xs dark:text-white after:content-[''] after:inline-block after:w-[50px] after:h-0">
                             {msg.message}
                           </p>
-                          <span className="text-xs text-gray-600 dark:text-gray-300 block text-right -mt-2.5 text-[12px]">
+                          <span className="text-xs text-gray-600 dark:text-gray-300 block text-right -mt-2.5 text-[10px]">
                             {msg.time}
                           </span>
                         </div>
@@ -95,7 +95,7 @@ export default function WhatsApp({receiver, receiverAvatar, messages, isHeaderFo
                           <p className="whitespace-pre-wrap text-xs dark:text-white after:content-[''] after:inline-block after:w-[50px] after:h-0">
                             {msg.message}
                           </p>
-                          <span className="text-xs text-gray-600 dark:text-gray-300 block text-right -mt-2.5 text-[12px]">
+                          <span className="text-xs text-gray-600 dark:text-gray-300 block text-right -mt-2.5 text-[10px]">
                             {msg.time}
                           </span>
                         </div>
@@ -104,10 +104,10 @@ export default function WhatsApp({receiver, receiverAvatar, messages, isHeaderFo
                   })}
                 </ul>
 
-                {/* Input bar */}
+
                 {isHeaderFooterRendered && (
-                <div className="w-full flex gap-x-1 mt-1.5 h-fit bg-transparent">
-                  <div className="flex items-center gap-2 px-3 py-1 mb-1.5 rounded-3xl bg-white dark:bg-[#20272b] w-full">
+                <div className="w-full flex gap-x-1 mt-1.5 h-[40px] bg-transparent">
+                  <div className="flex items-center gap-2 px-3 py-1 ml-1 mb-1.5 rounded-3xl bg-white dark:bg-[#20272b] w-full">
                     <PiSticker className="shrink-0 text-gray-400 dark:text-gray-400" size={20} />
                     <div className="flex-1">
                       <p className="text-gray-600 text-sm">Messages</p>
@@ -118,7 +118,7 @@ export default function WhatsApp({receiver, receiverAvatar, messages, isHeaderFo
                       <MdOutlineCameraAlt size={18} className="dark:text-gray-400" />
                     </div>
                   </div>
-                  <div className="flex justify-center items-center aspect-square rounded-full bg-green-400 h-8.5 w-8.5 mr-1" >
+                  <div className="flex justify-center items-center aspect-square rounded-full bg-green-400 h-10 w-10 mr-1" >
                     <IoMdMic size={16} className=" text-white dark:text-black" />
                   </div>
                 </div>

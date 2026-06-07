@@ -80,12 +80,10 @@ export function Homepage() {
         </div>
 
         {/* RIGHT SECTION - Preview */}
-        <div className="bg-gray-100 dark:bg-[#262626] p-4 border-t md:border-t-0 md:border-l gap-4 flex flex-col-reverse md:flex-col md:w-[30%]">
-          {/* WhatsApp Preview - Flex to fit available space */}
+        <div className=" bg-gray-100 dark:bg-[#262626] p-4 border-t md:border-t-0 md:border-l gap-4 flex flex-col-reverse md:flex-col md:w-[30%]">
 
             <RenderPlatformUI />
 
-          {/* Action Buttons - Fixed height at bottom */}
           <div className="flex gap-2">
             <ToolDropDownBtn />
             <PlatformDropdownBtn/>
